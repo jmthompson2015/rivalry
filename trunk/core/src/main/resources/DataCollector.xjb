@@ -1,0 +1,28 @@
+<jxb:bindings version="2.0" xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <jxb:globalBindings xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+        <jxb:javaType name="org.rivalry.core.datacollector.SelectorType"
+            xmlType="tns:SelectorType" parseMethod="org.rivalry.core.datacollector.SelectorTypeAdapter.unmarshal"
+            printMethod="org.rivalry.core.datacollector.SelectorTypeAdapter.marshal" />
+    </jxb:globalBindings>
+
+
+    <jxb:bindings schemaLocation="DataCollector.xsd">
+
+        <jxb:bindings node="//xs:element[@name='DCSpec']">
+            <jxb:bindings node=".//xs:element[@name='selector']">
+                <jxb:property name="selectors" />
+            </jxb:bindings>
+        </jxb:bindings>
+
+        <jxb:bindings node="//xs:complexType[@name='DCSelector']">
+            <jxb:bindings node=".//xs:element[@name='selector']">
+                <jxb:property name="selectors" />
+            </jxb:bindings>
+        </jxb:bindings>
+
+    </jxb:bindings>
+</jxb:bindings>
