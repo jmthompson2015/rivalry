@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:DCSpec xmlns:tns="http://core.rivalry.org/datacollector"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://core.rivalry.org/datacollector file:////Users/jmthompson/Dropbox/SoftwareDev/JavaProjects/rivalry/trunk/core/src/main/resources/DataCollector.xsd">
+    <url></url>
+    <selector>
+        <type>CLICK</type>
+        <value></value>
+        <selector>
+            <type>LINK_TEXT</type>
+            <value>#/Trade/Markets</value>
+        </selector>
+    </selector>
+</tns:DCSpec>
