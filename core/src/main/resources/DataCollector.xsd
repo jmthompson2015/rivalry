@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://core.rivalry.org/datacollector" xmlns:altova="http://www.altova.com/xml-schema-extensions" targetNamespace="http://core.rivalry.org/datacollector">
+    <element name="DCSpec">
+        <annotation>
+            <documentation>Data collector specification</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="url" type="string"/>
+                <element name="selector" type="tns:DCSelector" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+    <complexType name="DCSelector">
+        <annotation>
+            <documentation>HTML DOM selector</documentation>
+        </annotation>
+        <sequence>
+            <element name="type" type="tns:SelectorType">
+                <annotation>
+                    <documentation>Selector type as supported by Selenium Web Driver By class.</documentation>
+                </annotation>
+            </element>
+            <element name="value" type="string"/>
+            <element name="selector" type="tns:DCSelector" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <simpleType name="SelectorType">
+        <restriction base="string"/>
+    </simpleType>
+</schema>
