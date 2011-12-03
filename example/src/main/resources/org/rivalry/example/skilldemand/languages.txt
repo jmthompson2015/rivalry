@@ -1,0 +1,34 @@
+# Top 20 from http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html
+Java
+C
+C++
+PHP
+C#
+Objective-C
+Basic
+Python
+Perl
+JavaScript
+Ruby
+Delphi
+Lisp
+Transact-SQL
+PL/SQL
+Lua
+RPG
+Pascal
+Assembly
+Ada
+
+COBOL
+Fortran
+Erlang
+Haskell
+Smalltalk
+Scala
+Groovy
+Clojure
+GWT
+Dart
+Visual Basic
+ROS or "robot operating system"

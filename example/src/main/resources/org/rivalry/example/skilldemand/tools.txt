@@ -1,0 +1,19 @@
+JAXB
+JEE
+Log4j
+Spring
+XML
+
+# Database
+Hibernate
+JPA
+
+# GUI
+JSF
+Rails
+Tapestry
+Vaadin
+
+# Test
+JUnit
+Selenium
