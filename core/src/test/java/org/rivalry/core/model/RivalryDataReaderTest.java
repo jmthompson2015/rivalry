@@ -14,9 +14,6 @@ import org.junit.Test;
  */
 public class RivalryDataReaderTest
 {
-    /** Test data. */
-    private final TestData _testData = new TestData();
-
     /**
      * Test the <code></code> method.
      */
