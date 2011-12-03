@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:DCSpec xmlns:tns="http://core.rivalry.org/datacollector"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://core.rivalry.org/datacollector http://rivalry.googlecode.com/svn/trunk/core/src/main/resources/DataCollector.xsd">
+    <url>http://dogtime.com/dog-breeds/$1</url>
+    <selector>
+        <type>CLICK</type>
+        <value></value>
+        <selector>
+            <type>XPATH</type>
+            <value>//*[contains(text(), 'See All Characteristic Ratings')]</value>
+        </selector>
+    </selector>
+    <selector>
+        <type>CLASS_NAME</type>
+        <value>characteristics</value>
+        <selector>
+            <type>TAG_NAME</type>
+            <value>h3</value>
+        </selector>
+        <selector>
+            <type>CLASS_NAME</type>
+            <value>five-star-ratings</value>
+        </selector>
+    </selector>
+</tns:DCSpec>
