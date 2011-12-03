@@ -33,8 +33,6 @@ public class WebElementTextCondition implements ExpectedCondition<Boolean>
 
         _findCondition = by;
         _text = text;
-        // System.out.println("WebElementTextCondition() text = [" + text +
-        // "]");
     }
 
     @Override
@@ -52,8 +50,6 @@ public class WebElementTextCondition implements ExpectedCondition<Boolean>
         if (element != null)
         {
             final String myText = element.getText();
-            final long elapsed = System.currentTimeMillis() - _start;
-            // System.out.println(elapsed + "\tmyText = [" + myText + "]");
 
             if (_text.equals(myText))
             {
