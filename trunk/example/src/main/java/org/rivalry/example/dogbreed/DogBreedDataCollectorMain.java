@@ -242,9 +242,16 @@ public class DogBreedDataCollectorMain
     {
         final List<String> answer = new ArrayList<String>();
 
+        answer.add("basenji");
+        answer.add("beagle");
         answer.add("boston-terrier");
         answer.add("bulldog");
+        answer.add("canaan-dog");
         answer.add("dachshund");
+        answer.add("french-bulldog");
+        answer.add("german-shepherd-dog");
+        answer.add("pug");
+        answer.add("shiba-inu");
 
         return answer;
     }
