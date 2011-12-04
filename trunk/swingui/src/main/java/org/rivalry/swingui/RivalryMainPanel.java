@@ -9,10 +9,14 @@
 package org.rivalry.swingui;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -20,7 +24,6 @@ import org.rivalry.core.fitness.FitnessFunction;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.swingui.table.CandidateTableModel;
 import org.rivalry.swingui.table.CriterionTableModel;
-import org.rivalry.swingui.table.IntegerTableCellRenderer;
 
 /**
  * Provides a main panel for the Rivalry GUI.
@@ -59,10 +62,47 @@ public class RivalryMainPanel extends JSplitPane
     {
         _candidateTableModel = new CandidateTableModel(rivalryData,
                 fitnessFunction);
+
         final SortTablePanel candidateSortTablePanel = new SortTablePanel(
-                _candidateTableModel);
+                _candidateTableModel, createCandidateTableSortKeys());
 
         return createTitledSortTablePanel("Candidates", candidateSortTablePanel);
+    }
+
+    /**
+     * @return table sort keys.
+     */
+    private List<RowSorter.SortKey> createCandidateTableSortKeys()
+    {
+        final RowSorter.SortKey sortKey0 = new RowSorter.SortKey(
+                CandidateTableModel.SCORE_COLUMN, SortOrder.DESCENDING);
+        final RowSorter.SortKey sortKey1 = new RowSorter.SortKey(
+                CandidateTableModel.CANDIDATE_COLUMN, SortOrder.ASCENDING);
+
+        final List<RowSorter.SortKey> answer = new ArrayList<RowSorter.SortKey>();
+
+        answer.add(sortKey0);
+        answer.add(sortKey1);
+
+        return answer;
+    }
+
+    /**
+     * @return table sort keys.
+     */
+    private List<RowSorter.SortKey> createCriteriaTableSortKeys()
+    {
+        final RowSorter.SortKey sortKey0 = new RowSorter.SortKey(
+                CriterionTableModel.WEIGHT_COLUMN, SortOrder.DESCENDING);
+        final RowSorter.SortKey sortKey1 = new RowSorter.SortKey(
+                CriterionTableModel.CRITERION_COLUMN, SortOrder.ASCENDING);
+
+        final List<RowSorter.SortKey> answer = new ArrayList<RowSorter.SortKey>();
+
+        answer.add(sortKey0);
+        answer.add(sortKey1);
+
+        return answer;
     }
 
     /**
@@ -85,9 +125,7 @@ public class RivalryMainPanel extends JSplitPane
         });
 
         final SortTablePanel criterionSortTablePanel = new SortTablePanel(
-                _criterionTableModel);
-        criterionSortTablePanel.getTable().setDefaultRenderer(Integer.class,
-                new IntegerTableCellRenderer());
+                _criterionTableModel, createCriteriaTableSortKeys());
 
         return createTitledSortTablePanel("Criteria", criterionSortTablePanel);
     }

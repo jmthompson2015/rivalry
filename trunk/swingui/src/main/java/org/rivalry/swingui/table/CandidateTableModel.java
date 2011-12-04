@@ -25,10 +25,10 @@ import org.rivalry.core.model.RivalryData;
 public class CandidateTableModel extends AbstractTableModel
 {
     /** Candidate name column index. */
-    private static final int CANDIDATE_COLUMN = 1;
+    public static final int CANDIDATE_COLUMN = 1;
 
     /** Score column index. */
-    private static final int SCORE_COLUMN = 0;
+    public static final int SCORE_COLUMN = 0;
 
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
@@ -36,11 +36,11 @@ public class CandidateTableModel extends AbstractTableModel
     /** Candidate scores. */
     private Map<Candidate, Double> _candidateScores;
 
-    /** Rivalry data. */
-    private final RivalryData _rivalryData;
-
     /** Fitness processor. */
     private final FitnessProcessor _fitnessProcessor;
+
+    /** Rivalry data. */
+    private final RivalryData _rivalryData;
 
     /**
      * Construct this object with the given parameter.

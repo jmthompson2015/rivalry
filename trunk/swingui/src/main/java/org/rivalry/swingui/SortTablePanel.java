@@ -10,14 +10,17 @@ package org.rivalry.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowSorter;
 import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
+
+import org.apache.commons.collections.CollectionUtils;
 
 /**
  * Provides a sort table panel.
@@ -34,15 +37,6 @@ public class SortTablePanel extends JPanel
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
 
-    /** Table. */
-    private final JTable _table;
-
-    /** Table row sorter. */
-    private final TableRowSorter<TableModel> _sorter;
-
-    /** Table model. */
-    private final TableModel _tableModel;
-
     /** Row count widget. */
     private final JLabel _rowCountUI;
 
@@ -50,37 +44,33 @@ public class SortTablePanel extends JPanel
      * Construct this object with the given parameter.
      * 
      * @param tableModel Table model.
+     * @param sortKeys Sort keys. (optional)
      */
-    public SortTablePanel(final TableModel tableModel)
+    public SortTablePanel(final TableModel tableModel,
+            final List<RowSorter.SortKey> sortKeys)
     {
-        _tableModel = tableModel;
-
-        _sorter = createTableRowSorter(_tableModel);
-        _table = createTable(_tableModel);
-        _rowCountUI = createRowCountUI(_tableModel);
+        final JTable table = createTable(tableModel);
+        _rowCountUI = createRowCountUI(tableModel);
 
         setLayout(new BorderLayout());
 
-        add(createCenterPanel(_tableModel), BorderLayout.CENTER);
-        add(createSouthPanel(_tableModel), BorderLayout.SOUTH);
+        add(createCenterPanel(table), BorderLayout.CENTER);
+        add(createSouthPanel(tableModel), BorderLayout.SOUTH);
+
+        if (CollectionUtils.isNotEmpty(sortKeys))
+        {
+            table.getRowSorter().setSortKeys(sortKeys);
+        }
     }
 
     /**
-     * @return the table
-     */
-    public JTable getTable()
-    {
-        return _table;
-    }
-
-    /**
-     * @param tableModel Table model.
+     * @param table Table.
      * 
      * @return a new main panel.
      */
-    private JScrollPane createCenterPanel(final TableModel tableModel)
+    private JScrollPane createCenterPanel(final JTable table)
     {
-        final JScrollPane answer = new JScrollPane(_table);
+        final JScrollPane answer = new JScrollPane(table);
 
         return answer;
     }
@@ -133,22 +123,8 @@ public class SortTablePanel extends JPanel
     {
         final JTable answer = new JTable(tableModel);
 
-        answer.setRowSorter(_sorter);
+        answer.setAutoCreateRowSorter(true);
         answer.setGridColor(Color.GRAY);
-
-        return answer;
-    }
-
-    /**
-     * @param tableModel Table model.
-     * 
-     * @return a new table row sorter.
-     */
-    private TableRowSorter<TableModel> createTableRowSorter(
-            final TableModel tableModel)
-    {
-        final TableRowSorter<TableModel> answer = new TableRowSorter<TableModel>(
-                tableModel);
 
         return answer;
     }
