@@ -45,6 +45,7 @@
             <type>Double</type>
         </property>
         <property>
+            <modifiers>transient</modifiers>
             <name>weight</name>
             <type>Integer</type>
         </property>
