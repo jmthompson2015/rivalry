@@ -8,10 +8,7 @@
 //*****************************************************************************
 package org.rivalry.core.fitness;
 
-import java.util.List;
-
 import org.rivalry.core.model.Candidate;
-import org.rivalry.core.model.Criterion;
 
 /**
  * Defines methods required by a fitness function.
@@ -20,8 +17,8 @@ public interface FitnessFunction
 {
     /**
      * @param candidate Candidate.
-     * @param criteria Criteria.
+     * 
      * @return fitness.
      */
-    Double computeFitness(Candidate candidate, List<Criterion> criteria);
+    Double computeFitness(Candidate candidate);
 }

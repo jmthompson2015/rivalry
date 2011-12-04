@@ -8,13 +8,11 @@
 //*****************************************************************************
 package org.rivalry.core.fitness;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.rivalry.core.model.Candidate;
-import org.rivalry.core.model.Criterion;
 
 /**
  * Provides a fitness processor.
@@ -46,14 +44,9 @@ public class FitnessProcessor
     {
         final Map<Candidate, Double> answer = new LinkedHashMap<Candidate, Double>();
 
-        final List<Criterion> criteria = new ArrayList<Criterion>();
-
         for (final Candidate candidate : candidates)
         {
-            criteria.clear();
-            criteria.addAll(candidate.getRatings().keySet());
-            final Double fitness = _fitnessFunction.computeFitness(candidate,
-                    criteria);
+            final Double fitness = _fitnessFunction.computeFitness(candidate);
             answer.put(candidate, fitness);
         }
 
