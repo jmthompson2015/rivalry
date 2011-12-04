@@ -95,9 +95,9 @@ public class TestData
     {
         final List<Criterion> answer = new ArrayList<Criterion>();
 
-        answer.add(createCriterion("a", categories.get(0)));
-        answer.add(createCriterion("b", categories.get(1)));
-        answer.add(createCriterion("c", categories.get(2)));
+        answer.add(createCriterion("a", categories.get(0), 1));
+        answer.add(createCriterion("b", categories.get(1), 2));
+        answer.add(createCriterion("c", categories.get(2), 3));
 
         return answer;
     }
@@ -105,15 +105,18 @@ public class TestData
     /**
      * @param name Name.
      * @param category Category.
+     * @param weight Weight.
      * 
      * @return a new criterion.
      */
-    public Criterion createCriterion(final String name, final Category category)
+    public Criterion createCriterion(final String name,
+            final Category category, final Integer weight)
     {
         final Criterion answer = new DefaultCriterion();
 
         answer.setName(name);
         answer.setCategory(category);
+        answer.setWeight(weight);
 
         return answer;
     }
