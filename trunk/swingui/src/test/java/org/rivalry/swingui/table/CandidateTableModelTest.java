@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.rivalry.core.fitness.FitnessFunction;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.TestData;
 
@@ -89,6 +90,8 @@ public class CandidateTableModelTest
     {
         final TestData testData = new TestData();
         final RivalryData rivalryData = testData.createRivalryData();
-        _tableModel = new CandidateTableModel(rivalryData);
+        final FitnessFunction fitnessFunction = testData
+                .createWeightedSumFitnessFunction(rivalryData.getCriteriaList());
+        _tableModel = new CandidateTableModel(rivalryData, fitnessFunction);
     }
 }

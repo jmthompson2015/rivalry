@@ -17,6 +17,7 @@ import javax.swing.table.TableModel;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.rivalry.core.fitness.FitnessFunction;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.TestData;
 import org.rivalry.swingui.table.CandidateTableModel;
@@ -123,7 +124,10 @@ public class MyTestSortTablePanel
     {
         final TestData testData = new TestData();
         final RivalryData rivalryData = testData.createRivalryData();
-        final TableModel tableModel = new CandidateTableModel(rivalryData);
+        final FitnessFunction fitnessFunction = testData
+                .createWeightedSumFitnessFunction(rivalryData.getCriteriaList());
+        final TableModel tableModel = new CandidateTableModel(rivalryData,
+                fitnessFunction);
         final SortTablePanel panel = new SortTablePanel(tableModel);
 
         showFrame("CandidateSortTablePanel Test", panel);
