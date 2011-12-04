@@ -27,6 +27,7 @@
     <modules>
         <module>core</module>
         <module>example</module>
+        <module>swingui</module>
     </modules>
     <dependencies>
         <dependency>
