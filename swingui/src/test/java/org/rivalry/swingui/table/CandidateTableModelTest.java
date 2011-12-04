@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.rivalry.core.model.RivalryData;
-import org.rivalry.swingui.TestData;
+import org.rivalry.core.model.TestData;
 
 /**
  * Provides tests for the <code>CandidateTableModel</code> class.
@@ -44,7 +44,7 @@ public class CandidateTableModelTest
     @Test
     public void getColumnCount()
     {
-        assertThat(_tableModel.getColumnCount(), is(27));
+        assertThat(_tableModel.getColumnCount(), is(5));
     }
 
     /**
@@ -58,7 +58,7 @@ public class CandidateTableModelTest
         result = _tableModel.getColumnName(1);
         assertThat(result, is("Candidate"));
         result = _tableModel.getColumnName(2);
-        assertThat(result, is("Adapt well to apartment living"));
+        assertThat(result, is("a"));
     }
 
     /**
@@ -67,7 +67,7 @@ public class CandidateTableModelTest
     @Test
     public void getRowCount()
     {
-        assertThat(_tableModel.getRowCount(), is(10));
+        assertThat(_tableModel.getRowCount(), is(3));
     }
 
     /**
@@ -78,7 +78,7 @@ public class CandidateTableModelTest
     {
         final Object result = _tableModel.getValueAt(0, 2);
         assertThat(result, instanceOf(Double.class));
-        assertThat((Double)result, is(5.0));
+        assertThat((Double)result, is(1.1));
     }
 
     /**
