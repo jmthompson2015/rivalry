@@ -8,8 +8,13 @@
 //*****************************************************************************
 package org.rivalry.swingui.table;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.swing.table.AbstractTableModel;
 
+import org.rivalry.core.fitness.FitnessProcessor;
+import org.rivalry.core.fitness.WeightedSumFitnessFunction;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.RivalryData;
@@ -28,8 +33,15 @@ public class CandidateTableModel extends AbstractTableModel
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
 
+    /** Candidate scores. */
+    private Map<Candidate, Double> _candidateScores;
+
     /** Rivalry data. */
     private final RivalryData _rivalryData;
+
+    /** Fitness processor. */
+    private final FitnessProcessor _fitnessProcessor = new FitnessProcessor(
+            new WeightedSumFitnessFunction());
 
     /**
      * Construct this object with the given parameter.
@@ -39,6 +51,8 @@ public class CandidateTableModel extends AbstractTableModel
     public CandidateTableModel(final RivalryData rivalryData)
     {
         _rivalryData = rivalryData;
+
+        recomputeCandidateScores();
     }
 
     @Override
@@ -118,7 +132,7 @@ public class CandidateTableModel extends AbstractTableModel
             switch (columnIndex)
             {
             case SCORE_COLUMN:
-                answer = getCandidate(rowIndex).getScore();
+                answer = _candidateScores.get(getCandidate(rowIndex));
                 break;
 
             case CANDIDATE_COLUMN:
@@ -129,14 +143,6 @@ public class CandidateTableModel extends AbstractTableModel
                 final Candidate candidate = getCandidate(rowIndex);
                 final Criterion criterion = getCriterion(columnIndex);
                 answer = candidate.getRating(criterion);
-                // if (answer == null)
-                // {
-                // System.out.println("answer null for candidate "
-                // + candidate.getName() + " and criterion "
-                // + criterion.getName());
-                // }
-                // System.out.println("getValueAt(" + rowIndex + ", "
-                // + columnIndex + ") = " + answer);
                 break;
             }
         }
@@ -146,6 +152,17 @@ public class CandidateTableModel extends AbstractTableModel
         }
 
         return answer;
+    }
+
+    /**
+     * Recompute the candidate scores.
+     */
+    public void recomputeCandidateScores()
+    {
+        final List<Candidate> candidates = _rivalryData.getCandidatesList();
+        _candidateScores = _fitnessProcessor
+                .computeCandidateFitness(candidates);
+        fireTableDataChanged();
     }
 
     /**
@@ -166,7 +183,7 @@ public class CandidateTableModel extends AbstractTableModel
     private Criterion getCriterion(final int columnIndex)
     {
         final int index = columnIndex - 2;
-        // System.out.println("getting criterion for index = " + index);
+
         return _rivalryData.getCriteriaList().get(index);
     }
 }

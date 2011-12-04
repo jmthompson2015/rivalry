@@ -25,8 +25,6 @@ import javax.swing.WindowConstants;
 
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.RivalryDataReader;
-import org.rivalry.swingui.table.CandidateTableModel;
-import org.rivalry.swingui.table.CriterionTableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,12 +96,7 @@ public class RivalryUI extends JPanel
      */
     RivalryMainPanel createRivalryMainPanel(final RivalryData rivalryData)
     {
-        final CriterionTableModel criterionTableModel = new CriterionTableModel(
-                rivalryData);
-        final CandidateTableModel candidateTableModel = new CandidateTableModel(
-                rivalryData);
-
-        return new RivalryMainPanel(criterionTableModel, candidateTableModel);
+        return new RivalryMainPanel(rivalryData);
     }
 
     /**

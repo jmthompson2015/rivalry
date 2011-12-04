@@ -16,8 +16,6 @@ import javax.swing.JSplitPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-import org.rivalry.core.fitness.FitnessProcessor;
-import org.rivalry.core.fitness.WeightedSumFitnessFunction;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.swingui.table.CandidateTableModel;
 import org.rivalry.swingui.table.CriterionTableModel;
@@ -31,29 +29,43 @@ public class RivalryMainPanel extends JSplitPane
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
 
-    /** Criterion sort table panel. */
-    private SortTablePanel _criterionSortTablePanel;
-
-    /** Candidate sort table panel. */
-    private SortTablePanel _candidateSortTablePanel;
-
-    /** Fitness processor. */
-    FitnessProcessor _fitnessProcessor = new FitnessProcessor(
-            new WeightedSumFitnessFunction());
+    /** Candidate table model. */
+    CandidateTableModel _candidateTableModel;
 
     /**
      * Construct this object with the given parameter.
      * 
-     * @param criterionTableModel Criterion table model.
-     * @param candidateTableModel Candidate table model.
+     * @param rivalryData Rivalry data.
      */
-    public RivalryMainPanel(final CriterionTableModel criterionTableModel,
-            final CandidateTableModel candidateTableModel)
+    public RivalryMainPanel(final RivalryData rivalryData)
     {
-        _fitnessProcessor.updateFitness(criterionTableModel.getRivalryData());
+        setLeftComponent(createCriterionPanel(rivalryData));
+        setRightComponent(createCandidatePanel(rivalryData));
+    }
 
-        setLeftComponent(createCriterionPanel(criterionTableModel));
-        setRightComponent(createCandidatePanel(candidateTableModel));
+    /**
+     * @param rivalryData Rivalry data.
+     * 
+     * @return a new criterion panel.
+     */
+    private JPanel createCandidatePanel(final RivalryData rivalryData)
+    {
+        _candidateTableModel = new CandidateTableModel(rivalryData);
+        final SortTablePanel candidateSortTablePanel = new SortTablePanel(
+                _candidateTableModel);
+
+        return createTitledSortTablePanel("Candidates", candidateSortTablePanel);
+    }
+
+    /**
+     * @param rivalryData Rivalry data.
+     * 
+     * @return a new criterion panel.
+     */
+    private JPanel createCriterionPanel(final RivalryData rivalryData)
+    {
+        final CriterionTableModel criterionTableModel = new CriterionTableModel(
+                rivalryData);
 
         criterionTableModel.addTableModelListener(new TableModelListener()
         {
@@ -61,40 +73,16 @@ public class RivalryMainPanel extends JSplitPane
             public void tableChanged(final TableModelEvent event)
             {
                 System.out.println("criterionTableModel changed");
-
-                final RivalryData rivalryData = criterionTableModel
-                        .getRivalryData();
-                _fitnessProcessor.updateFitness(rivalryData);
-                candidateTableModel.fireTableDataChanged();
+                _candidateTableModel.recomputeCandidateScores();
             }
         });
-    }
 
-    /**
-     * @param tableModel Table model.
-     * 
-     * @return a new criterion panel.
-     */
-    private JPanel createCandidatePanel(final CandidateTableModel tableModel)
-    {
-        _candidateSortTablePanel = new SortTablePanel(tableModel);
-
-        return createTitledSortTablePanel("Candidates",
-                _candidateSortTablePanel);
-    }
-
-    /**
-     * @param tableModel Table model.
-     * 
-     * @return a new criterion panel.
-     */
-    private JPanel createCriterionPanel(final CriterionTableModel tableModel)
-    {
-        _criterionSortTablePanel = new SortTablePanel(tableModel);
-        _criterionSortTablePanel.getTable().setDefaultRenderer(Integer.class,
+        final SortTablePanel criterionSortTablePanel = new SortTablePanel(
+                criterionTableModel);
+        criterionSortTablePanel.getTable().setDefaultRenderer(Integer.class,
                 new IntegerTableCellRenderer());
 
-        return createTitledSortTablePanel("Criteria", _criterionSortTablePanel);
+        return createTitledSortTablePanel("Criteria", criterionSortTablePanel);
     }
 
     /**
