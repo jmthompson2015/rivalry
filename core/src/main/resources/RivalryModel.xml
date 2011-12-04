@@ -64,11 +64,6 @@
             <name>ratings</name>
             <type>Map&lt;org.rivalry.core.model.Criterion, java.lang.Double&gt;</type>
         </property>
-        <property>
-            <modifiers>transient</modifiers>
-            <name>score</name>
-            <type>Double</type>
-        </property>
         <extendsType>org.rivalry.core.model.Entity</extendsType>
         <method>
             <commentLine>@param   criterion  Criterion.</commentLine>
@@ -139,23 +134,6 @@
         <modifiers>public</modifiers>
         <name>DefaultCandidate</name>
         <packageName>org.rivalry.core.model</packageName>
-        <!-- 
-        <field>
-            <commentLine>Rating property name.</commentLine>
-            <modifiers>public static final</modifiers>
-            <name>RATING_PROPERTY</name>
-            <type>String</type>
-            <initialValue>"rating"</initialValue>
-        </field>
-        <field>
-            <referencedType>LinkedHashMap</referencedType>
-            <commentLine>Map of criterion to rating.</commentLine>
-            <modifiers>private final</modifiers>
-            <name>_ratings</name>
-            <type>Map&lt;org.rivalry.core.model.Criterion, Double&gt;</type>
-            <initialValue>new LinkedHashMap&lt;org.rivalry.core.model.Criterion, Double&gt;()</initialValue>
-        </field>
-         -->
         <extendsType>org.rivalry.core.model.DefaultEntity</extendsType>
         <implementsInterface>org.rivalry.core.model.Candidate</implementsInterface>
         <method>
