@@ -128,7 +128,7 @@ public class MyTestSortTablePanel
                 .createWeightedSumFitnessFunction(rivalryData.getCriteriaList());
         final TableModel tableModel = new CandidateTableModel(rivalryData,
                 fitnessFunction);
-        final SortTablePanel panel = new SortTablePanel(tableModel);
+        final SortTablePanel panel = new SortTablePanel(tableModel, null);
 
         showFrame("CandidateSortTablePanel Test", panel);
     }
@@ -145,7 +145,7 @@ public class MyTestSortTablePanel
         final TestData testData = new TestData();
         final RivalryData rivalryData = testData.createRivalryData();
         final TableModel tableModel = new CriterionTableModel(rivalryData);
-        final SortTablePanel panel = new SortTablePanel(tableModel);
+        final SortTablePanel panel = new SortTablePanel(tableModel, null);
 
         showFrame("CriterionSortTablePanel Test", panel);
     }
@@ -159,7 +159,8 @@ public class MyTestSortTablePanel
     @Test
     public void testUI0() throws InterruptedException
     {
-        final SortTablePanel panel = new SortTablePanel(new MyTableModel());
+        final SortTablePanel panel = new SortTablePanel(new MyTableModel(),
+                null);
 
         showFrame("TestSortTablePanel", panel);
     }

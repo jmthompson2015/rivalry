@@ -23,23 +23,23 @@ import org.rivalry.core.model.RivalryData;
  */
 public class CriterionTableModel extends AbstractTableModel
 {
-    /** Serial version UID. */
-    private static final long serialVersionUID = 1L;
+    /** Criterion column index. */
+    public static final int CRITERION_COLUMN = 0;
+
+    /** Weight column index. */
+    public static final int WEIGHT_COLUMN = 1;
 
     /** Column names. */
     private static final String[] COLUMN_NAMES = { "Criterion", "Weight", };
 
-    /** Criterion column index. */
-    private static final int CRITERION_COLUMN = 0;
-
-    /** Weight column index. */
-    private static final int WEIGHT_COLUMN = 1;
-
-    /** Rivalry data. */
-    private final RivalryData _rivalryData;
+    /** Serial version UID. */
+    private static final long serialVersionUID = 1L;
 
     /** Weighted sum fitness function. */
     private final WeightedSumFitnessFunction _fitnessFunction = new WeightedSumFitnessFunction();
+
+    /** Rivalry data. */
+    private final RivalryData _rivalryData;
 
     /**
      * Construct this object with the given parameter.
