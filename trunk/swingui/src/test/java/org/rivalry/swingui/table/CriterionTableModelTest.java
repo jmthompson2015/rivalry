@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.rivalry.core.model.RivalryData;
-import org.rivalry.swingui.TestData;
+import org.rivalry.core.model.TestData;
 
 /**
  * Provides tests for the <code>CriterionTableModel</code> class.
@@ -66,7 +66,7 @@ public class CriterionTableModelTest
     @Test
     public void getRowCount()
     {
-        assertThat(_tableModel.getRowCount(), is(25));
+        assertThat(_tableModel.getRowCount(), is(3));
     }
 
     /**
@@ -77,11 +77,11 @@ public class CriterionTableModelTest
     {
         Object result = _tableModel.getValueAt(0, 0);
         assertThat(result, instanceOf(String.class));
-        assertThat((String)result, is("Adapt well to apartment living"));
+        assertThat((String)result, is("a"));
 
         result = _tableModel.getValueAt(0, 1);
         assertThat(result, instanceOf(Integer.class));
-        assertThat((Integer)result, is(0));
+        assertThat((Integer)result, is(1));
     }
 
     /**
@@ -113,7 +113,7 @@ public class CriterionTableModelTest
     {
         Object result = _tableModel.getValueAt(0, 1);
         assertThat(result, instanceOf(Integer.class));
-        assertThat((Integer)result, is(0));
+        assertThat((Integer)result, is(1));
 
         _tableModel.setValueAt(1, 0, 0);
 
@@ -128,7 +128,7 @@ public class CriterionTableModelTest
     @Test
     public void setValueAtNotEditable()
     {
-        final String expected = "Adapt well to apartment living";
+        final String expected = "a";
 
         Object result = _tableModel.getValueAt(0, 0);
         assertThat(result, instanceOf(String.class));
