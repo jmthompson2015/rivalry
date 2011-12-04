@@ -12,11 +12,11 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Category;
@@ -32,8 +32,68 @@ import org.rivalry.core.util.Provider;
  */
 public class DefaultDataCollectorTest
 {
-    /** Flag indicating whether to provide verbose output. */
-    private final boolean _isVerbose = false;
+    /**
+     * Provides a parser for double values.
+     */
+    static class YahooFinanceParser implements ValueStringParser
+    {
+        @Override
+        public Double parse(final WebElement webElement)
+        {
+            Double answer = null;
+
+            if (webElement != null)
+            {
+                final String valueString = webElement.getText();
+
+                if (StringUtils.isNotEmpty(valueString))
+                {
+                    final String myString = valueString.trim();
+
+                    if (myString.endsWith("%"))
+                    {
+                        answer = parseDoubleOnly(myString.substring(0,
+                                myString.length() - 1)) / 100.0;
+                    }
+                    else if (myString.endsWith("B"))
+                    {
+                        answer = parseDoubleOnly(myString.substring(0,
+                                myString.length() - 1)) * 1000000000;
+                    }
+                    else
+                    {
+                        answer = parseDoubleOnly(myString);
+                    }
+                }
+            }
+
+            return answer;
+        }
+
+        /**
+         * @param valueString Value string.
+         * 
+         * @return a double parsed from the given parameter, if possible.
+         */
+        private Double parseDoubleOnly(final String valueString)
+        {
+            Double answer = null;
+
+            try
+            {
+                answer = Double.parseDouble(valueString);
+            }
+            catch (final NumberFormatException ignore)
+            {
+                // Nothing to do.
+            }
+
+            return answer;
+        }
+    }
+
+    /** Best places value string processor. */
+    private final ValueStringParser _bestPlacesParser = new DefaultValueStringParser();
 
     /** Category provider. */
     private final Provider<Category> _categoryProvider = new DefaultCategoryProvider();
@@ -41,14 +101,14 @@ public class DefaultDataCollectorTest
     /** Criterion provider. */
     private final Provider<Criterion> _criterionProvider = new DefaultCriterionProvider();
 
-    /** Best places value string processor. */
-    private final ValueStringParser _bestPlacesProcessor = new DefaultValueStringParser();
+    /** Flag indicating whether to provide verbose output. */
+    private final boolean _isVerbose = false;
 
-    /** Dog breeds value string processor. */
-    private final ValueStringParser _dogBreedsProcessor = new DogBreedsParser();
+    /** Name string parser. */
+    private final NameStringParser _nameStringParser = new DefaultNameStringParser();
 
     /** Yahoo! Finance value string processor. */
-    private final ValueStringParser _yahooProcessor = new YahooFinanceParser();
+    private final ValueStringParser _yahooParser = new YahooFinanceParser();
 
     /**
      * Test the <code>fetchData()</code> method.
@@ -58,7 +118,8 @@ public class DefaultDataCollectorTest
     public void fetchDataBestPlaces()
     {
         final DataCollector dataCollector = new DefaultDataCollector(
-                _bestPlacesProcessor, _categoryProvider, _criterionProvider);
+                _nameStringParser, _bestPlacesParser, _categoryProvider,
+                _criterionProvider);
 
         final DCSpec dcSpec = createDCSpecBestPlaces();
         final RivalryData rivalryData = new RivalryData();
@@ -79,50 +140,11 @@ public class DefaultDataCollectorTest
      */
     @Ignore
     @Test
-    public void fetchDataDogBreeds()
-    {
-        final DataCollector dataCollector = new DefaultDataCollector(
-                _dogBreedsProcessor, _categoryProvider, _criterionProvider);
-
-        final DCSpec dcSpec = createDCSpecDogBreeds();
-        final RivalryData rivalryData = new RivalryData();
-        final Candidate candidate = createCandidate("boston-terrier",
-                dcSpec.getUrl());
-
-        dataCollector.fetchData(dcSpec, rivalryData, candidate);
-
-        assertNotNull(rivalryData.getCandidatesList());
-        assertNotNull(rivalryData.getCategoriesList());
-        assertNotNull(rivalryData.getCriteriaList());
-        assertThat(rivalryData.getCandidatesList().size(), is(1));
-        assertThat(rivalryData.getCategoriesList().size(), is(25));
-        assertThat(rivalryData.getCriteriaList().size(), is(25));
-
-        if (_isVerbose)
-        {
-            for (final Criterion criterion : rivalryData.getCriteriaList())
-            {
-                System.out.println("criterion = [" + criterion.getName() + "]");
-            }
-        }
-
-        final Criterion criterion = rivalryData
-                .findCriterionByName("Adapt well to apartment living");
-        assertNotNull(criterion);
-        final Double rating = candidate.getRating(criterion);
-        assertNotNull(rating);
-        assertThat(rating, is(5.0));
-    }
-
-    /**
-     * Test the <code>fetchData()</code> method.
-     */
-    @Ignore
-    @Test
     public void fetchDataYahooFinance()
     {
         final DataCollector dataCollector = new DefaultDataCollector(
-                _yahooProcessor, _categoryProvider, _criterionProvider);
+                _nameStringParser, _yahooParser, _categoryProvider,
+                _criterionProvider);
 
         final DCSpec dcSpec = createDCSpecYahooFinance();
         final RivalryData rivalryData = new RivalryData();
@@ -156,78 +178,12 @@ public class DefaultDataCollectorTest
     /**
      * Test the <code>fetchData()</code> method.
      */
-    @Ignore
-    @Test
-    public void fetchDataYahooFinanceChromeDriver()
-    {
-        System.setProperty("webdriver.chrome.driver",
-                "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
-
-        final DataCollector dataCollector = new DefaultDataCollector(
-                _yahooProcessor, _categoryProvider, _criterionProvider);
-
-        final WebDriver webDriver = new ChromeDriver();
-        final DCSpec dcSpec = createDCSpecYahooFinance();
-        final RivalryData rivalryData = new RivalryData();
-        final Candidate candidate = createCandidate("INTC", dcSpec.getUrl());
-
-        dataCollector.fetchData(webDriver, dcSpec, rivalryData, candidate);
-
-        assertNotNull(rivalryData.getCandidatesList());
-        assertNotNull(rivalryData.getCategoriesList());
-        assertNotNull(rivalryData.getCriteriaList());
-        assertThat(rivalryData.getCandidatesList().size(), is(1));
-        assertThat(rivalryData.getCategoriesList().size(), is(57));
-        assertThat(rivalryData.getCriteriaList().size(), is(57));
-
-        final Criterion criterion = rivalryData
-                .findCriterionByName("Profit Margin (ttm):");
-        assertNotNull(criterion);
-        final Double rating = candidate.getRating(criterion);
-        assertNotNull(rating);
-        assertThat(rating, is(0.2529));
-    }
-
-    /**
-     * Test the <code>fetchData()</code> method.
-     */
-    @Ignore
-    @Test
-    public void fetchDataYahooFinanceFirefoxDriver()
-    {
-        final DataCollector dataCollector = new DefaultDataCollector(
-                _yahooProcessor, _categoryProvider, _criterionProvider);
-
-        final WebDriver webDriver = new FirefoxDriver();
-        final DCSpec dcSpec = createDCSpecYahooFinance();
-        final RivalryData rivalryData = new RivalryData();
-        final Candidate candidate = createCandidate("INTC", dcSpec.getUrl());
-
-        dataCollector.fetchData(webDriver, dcSpec, rivalryData, candidate);
-
-        assertNotNull(rivalryData.getCandidatesList());
-        assertNotNull(rivalryData.getCategoriesList());
-        assertNotNull(rivalryData.getCriteriaList());
-        assertThat(rivalryData.getCandidatesList().size(), is(1));
-        assertThat(rivalryData.getCategoriesList().size(), is(57));
-        assertThat(rivalryData.getCriteriaList().size(), is(57));
-
-        final Criterion criterion = rivalryData
-                .findCriterionByName("Profit Margin (ttm):");
-        assertNotNull(criterion);
-        final Double rating = candidate.getRating(criterion);
-        assertNotNull(rating);
-        assertThat(rating, is(0.2529));
-    }
-
-    /**
-     * Test the <code>fetchData()</code> method.
-     */
     @Test
     public void fetchDataYahooFinanceHtmlUnitDriver()
     {
         final DataCollector dataCollector = new DefaultDataCollector(
-                _yahooProcessor, _categoryProvider, _criterionProvider);
+                _nameStringParser, _yahooParser, _categoryProvider,
+                _criterionProvider);
 
         final WebDriver webDriver = new HtmlUnitDriver();
         final DCSpec dcSpec = createDCSpecYahooFinance();
@@ -294,21 +250,6 @@ public class DefaultDataCollectorTest
     /**
      * @return a new data collector specification.
      */
-    private DCSpec createDCSpecDogBreeds()
-    {
-        final DCSpec answer = new DCSpec();
-
-        answer.setUrl("http://dogtime.com/dog-breeds/$1");
-        final DCSelector selector0 = createSelectorDogBreeds0();
-        System.out.println("selector0 = " + selector0);
-        answer.getSelectors().add(selector0);
-
-        return answer;
-    }
-
-    /**
-     * @return a new data collector specification.
-     */
     private DCSpec createDCSpecYahooFinance()
     {
         final DCSpec answer = new DCSpec();
@@ -334,7 +275,6 @@ public class DefaultDataCollectorTest
         answer.getSelectors().add(createSelectorBestPlaces1());
         answer.getSelectors().add(createSelectorBestPlaces2());
 
-        // return new SelectorDecorator(answer);
         return answer;
     }
 
@@ -348,7 +288,6 @@ public class DefaultDataCollectorTest
         answer.setType(SelectorType.XPATH);
         answer.setValue("something");
 
-        // return new SelectorDecorator(answer);
         return answer;
     }
 
@@ -362,52 +301,6 @@ public class DefaultDataCollectorTest
         answer.setType(SelectorType.XPATH);
         answer.setValue("something");
 
-        // return new SelectorDecorator(answer);
-        return answer;
-    }
-
-    /**
-     * @return a new selector.
-     */
-    private DCSelector createSelectorDogBreeds0()
-    {
-        final DCSelector answer = new DCSelector();
-
-        answer.setType(SelectorType.CLASS_NAME);
-        answer.setValue("characteristics");
-
-        answer.getSelectors().add(createSelectorDogBreeds1());
-        answer.getSelectors().add(createSelectorDogBreeds2());
-
-        // return new SelectorDecorator(answer);
-        return answer;
-    }
-
-    /**
-     * @return a new selector.
-     */
-    private DCSelector createSelectorDogBreeds1()
-    {
-        final DCSelector answer = new DCSelector();
-
-        answer.setType(SelectorType.TAG_NAME);
-        answer.setValue("h3");
-
-        // return new SelectorDecorator(answer);
-        return answer;
-    }
-
-    /**
-     * @return a new selector.
-     */
-    private DCSelector createSelectorDogBreeds2()
-    {
-        final DCSelector answer = new DCSelector();
-
-        answer.setType(SelectorType.CLASS_NAME);
-        answer.setValue("five-star-ratings");
-
-        // return new SelectorDecorator(answer);
         return answer;
     }
 
@@ -424,7 +317,6 @@ public class DefaultDataCollectorTest
         answer.getSelectors().add(createSelectorYahooFinance1());
         answer.getSelectors().add(createSelectorYahooFinance2());
 
-        // return new SelectorDecorator(answer);
         return answer;
     }
 
@@ -438,7 +330,6 @@ public class DefaultDataCollectorTest
         answer.setType(SelectorType.CLASS_NAME);
         answer.setValue("yfnc_tablehead1");
 
-        // return new SelectorDecorator(answer);
         return answer;
     }
 
@@ -452,7 +343,6 @@ public class DefaultDataCollectorTest
         answer.setType(SelectorType.CLASS_NAME);
         answer.setValue("yfnc_tabledata1");
 
-        // return new SelectorDecorator(answer);
         return answer;
     }
 }
