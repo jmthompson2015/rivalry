@@ -32,10 +32,19 @@ import org.rivalry.swingui.table.CriterionTableModel;
  */
 public class MyTestSortTablePanel
 {
+    /**
+     * Provides a table model.
+     */
     class MyTableModel extends AbstractTableModel
     {
+        /** Serial version UID. */
+        private static final long serialVersionUID = 1L;
+
+        /** Column names. */
         private String[] columnNames = { "First Name", "Last Name", "Sport",
                 "# of Years", "Vegetarian" };
+
+        /** Data. */
         private Object[][] data = {
                 { "Kathy", "Smith", "Snowboarding", new Integer(5),
                         new Boolean(false) },
@@ -46,13 +55,13 @@ public class MyTestSortTablePanel
                         new Boolean(true) },
                 { "Joe", "Brown", "Pool", new Integer(10), new Boolean(false) } };
 
-        /*
+        /**
          * JTable uses this method to determine the default renderer/ editor for
          * each cell. If we didn't implement this method, then the last column
          * would contain text ("true"/"false"), rather than a check box.
          */
         @Override
-        public Class getColumnClass(final int c)
+        public Class<?> getColumnClass(final int c)
         {
             return getValueAt(0, c).getClass();
         }
@@ -81,7 +90,7 @@ public class MyTestSortTablePanel
             return data[row][col];
         }
 
-        /*
+        /**
          * Don't need to implement this method unless your table's editable.
          */
         @Override
@@ -89,17 +98,10 @@ public class MyTestSortTablePanel
         {
             // Note that the data/cell address is constant,
             // no matter where the cell appears onscreen.
-            if (col < 2)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return col > 1;
         }
 
-        /*
+        /**
          * Don't need to implement this method unless your table's data can
          * change.
          */
@@ -108,23 +110,6 @@ public class MyTestSortTablePanel
         {
             data[row][col] = value;
             fireTableCellUpdated(row, col);
-        }
-
-        private void printDebugData()
-        {
-            final int numRows = getRowCount();
-            final int numCols = getColumnCount();
-
-            for (int i = 0; i < numRows; i++)
-            {
-                System.out.print("    row " + i + ":");
-                for (int j = 0; j < numCols; j++)
-                {
-                    System.out.print("  " + data[i][j]);
-                }
-                System.out.println();
-            }
-            System.out.println("--------------------------");
         }
     }
 
@@ -171,16 +156,6 @@ public class MyTestSortTablePanel
     public void testUI0() throws InterruptedException
     {
         final SortTablePanel panel = new SortTablePanel(new MyTableModel());
-
-        // final JFrame frame = new JFrame("TestSortTablePanel");
-        // frame.getContentPane().add(panel, BorderLayout.CENTER);
-        // frame.setSize(900, 480);
-        // frame.setVisible(true);
-        //
-        // synchronized (this)
-        // {
-        // wait();
-        // }
 
         showFrame("TestSortTablePanel", panel);
     }

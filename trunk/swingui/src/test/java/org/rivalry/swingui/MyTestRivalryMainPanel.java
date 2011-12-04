@@ -16,8 +16,6 @@ import javax.swing.WindowConstants;
 import org.junit.Test;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.TestData;
-import org.rivalry.swingui.table.CandidateTableModel;
-import org.rivalry.swingui.table.CriterionTableModel;
 
 /**
  * Provides tests for the <code>RivalryMainPanel</code> class.
@@ -34,12 +32,7 @@ public class MyTestRivalryMainPanel
     {
         final TestData testData = new TestData();
         final RivalryData rivalryData = testData.createRivalryData();
-        final CriterionTableModel criterionTableModel = new CriterionTableModel(
-                rivalryData);
-        final CandidateTableModel candidateTableModel = new CandidateTableModel(
-                rivalryData);
-        final RivalryMainPanel panel = new RivalryMainPanel(
-                criterionTableModel, candidateTableModel);
+        final RivalryMainPanel panel = new RivalryMainPanel(rivalryData);
 
         showFrame("RivalryMainPanel Test", panel);
     }
