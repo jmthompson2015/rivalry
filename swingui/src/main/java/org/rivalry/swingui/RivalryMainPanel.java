@@ -16,6 +16,7 @@ import javax.swing.JSplitPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import org.rivalry.core.fitness.FitnessFunction;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.swingui.table.CandidateTableModel;
 import org.rivalry.swingui.table.CriterionTableModel;
@@ -29,6 +30,9 @@ public class RivalryMainPanel extends JSplitPane
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
 
+    /** Criterion table model. */
+    private CriterionTableModel _criterionTableModel;
+
     /** Candidate table model. */
     CandidateTableModel _candidateTableModel;
 
@@ -40,17 +44,21 @@ public class RivalryMainPanel extends JSplitPane
     public RivalryMainPanel(final RivalryData rivalryData)
     {
         setLeftComponent(createCriterionPanel(rivalryData));
-        setRightComponent(createCandidatePanel(rivalryData));
+        setRightComponent(createCandidatePanel(rivalryData,
+                _criterionTableModel.getFitnessFunction()));
     }
 
     /**
      * @param rivalryData Rivalry data.
+     * @param fitnessFunction Fitness function.
      * 
      * @return a new criterion panel.
      */
-    private JPanel createCandidatePanel(final RivalryData rivalryData)
+    private JPanel createCandidatePanel(final RivalryData rivalryData,
+            final FitnessFunction fitnessFunction)
     {
-        _candidateTableModel = new CandidateTableModel(rivalryData);
+        _candidateTableModel = new CandidateTableModel(rivalryData,
+                fitnessFunction);
         final SortTablePanel candidateSortTablePanel = new SortTablePanel(
                 _candidateTableModel);
 
@@ -64,10 +72,9 @@ public class RivalryMainPanel extends JSplitPane
      */
     private JPanel createCriterionPanel(final RivalryData rivalryData)
     {
-        final CriterionTableModel criterionTableModel = new CriterionTableModel(
-                rivalryData);
+        _criterionTableModel = new CriterionTableModel(rivalryData);
 
-        criterionTableModel.addTableModelListener(new TableModelListener()
+        _criterionTableModel.addTableModelListener(new TableModelListener()
         {
             @Override
             public void tableChanged(final TableModelEvent event)
@@ -78,7 +85,7 @@ public class RivalryMainPanel extends JSplitPane
         });
 
         final SortTablePanel criterionSortTablePanel = new SortTablePanel(
-                criterionTableModel);
+                _criterionTableModel);
         criterionSortTablePanel.getTable().setDefaultRenderer(Integer.class,
                 new IntegerTableCellRenderer());
 

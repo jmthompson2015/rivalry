@@ -13,8 +13,8 @@ import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.rivalry.core.fitness.FitnessFunction;
 import org.rivalry.core.fitness.FitnessProcessor;
-import org.rivalry.core.fitness.WeightedSumFitnessFunction;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.RivalryData;
@@ -40,17 +40,19 @@ public class CandidateTableModel extends AbstractTableModel
     private final RivalryData _rivalryData;
 
     /** Fitness processor. */
-    private final FitnessProcessor _fitnessProcessor = new FitnessProcessor(
-            new WeightedSumFitnessFunction());
+    private final FitnessProcessor _fitnessProcessor;
 
     /**
      * Construct this object with the given parameter.
      * 
      * @param rivalryData Rivalry data.
+     * @param fitnessFunction Fitness function.
      */
-    public CandidateTableModel(final RivalryData rivalryData)
+    public CandidateTableModel(final RivalryData rivalryData,
+            final FitnessFunction fitnessFunction)
     {
         _rivalryData = rivalryData;
+        _fitnessProcessor = new FitnessProcessor(fitnessFunction);
 
         recomputeCandidateScores();
     }

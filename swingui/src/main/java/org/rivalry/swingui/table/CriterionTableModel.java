@@ -10,6 +10,8 @@ package org.rivalry.swingui.table;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.rivalry.core.fitness.FitnessFunction;
+import org.rivalry.core.fitness.WeightedSumFitnessFunction;
 import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.RivalryData;
 
@@ -35,6 +37,9 @@ public class CriterionTableModel extends AbstractTableModel
 
     /** Rivalry data. */
     private final RivalryData _rivalryData;
+
+    /** Weighted sum fitness function. */
+    private final WeightedSumFitnessFunction _fitnessFunction = new WeightedSumFitnessFunction();
 
     /**
      * Construct this object with the given parameter.
@@ -88,6 +93,14 @@ public class CriterionTableModel extends AbstractTableModel
     }
 
     /**
+     * @return the fitnessFunction
+     */
+    public FitnessFunction getFitnessFunction()
+    {
+        return _fitnessFunction;
+    }
+
+    /**
      * @return the rivalryData
      */
     public RivalryData getRivalryData()
@@ -113,7 +126,7 @@ public class CriterionTableModel extends AbstractTableModel
             break;
 
         case WEIGHT_COLUMN:
-            answer = getCriterion(rowIndex).getWeight();
+            answer = _fitnessFunction.getWeight(getCriterion(rowIndex));
             if (answer == null)
             {
                 answer = 0;
@@ -142,7 +155,7 @@ public class CriterionTableModel extends AbstractTableModel
         {
             final Integer newWeight = ((Number)aValue).intValue();
             final Criterion criterion = getCriterion(rowIndex);
-            criterion.setWeight(newWeight);
+            _fitnessFunction.putWeight(criterion, newWeight);
             fireTableDataChanged();
         }
     }
