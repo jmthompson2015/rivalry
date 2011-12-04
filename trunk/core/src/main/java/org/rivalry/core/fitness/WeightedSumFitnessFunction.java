@@ -8,7 +8,10 @@
 //*****************************************************************************
 package org.rivalry.core.fitness;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Criterion;
@@ -18,30 +21,53 @@ import org.rivalry.core.model.Criterion;
  */
 public class WeightedSumFitnessFunction implements FitnessFunction
 {
+    /** Criterion weights. */
+    private final Map<Criterion, Integer> _criterionWeight = new HashMap<Criterion, Integer>();
+
     @Override
-    public Double computeFitness(final Candidate candidate,
-            final List<Criterion> criteria)
+    public Double computeFitness(final Candidate candidate)
     {
         Double answer = null;
 
-        if (candidate != null && criteria != null)
+        if (candidate != null)
         {
             answer = 0.0;
+
+            final List<Criterion> criteria = new ArrayList<Criterion>();
+            criteria.clear();
+            criteria.addAll(candidate.getRatings().keySet());
 
             for (final Criterion criterion : criteria)
             {
                 final Double rating = candidate.getRating(criterion);
-                final Integer weight = criterion.getWeight();
+                final Integer weight = _criterionWeight.get(criterion);
 
                 if (rating != null && weight != null)
                 {
                     answer += rating * weight;
                 }
             }
-
-            // System.out.println(candidate.getName() + " fitness = " + answer);
         }
 
         return answer;
+    }
+
+    /**
+     * @param criterion Criterion.
+     * 
+     * @return weight.
+     */
+    public Integer getWeight(final Criterion criterion)
+    {
+        return _criterionWeight.get(criterion);
+    }
+
+    /**
+     * @param criterion Criterion.
+     * @param weight Weight.
+     */
+    public void putWeight(final Criterion criterion, final Integer weight)
+    {
+        _criterionWeight.put(criterion, weight);
     }
 }

@@ -3,6 +3,8 @@ package org.rivalry.core.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.rivalry.core.fitness.WeightedSumFitnessFunction;
+
 /**
  * Provides test data.
  */
@@ -95,9 +97,9 @@ public class TestData
     {
         final List<Criterion> answer = new ArrayList<Criterion>();
 
-        answer.add(createCriterion("a", categories.get(0), 1));
-        answer.add(createCriterion("b", categories.get(1), 2));
-        answer.add(createCriterion("c", categories.get(2), 3));
+        answer.add(createCriterion("a", categories.get(0)));
+        answer.add(createCriterion("b", categories.get(1)));
+        answer.add(createCriterion("c", categories.get(2)));
 
         return answer;
     }
@@ -105,18 +107,15 @@ public class TestData
     /**
      * @param name Name.
      * @param category Category.
-     * @param weight Weight.
      * 
      * @return a new criterion.
      */
-    public Criterion createCriterion(final String name,
-            final Category category, final Integer weight)
+    public Criterion createCriterion(final String name, final Category category)
     {
         final Criterion answer = new DefaultCriterion();
 
         answer.setName(name);
         answer.setCategory(category);
-        answer.setWeight(weight);
 
         return answer;
     }
@@ -133,6 +132,23 @@ public class TestData
                 createCriteria(answer.getCategoriesList()));
         answer.getCandidatesList().addAll(
                 createCandidates(answer.getCriteriaList()));
+
+        return answer;
+    }
+
+    /**
+     * @param criteria Criteria.
+     * 
+     * @return a new fitness function.
+     */
+    public WeightedSumFitnessFunction createWeightedSumFitnessFunction(
+            final List<Criterion> criteria)
+    {
+        final WeightedSumFitnessFunction answer = new WeightedSumFitnessFunction();
+
+        answer.putWeight(criteria.get(0), 1);
+        answer.putWeight(criteria.get(1), 2);
+        answer.putWeight(criteria.get(2), 3);
 
         return answer;
     }

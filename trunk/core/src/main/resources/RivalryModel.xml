@@ -44,11 +44,6 @@
             <name>minimumRating</name>
             <type>Double</type>
         </property>
-        <property>
-            <modifiers>transient</modifiers>
-            <name>weight</name>
-            <type>Integer</type>
-        </property>
         <extendsType>org.rivalry.core.model.Entity</extendsType>
     </cgInterface>
     <cgInterface isPropertyChangeSupported="true">
