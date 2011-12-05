@@ -33,6 +33,31 @@
         <value></value>
         <selector>
             <type>XPATH</type>
+            <value>//a[text()='Cost of Living']</value>
+        </selector>
+    </selector>
+    <selector>
+        <type>ID</type>
+        <value>mainContent_dgCostOfLiving</value>
+        <selector>
+            <type>XPATH</type>
+            <value>//td/a</value>
+        </selector>
+        <selector>
+            <type>XPATH</type>
+            <value>//td[a]/following-sibling::td[1]</value>
+        </selector>
+        <selector>
+            <type>LITERAL</type>
+            <value>Cost of Living</value>
+        </selector>
+    </selector>
+
+    <selector>
+        <type>CLICK</type>
+        <value></value>
+        <selector>
+            <type>XPATH</type>
             <value>//a[text()='Crime']</value>
         </selector>
     </selector>
@@ -50,6 +75,31 @@
         <selector>
             <type>LITERAL</type>
             <value>Crime</value>
+        </selector>
+    </selector>
+
+    <selector>
+        <type>CLICK</type>
+        <value></value>
+        <selector>
+            <type>XPATH</type>
+            <value>//a[text()='Education']</value>
+        </selector>
+    </selector>
+    <selector>
+        <type>ID</type>
+        <value>mainContent_dgEducation</value>
+        <selector>
+            <type>XPATH</type>
+            <value>//td/a</value>
+        </selector>
+        <selector>
+            <type>XPATH</type>
+            <value>//td[a]/following-sibling::td[1]</value>
+        </selector>
+        <selector>
+            <type>LITERAL</type>
+            <value>Education</value>
         </selector>
     </selector>
 </tns:DCSpec>
