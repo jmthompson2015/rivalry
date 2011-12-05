@@ -203,10 +203,12 @@ public class DefaultDataCollector implements DataCollector
         final List<WebElement> elements0 = selector0.getType().findElements(
                 parent, selector0.getValue());
         final int size = elements0.size();
+        LOGGER.debug("size = " + size);
 
         for (int i = 0; i < size; i++)
         {
             final String name = _nameStringParser.parse(elements0.get(i));
+            LOGGER.debug(i + " name = [" + name + "]");
             if (StringUtils.isNotEmpty(name))
             {
                 answer.add(name);
