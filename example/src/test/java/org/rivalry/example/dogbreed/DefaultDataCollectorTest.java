@@ -163,7 +163,7 @@ public class DefaultDataCollectorTest
         assertNotNull(rivalryData.getCategoriesList());
         assertNotNull(rivalryData.getCriteriaList());
         assertThat(rivalryData.getCandidatesList().size(), is(1));
-        assertThat(rivalryData.getCategoriesList().size(), is(25));
+        assertThat(rivalryData.getCategoriesList().size(), is(0));
         assertThat(rivalryData.getCriteriaList().size(), is(25));
 
         if (_isVerbose)
