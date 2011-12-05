@@ -10,12 +10,17 @@ package org.rivalry.core.datacollector;
 
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.WebElement;
+import org.rivalry.core.util.DefaultStringParser;
+import org.rivalry.core.util.StringParser;
 
 /**
  * Provides a parser for double values.
  */
 public class DefaultValueStringParser implements ValueStringParser
 {
+    /** String parser. */
+    private final StringParser _stringParser = new DefaultStringParser();
+
     @Override
     public Double parse(final WebElement webElement)
     {
@@ -27,31 +32,8 @@ public class DefaultValueStringParser implements ValueStringParser
 
             if (StringUtils.isNotEmpty(valueString))
             {
-                final String myString = valueString.trim();
-
-                answer = parseDoubleOnly(myString);
+                answer = _stringParser.parseDouble(valueString);
             }
-        }
-
-        return answer;
-    }
-
-    /**
-     * @param valueString Value string.
-     * 
-     * @return a double parsed from the given parameter, if possible.
-     */
-    private Double parseDoubleOnly(final String valueString)
-    {
-        Double answer = null;
-
-        try
-        {
-            answer = Double.parseDouble(valueString);
-        }
-        catch (final NumberFormatException ignore)
-        {
-            // Nothing to do.
         }
 
         return answer;
