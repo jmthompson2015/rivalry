@@ -30,6 +30,7 @@ import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataCollector;
 import org.rivalry.core.datacollector.DefaultDataCollector;
 import org.rivalry.core.datacollector.DefaultNameStringParser;
+import org.rivalry.core.datacollector.DefaultValueStringParser;
 import org.rivalry.core.datacollector.NameStringParser;
 import org.rivalry.core.datacollector.ValueStringParser;
 import org.rivalry.core.datacollector.io.DCSpecReader;
@@ -70,7 +71,7 @@ public class BestPlaceDataCollectorMain
         else
         {
             final NameStringParser nameStringParser = new DefaultNameStringParser();
-            final ValueStringParser valueStringParser = new BestPlaceValueParser();
+            final ValueStringParser valueStringParser = new DefaultValueStringParser();
             final Provider<Category> categoryProvider = new DefaultCategoryProvider();
             final Provider<Criterion> criterionProvider = new DefaultCriterionProvider();
             final DataCollector dataCollector = new DefaultDataCollector(
