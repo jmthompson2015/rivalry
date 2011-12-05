@@ -191,26 +191,26 @@ public class DefaultDataCollector implements DataCollector
     /**
      * @param parent Parent web element.
      * @param selector0 Data collection selector.
-     * @param size Size.
      * 
      * @return a list of names.
      */
     private List<String> createNames(final WebElement parent,
-            final DCSelector selector0, final int size)
+            final DCSelector selector0)
     {
         final List<String> answer = new ArrayList<String>();
 
         LOGGER.debug("parent = " + parent);
         final List<WebElement> elements0 = selector0.getType().findElements(
                 parent, selector0.getValue());
+        final int size = elements0.size();
 
         for (int i = 0; i < size; i++)
         {
-            LOGGER.debug("elements0.get(" + i + ") = "
-                    + elements0.get(i).getTagName() + " ["
-                    + elements0.get(i).getText() + "]");
             final String name = _nameStringParser.parse(elements0.get(i));
-            answer.add(name);
+            if (StringUtils.isNotEmpty(name))
+            {
+                answer.add(name);
+            }
         }
 
         return answer;
@@ -313,23 +313,52 @@ public class DefaultDataCollector implements DataCollector
             final Candidate candidate, final WebElement parent,
             final List<DCSelector> selectors)
     {
-        if (selectors.size() == 2 && selectors.get(0).getSelectors().isEmpty()
+        if ((selectors.size() == 2 || selectors.size() == 3)
+                && selectors.get(0).getSelectors().isEmpty()
                 && selectors.get(1).getSelectors().isEmpty())
         {
-            // Parent selector has two leaf children.
+            // Parent selector has two or three leaf children.
             final DCSelector selector0 = selectors.get(0);
             final DCSelector selector1 = selectors.get(1);
             final List<WebElement> elements1 = selector1.getType()
                     .findElements(parent, selector1.getValue());
 
             final int size = elements1.size();
-            final List<String> names = createNames(parent, selector0, size);
+            final List<String> names = createNames(parent, selector0);
             LOGGER.debug("names = " + names);
 
             if (size > 0
                     && !rivalryData.getCandidatesList().contains(candidate))
             {
                 rivalryData.getCandidatesList().add(candidate);
+            }
+
+            Category category = null;
+
+            if (selectors.size() == 3)
+            {
+                // Create a category.
+                final DCSelector selector2 = selectors.get(2);
+                String categoryName;
+                if (selector2.getType() == SelectorType.LITERAL)
+                {
+                    categoryName = selector2.getValue();
+                }
+                else
+                {
+                    final List<WebElement> elements2 = selector2.getType()
+                            .findElements(parent, selector2.getValue());
+                    final WebElement valueElement = elements2.get(0);
+                    categoryName = valueElement.getText();
+                }
+                LOGGER.debug("categoryName = [" + categoryName + "]");
+                category = rivalryData.findCategoryByName(categoryName);
+
+                if (category == null)
+                {
+                    category = createCategory(categoryName);
+                    rivalryData.getCategoriesList().add(category);
+                }
             }
 
             for (int i = 0; i < size; i++)
@@ -339,16 +368,6 @@ public class DefaultDataCollector implements DataCollector
                 if (StringUtils.isNotEmpty(name))
                 {
                     final WebElement valueElement = elements1.get(i);
-
-                    final String categoryName = name;
-                    Category category = rivalryData
-                            .findCategoryByName(categoryName);
-
-                    if (category == null)
-                    {
-                        category = createCategory(categoryName);
-                        rivalryData.getCategoriesList().add(category);
-                    }
 
                     final String criterionName = name;
                     Criterion criterion = rivalryData
