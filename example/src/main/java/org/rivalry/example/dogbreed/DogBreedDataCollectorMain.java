@@ -129,7 +129,7 @@ public class DogBreedDataCollectorMain
     private static final String determineOutputFile(
             final CommandLine commandLine)
     {
-        String answer = "DogBreedDataCollector.xml";
+        String answer = "DogBreedRivalryData.xml";
 
         final char option = 'f';
 
