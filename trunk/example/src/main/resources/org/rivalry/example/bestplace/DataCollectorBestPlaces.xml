@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:DCSpec xmlns:tns="http://core.rivalry.org/datacollector"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://core.rivalry.org/datacollector http://rivalry.googlecode.com/svn/trunk/core/src/main/resources/DataCollector.xsd">
+    <url>http://www.bestplaces.net/city/$1</url>
+    <selector>
+        <type>CLICK</type>
+        <value></value>
+        <selector>
+            <type>XPATH</type>
+            <value>//a[text()='Climate']</value>
+        </selector>
+    </selector>
+    <selector>
+        <type>ID</type>
+        <value>mainContent_dgClimate</value>
+        <selector>
+            <type>XPATH</type>
+            <value>//td/a|//td/font/a</value>
+        </selector>
+        <selector>
+            <type>XPATH</type>
+            <value>(//td/a|//td/font/a)/ancestor::td/following-sibling::td[1]</value>
+        </selector>
+        <selector>
+            <type>LITERAL</type>
+            <value>Climate</value>
+        </selector>
+    </selector>
+    
+    <selector>
+        <type>CLICK</type>
+        <value></value>
+        <selector>
+            <type>XPATH</type>
+            <value>//a[text()='Crime']</value>
+        </selector>
+    </selector>
+    <selector>
+        <type>ID</type>
+        <value>mainContent_dgCrime</value>
+        <selector>
+            <type>XPATH</type>
+            <value>//td/a</value>
+        </selector>
+        <selector>
+            <type>XPATH</type>
+            <value>//td[a]/following-sibling::td[1]</value>
+        </selector>
+        <selector>
+            <type>LITERAL</type>
+            <value>Crime</value>
+        </selector>
+    </selector>
+</tns:DCSpec>
+ 
