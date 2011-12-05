@@ -196,7 +196,7 @@ public class DefaultDataCollectorTest
         assertNotNull(rivalryData.getCategoriesList());
         assertNotNull(rivalryData.getCriteriaList());
         assertThat(rivalryData.getCandidatesList().size(), is(1));
-        assertThat(rivalryData.getCategoriesList().size(), is(57));
+        assertThat(rivalryData.getCategoriesList().size(), is(0));
         assertThat(rivalryData.getCriteriaList().size(), is(57));
 
         final Criterion criterion = rivalryData
