@@ -9,6 +9,7 @@
 package org.rivalry.example.bestplace;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
@@ -22,6 +23,7 @@ import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataCollector;
 import org.rivalry.core.datacollector.DefaultDataCollector;
 import org.rivalry.core.datacollector.DefaultNameStringParser;
+import org.rivalry.core.datacollector.DefaultValueStringParser;
 import org.rivalry.core.datacollector.NameStringParser;
 import org.rivalry.core.datacollector.ValueStringParser;
 import org.rivalry.core.datacollector.io.DCSpecReader;
@@ -55,7 +57,7 @@ public class DefaultDataCollectorTest
     private final NameStringParser _nameStringParser = new DefaultNameStringParser();
 
     /** Best place value string processor. */
-    private final ValueStringParser _valueStringParser = new BestPlaceValueParser();
+    private final ValueStringParser _valueStringParser = new DefaultValueStringParser();
 
     /**
      * Test the <code>fetchData()</code> method.
@@ -70,8 +72,8 @@ public class DefaultDataCollectorTest
         _dataCollector.fetchData(_dcSpec, rivalryData, candidate);
 
         assertThat(rivalryData.getCandidatesList().size(), is(1));
-        assertThat(rivalryData.getCategoriesList().size(), is(2));
-        assertThat(rivalryData.getCriteriaList().size(), is(9 + 2));
+        assertThat(rivalryData.getCategoriesList().size(), is(4));
+        assertThat(rivalryData.getCriteriaList().size(), is(9 + 4 + 2 + 8));
 
         // Climate
         verifyRating(candidate, rivalryData, "Climate", "Rainfall (in.)", 12.6);
@@ -86,9 +88,35 @@ public class DefaultDataCollectorTest
         verifyRating(candidate, rivalryData, "Climate", "UV Index", 4.8);
         verifyRating(candidate, rivalryData, "Climate", "Elevation ft.", 5228.0);
 
+        // Cost of Living
+        verifyRating(candidate, rivalryData, "Cost of Living", "Overall", 110.0);
+        verifyRating(candidate, rivalryData, "Cost of Living", "Food", 103.0);
+        verifyRating(candidate, rivalryData, "Cost of Living", "Utilities",
+                91.0);
+        verifyRating(candidate, rivalryData, "Cost of Living", "Miscellaneous",
+                108.0);
+
         // Crime
         verifyRating(candidate, rivalryData, "Crime", "Violent Crime", 6.0);
         verifyRating(candidate, rivalryData, "Crime", "Property Crime", 5.0);
+
+        // Education
+        verifyRating(candidate, rivalryData, "Education", "School Expend.",
+                4375.0);
+        verifyRating(candidate, rivalryData, "Education",
+                "Pupil/Teacher Ratio", 18.8);
+        verifyRating(candidate, rivalryData, "Education",
+                "Students per Librarian", 551.0);
+        verifyRating(candidate, rivalryData, "Education",
+                "Students per Counselor", 713.0);
+        verifyRating(candidate, rivalryData, "Education", "2 yr College Grad.",
+                0.0492);
+        verifyRating(candidate, rivalryData, "Education", "4 yr College Grad.",
+                0.2270);
+        verifyRating(candidate, rivalryData, "Education", "Graduate Degrees",
+                0.1542);
+        verifyRating(candidate, rivalryData, "Education", "High School Grads.",
+                0.8256);
     }
 
     /**
@@ -104,8 +132,8 @@ public class DefaultDataCollectorTest
         _dataCollector.fetchData(_dcSpec, rivalryData, candidate);
 
         assertThat(rivalryData.getCandidatesList().size(), is(1));
-        assertThat(rivalryData.getCategoriesList().size(), is(2));
-        assertThat(rivalryData.getCriteriaList().size(), is(9 + 2));
+        assertThat(rivalryData.getCategoriesList().size(), is(4));
+        assertThat(rivalryData.getCriteriaList().size(), is(9 + 4 + 2 + 8));
 
         // Climate
         verifyRating(candidate, rivalryData, "Climate", "Rainfall (in.)", 42.4);
@@ -120,9 +148,35 @@ public class DefaultDataCollectorTest
         verifyRating(candidate, rivalryData, "Climate", "UV Index", 3.0);
         verifyRating(candidate, rivalryData, "Climate", "Elevation ft.", 79.0);
 
+        // Cost of Living
+        verifyRating(candidate, rivalryData, "Cost of Living", "Overall", 119.0);
+        verifyRating(candidate, rivalryData, "Cost of Living", "Food", 108.0);
+        verifyRating(candidate, rivalryData, "Cost of Living", "Utilities",
+                92.0);
+        verifyRating(candidate, rivalryData, "Cost of Living", "Miscellaneous",
+                104.0);
+
         // Crime
         verifyRating(candidate, rivalryData, "Crime", "Violent Crime", 6.0);
         verifyRating(candidate, rivalryData, "Crime", "Property Crime", 7.0);
+
+        // Education
+        verifyRating(candidate, rivalryData, "Education", "School Expend.",
+                5386.0);
+        verifyRating(candidate, rivalryData, "Education",
+                "Pupil/Teacher Ratio", 17.5);
+        verifyRating(candidate, rivalryData, "Education",
+                "Students per Librarian", 543.0);
+        verifyRating(candidate, rivalryData, "Education",
+                "Students per Counselor", 500.0);
+        verifyRating(candidate, rivalryData, "Education", "2 yr College Grad.",
+                0.0625);
+        verifyRating(candidate, rivalryData, "Education", "4 yr College Grad.",
+                0.2412);
+        verifyRating(candidate, rivalryData, "Education", "Graduate Degrees",
+                0.1541);
+        verifyRating(candidate, rivalryData, "Education", "High School Grads.",
+                0.8908);
     }
 
     /**
@@ -195,7 +249,7 @@ public class DefaultDataCollectorTest
         assertNotNull(criterion);
         final Double rating = candidate.getRating(criterion);
         assertNotNull(rating);
-        assertThat(rating, is(expectedRating));
+        assertEquals(rating, expectedRating, 0.0001);
         final Category category = rivalryData.findCategoryByName(categoryName);
         assertNotNull(category);
         assertThat(criterion.getCategory(), is(category));
