@@ -12,6 +12,7 @@ import javax.swing.table.AbstractTableModel;
 
 import org.rivalry.core.fitness.FitnessFunction;
 import org.rivalry.core.fitness.WeightedSumFitnessFunction;
+import org.rivalry.core.model.Category;
 import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.RivalryData;
 
@@ -23,14 +24,18 @@ import org.rivalry.core.model.RivalryData;
  */
 public class CriterionTableModel extends AbstractTableModel
 {
+    /** Category column index. */
+    public static final int CATEGORY_COLUMN = 0;
+
     /** Criterion column index. */
-    public static final int CRITERION_COLUMN = 0;
+    public static final int CRITERION_COLUMN = 1;
 
     /** Weight column index. */
-    public static final int WEIGHT_COLUMN = 1;
+    public static final int WEIGHT_COLUMN = 2;
 
     /** Column names. */
-    private static final String[] COLUMN_NAMES = { "Criterion", "Weight", };
+    private static final String[] COLUMN_NAMES = { "Category", "Criterion",
+            "Weight", };
 
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
@@ -60,6 +65,10 @@ public class CriterionTableModel extends AbstractTableModel
 
         switch (columnIndex)
         {
+        case CATEGORY_COLUMN:
+            answer = String.class;
+            break;
+
         case CRITERION_COLUMN:
             answer = String.class;
             break;
@@ -76,6 +85,9 @@ public class CriterionTableModel extends AbstractTableModel
     public int getColumnCount()
     {
         int answer = 0;
+
+        // Add one for category name.
+        answer++;
 
         // Add one for criterion name.
         answer++;
@@ -121,6 +133,14 @@ public class CriterionTableModel extends AbstractTableModel
 
         switch (columnIndex)
         {
+        case CATEGORY_COLUMN:
+            final Category category = getCriterion(rowIndex).getCategory();
+            if (category != null)
+            {
+                answer = category.getName();
+            }
+            break;
+
         case CRITERION_COLUMN:
             answer = getCriterion(rowIndex).getName();
             break;

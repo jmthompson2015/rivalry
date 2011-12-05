@@ -36,6 +36,8 @@ public class CriterionTableModelTest
         Class<?> result = _tableModel.getColumnClass(0);
         assertTrue(result == String.class);
         result = _tableModel.getColumnClass(1);
+        assertTrue(result == String.class);
+        result = _tableModel.getColumnClass(2);
         assertTrue(result == Integer.class);
     }
 
@@ -45,7 +47,7 @@ public class CriterionTableModelTest
     @Test
     public void getColumnCount()
     {
-        assertThat(_tableModel.getColumnCount(), is(2));
+        assertThat(_tableModel.getColumnCount(), is(3));
     }
 
     /**
@@ -55,8 +57,10 @@ public class CriterionTableModelTest
     public void getColumnName()
     {
         String result = _tableModel.getColumnName(0);
-        assertThat(result, is("Criterion"));
+        assertThat(result, is("Category"));
         result = _tableModel.getColumnName(1);
+        assertThat(result, is("Criterion"));
+        result = _tableModel.getColumnName(2);
         assertThat(result, is("Weight"));
     }
 
@@ -77,11 +81,15 @@ public class CriterionTableModelTest
     {
         Object result = _tableModel.getValueAt(0, 0);
         assertThat(result, instanceOf(String.class));
-        assertThat((String)result, is("a"));
+        assertThat((String)result, is("A"));
 
         result = _tableModel.getValueAt(0, 1);
+        assertThat(result, instanceOf(String.class));
+        assertThat((String)result, is("a"));
+
+        result = _tableModel.getValueAt(0, 2);
         assertThat(result, instanceOf(Integer.class));
-        assertThat((Integer)result, is(1));
+        assertThat((Integer)result, is(0));
     }
 
     /**
@@ -91,7 +99,8 @@ public class CriterionTableModelTest
     public void isCellEditable()
     {
         assertFalse(_tableModel.isCellEditable(0, 0));
-        assertTrue(_tableModel.isCellEditable(0, 1));
+        assertFalse(_tableModel.isCellEditable(0, 1));
+        assertTrue(_tableModel.isCellEditable(0, 2));
     }
 
     /**
@@ -111,13 +120,13 @@ public class CriterionTableModelTest
     @Test
     public void setValueAt()
     {
-        Object result = _tableModel.getValueAt(0, 1);
+        Object result = _tableModel.getValueAt(0, 2);
         assertThat(result, instanceOf(Integer.class));
-        assertThat((Integer)result, is(1));
+        assertThat((Integer)result, is(0));
 
         _tableModel.setValueAt(1, 0, 0);
 
-        result = _tableModel.getValueAt(0, 1);
+        result = _tableModel.getValueAt(0, 2);
         assertThat(result, instanceOf(Integer.class));
         assertThat((Integer)result, is(1));
     }
@@ -130,14 +139,14 @@ public class CriterionTableModelTest
     {
         final String expected = "a";
 
-        Object result = _tableModel.getValueAt(0, 0);
+        Object result = _tableModel.getValueAt(0, 1);
         assertThat(result, instanceOf(String.class));
         assertThat((String)result, is(expected));
 
         // This call fails (silently) because the cell is not editable.
-        _tableModel.setValueAt("foobar", 0, 0);
+        _tableModel.setValueAt("foobar", 0, 1);
 
-        result = _tableModel.getValueAt(0, 0);
+        result = _tableModel.getValueAt(0, 1);
         assertThat(result, instanceOf(String.class));
         assertThat((String)result, is(expected));
     }
