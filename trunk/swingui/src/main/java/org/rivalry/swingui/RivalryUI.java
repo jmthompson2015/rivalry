@@ -100,6 +100,19 @@ public class RivalryUI extends JPanel
     }
 
     /**
+     * 
+     * @param rivalryData Rivalry data.
+     */
+    void loadDataActionPerformed(final RivalryData rivalryData)
+    {
+        _toolBarPanel.remove(_rivalryMainPanel);
+        _rivalryMainPanel = createRivalryMainPanel(rivalryData);
+        _toolBarPanel.add(_rivalryMainPanel, BorderLayout.CENTER);
+        _toolBarPanel.revalidate();
+        _toolBarPanel.repaint();
+    }
+
+    /**
      * @param inputFile Input file.
      * 
      * @return rivalry data.
@@ -120,6 +133,22 @@ public class RivalryUI extends JPanel
         }
 
         return answer;
+    }
+
+    /**
+     * @return a new best place action listener.
+     */
+    private ActionListener createBestPlaceActionListener()
+    {
+        return new ActionListener()
+        {
+            @Override
+            public void actionPerformed(final ActionEvent e)
+            {
+                final RivalryData rivalryData = readRivalryData("BestPlaceRivalryData.xml");
+                loadDataActionPerformed(rivalryData);
+            }
+        };
     }
 
     /**
@@ -170,12 +199,7 @@ public class RivalryUI extends JPanel
             public void actionPerformed(final ActionEvent e)
             {
                 final RivalryData rivalryData = readRivalryData("DogBreedRivalryData.xml");
-
-                _toolBarPanel.remove(_rivalryMainPanel);
-                _rivalryMainPanel = createRivalryMainPanel(rivalryData);
-                _toolBarPanel.add(_rivalryMainPanel, BorderLayout.CENTER);
-                _toolBarPanel.revalidate();
-                _toolBarPanel.repaint();
+                loadDataActionPerformed(rivalryData);
             }
         };
     }
@@ -187,10 +211,14 @@ public class RivalryUI extends JPanel
     {
         final JButton dogButton = createButton("Dog24", "Load dog breed data",
                 "Dog Breeds", createDogBreedActionListener());
+        final JButton houseButton = createButton("House24",
+                "Load best place data", "Best Places",
+                createBestPlaceActionListener());
 
         final JToolBar answer = new JToolBar("Rivalry Tool Bar");
 
         answer.add(dogButton);
+        answer.add(houseButton);
 
         return answer;
     }
