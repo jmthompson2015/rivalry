@@ -39,6 +39,9 @@ public class DefaultDataCollector implements DataCollector
     /** Criterion provider. */
     private final Provider<Criterion> _criterionProvider;
 
+    /** Flag indicating whether to enable Javascript. */
+    private boolean _isJavascriptEnabled;
+
     /** Name string parser. */
     private final NameStringParser _nameStringParser;
 
@@ -159,6 +162,22 @@ public class DefaultDataCollector implements DataCollector
     }
 
     /**
+     * @return the isJavascriptEnabled
+     */
+    public boolean isJavascriptEnabled()
+    {
+        return _isJavascriptEnabled;
+    }
+
+    /**
+     * @param isJavascriptEnabled the isJavascriptEnabled to set
+     */
+    public void setJavascriptEnabled(final boolean isJavascriptEnabled)
+    {
+        _isJavascriptEnabled = isJavascriptEnabled;
+    }
+
+    /**
      * @param name Name.
      * 
      * @return a new category.
@@ -231,7 +250,7 @@ public class DefaultDataCollector implements DataCollector
 
         if (answer instanceof HtmlUnitDriver)
         {
-            ((HtmlUnitDriver)answer).setJavascriptEnabled(true);
+            ((HtmlUnitDriver)answer).setJavascriptEnabled(_isJavascriptEnabled);
         }
 
         return answer;
