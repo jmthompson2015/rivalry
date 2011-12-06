@@ -46,7 +46,6 @@ public class VisibleColumnsTableModel extends DefaultTableModel
             @Override
             public void tableChanged(final TableModelEvent event)
             {
-                System.out.println("event.getType() = " + event.getType());
                 if (event.getType() == TableModelEvent.UPDATE)
                 {
                     fireTableDataChanged();
