@@ -40,6 +40,9 @@ public class SortTablePanel extends JPanel
     /** Row count widget. */
     private final JLabel _rowCountUI;
 
+    /** Table. */
+    private final JTable _table;
+
     /**
      * Construct this object with the given parameter.
      * 
@@ -49,18 +52,26 @@ public class SortTablePanel extends JPanel
     public SortTablePanel(final TableModel tableModel,
             final List<RowSorter.SortKey> sortKeys)
     {
-        final JTable table = createTable(tableModel);
+        _table = createTable(tableModel);
         _rowCountUI = createRowCountUI(tableModel);
 
         setLayout(new BorderLayout());
 
-        add(createCenterPanel(table), BorderLayout.CENTER);
+        add(createCenterPanel(_table), BorderLayout.CENTER);
         add(createSouthPanel(tableModel), BorderLayout.SOUTH);
 
         if (CollectionUtils.isNotEmpty(sortKeys))
         {
-            table.getRowSorter().setSortKeys(sortKeys);
+            _table.getRowSorter().setSortKeys(sortKeys);
         }
+    }
+
+    /**
+     * @return the table
+     */
+    public JTable getTable()
+    {
+        return _table;
     }
 
     /**
