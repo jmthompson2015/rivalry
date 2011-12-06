@@ -280,10 +280,38 @@
             <methodBodyLine>return answer;</methodBodyLine>
         </method>
         <method>
+            <commentLine>@param category Category.</commentLine>
+            <commentLine></commentLine>
+            <commentLine>@return the criteria of the given category, if any.</commentLine>
+            <modifiers>public</modifiers>
+            <name>findCriteriaByCategory</name>
+            <returnType>List&lt;org.rivalry.core.model.Criterion&gt;</returnType>
+            <parameter>
+                <name>category</name>
+                <type>org.rivalry.core.model.Category</type>
+            </parameter>
+            <methodBodyLine>List&lt;Criterion&gt; answer = new ArrayList&lt;Criterion&gt;();</methodBodyLine>
+            <methodBodyLine>if (category != null)</methodBodyLine>
+            <methodBodyLine>{</methodBodyLine>
+            <methodBodyLine>List&lt;Criterion&gt; criteria = getCriteriaList();</methodBodyLine>
+            <methodBodyLine>int size = criteria.size();</methodBodyLine>
+            <methodBodyLine>for (int i=0; i&lt;size; i++)</methodBodyLine>
+            <methodBodyLine>{</methodBodyLine>
+            <methodBodyLine>Criterion criterion = criteria.get(i);</methodBodyLine>
+            <methodBodyLine>if (category.equals(criterion.getCategory()))</methodBodyLine>
+            <methodBodyLine>{</methodBodyLine>
+            <methodBodyLine>answer.add(criterion);</methodBodyLine>
+            <methodBodyLine>}</methodBodyLine>
+            <methodBodyLine>}</methodBodyLine>
+            <methodBodyLine>}</methodBodyLine>
+            <methodBodyLine></methodBodyLine>
+            <methodBodyLine>return answer;</methodBodyLine>
+        </method>
+        <method>
             <referencedType>org.apache.commons.lang.StringUtils</referencedType>
             <commentLine>@param name Name.</commentLine>
             <commentLine></commentLine>
-            <commentLine>@return the category of the given name, if any.</commentLine>
+            <commentLine>@return the criterion of the given name, if any.</commentLine>
             <modifiers>public</modifiers>
             <name>findCriterionByName</name>
             <returnType>org.rivalry.core.model.Criterion</returnType>
