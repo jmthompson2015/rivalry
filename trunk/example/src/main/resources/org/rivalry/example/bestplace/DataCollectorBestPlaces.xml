@@ -27,7 +27,7 @@
             <value>Climate</value>
         </selector>
     </selector>
-    
+
     <selector>
         <type>CLICK</type>
         <value></value>
@@ -83,6 +83,31 @@
         <value></value>
         <selector>
             <type>XPATH</type>
+            <value>//a[text()='Economy']</value>
+        </selector>
+    </selector>
+    <selector>
+        <type>ID</type>
+        <value>mainContent_dgEconomy</value>
+        <selector>
+            <type>XPATH</type>
+            <value>//td/a</value>
+        </selector>
+        <selector>
+            <type>XPATH</type>
+            <value>//td[a]/following-sibling::td[1]</value>
+        </selector>
+        <selector>
+            <type>LITERAL</type>
+            <value>Economy</value>
+        </selector>
+    </selector>
+
+    <selector>
+        <type>CLICK</type>
+        <value></value>
+        <selector>
+            <type>XPATH</type>
             <value>//a[text()='Education']</value>
         </selector>
     </selector>
@@ -100,6 +125,156 @@
         <selector>
             <type>LITERAL</type>
             <value>Education</value>
+        </selector>
+    </selector>
+
+    <selector>
+        <type>CLICK</type>
+        <value></value>
+        <selector>
+            <type>XPATH</type>
+            <value>//a[text()='Health']</value>
+        </selector>
+    </selector>
+    <selector>
+        <type>ID</type>
+        <value>mainContent_dgHealth</value>
+        <selector>
+            <type>XPATH</type>
+            <value>//td/a</value>
+        </selector>
+        <selector>
+            <type>XPATH</type>
+            <value>//td[a]/following-sibling::td[1]</value>
+        </selector>
+        <selector>
+            <type>LITERAL</type>
+            <value>Health</value>
+        </selector>
+    </selector>
+
+    <selector>
+        <type>CLICK</type>
+        <value></value>
+        <selector>
+            <type>XPATH</type>
+            <value>//a[text()='Housing']</value>
+        </selector>
+    </selector>
+    <selector>
+        <type>ID</type>
+        <value>mainContent_dgHousing</value>
+        <selector>
+            <type>XPATH</type>
+            <value>//td/a</value>
+        </selector>
+        <selector>
+            <type>XPATH</type>
+            <value>//td[a]/following-sibling::td[1]</value>
+        </selector>
+        <selector>
+            <type>LITERAL</type>
+            <value>Housing</value>
+        </selector>
+    </selector>
+
+    <selector>
+        <type>CLICK</type>
+        <value></value>
+        <selector>
+            <type>XPATH</type>
+            <value>//a[text()='People']</value>
+        </selector>
+    </selector>
+    <selector>
+        <type>ID</type>
+        <value>mainContent_dgPeople</value>
+        <selector>
+            <type>XPATH</type>
+            <value>//td/a</value>
+        </selector>
+        <selector>
+            <type>XPATH</type>
+            <value>//td[a]/following-sibling::td[1]</value>
+        </selector>
+        <selector>
+            <type>LITERAL</type>
+            <value>People</value>
+        </selector>
+    </selector>
+
+    <selector>
+        <type>CLICK</type>
+        <value></value>
+        <selector>
+            <type>XPATH</type>
+            <value>//a[text()='Religion']</value>
+        </selector>
+    </selector>
+    <selector>
+        <type>ID</type>
+        <value>mainContent_dgReligion</value>
+        <selector>
+            <type>XPATH</type>
+            <value>//td/a</value>
+        </selector>
+        <selector>
+            <type>XPATH</type>
+            <value>//td[a]/following-sibling::td[1]</value>
+        </selector>
+        <selector>
+            <type>LITERAL</type>
+            <value>Religion</value>
+        </selector>
+    </selector>
+
+    <selector>
+        <type>CLICK</type>
+        <value></value>
+        <selector>
+            <type>XPATH</type>
+            <value>//a[text()='Transportation']</value>
+        </selector>
+    </selector>
+    <selector>
+        <type>ID</type>
+        <value>mainContent_dgTransportation</value>
+        <selector>
+            <type>XPATH</type>
+            <value>//td/a</value>
+        </selector>
+        <selector>
+            <type>XPATH</type>
+            <value>//td[a]/following-sibling::td[1]</value>
+        </selector>
+        <selector>
+            <type>LITERAL</type>
+            <value>Transportation</value>
+        </selector>
+    </selector>
+
+    <selector>
+        <type>CLICK</type>
+        <value></value>
+        <selector>
+            <type>XPATH</type>
+            <value>//a[text()='Voting']</value>
+        </selector>
+    </selector>
+    <selector>
+        <type>ID</type>
+        <value>mainContent_dgVoting</value>
+        <selector>
+            <type>XPATH</type>
+            <value>//td/a</value>
+        </selector>
+        <selector>
+            <type>XPATH</type>
+            <value>//td[a]/following-sibling::td[1]</value>
+        </selector>
+        <selector>
+            <type>LITERAL</type>
+            <value>Voting</value>
         </selector>
     </selector>
 </tns:DCSpec>
