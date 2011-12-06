@@ -95,12 +95,15 @@ public class RivalryMainPanel extends JSplitPane
         final RowSorter.SortKey sortKey0 = new RowSorter.SortKey(
                 CriterionTableModel.WEIGHT_COLUMN, SortOrder.DESCENDING);
         final RowSorter.SortKey sortKey1 = new RowSorter.SortKey(
+                CriterionTableModel.CATEGORY_COLUMN, SortOrder.ASCENDING);
+        final RowSorter.SortKey sortKey2 = new RowSorter.SortKey(
                 CriterionTableModel.CRITERION_COLUMN, SortOrder.ASCENDING);
 
         final List<RowSorter.SortKey> answer = new ArrayList<RowSorter.SortKey>();
 
         answer.add(sortKey0);
         answer.add(sortKey1);
+        answer.add(sortKey2);
 
         return answer;
     }
