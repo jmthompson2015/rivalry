@@ -15,6 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -29,11 +30,10 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.commons.lang.StringUtils;
-import org.rivalry.core.datacollector.DCSelector;
 import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataCollector;
 import org.rivalry.core.datacollector.DataCollectorInjector;
-import org.rivalry.core.datacollector.SelectorType;
+import org.rivalry.core.datacollector.io.DCSpecReader;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.DefaultCandidate;
 import org.rivalry.core.model.RivalryData;
@@ -75,7 +75,7 @@ public class SkillDemandDataCollectorMain
             final String password = null;
             final RivalryData rivalryData = injector.injectRivalryData();
 
-            final boolean isSimple = true;
+            final boolean isSimple = false;
 
             if (isSimple)
             {
@@ -130,7 +130,7 @@ public class SkillDemandDataCollectorMain
     private static final String determineOutputFile(
             final CommandLine commandLine)
     {
-        String answer = "SkillDemandDataCollector.xml";
+        String answer = "SkillDemandRivalryData.xml";
 
         final char option = 'f';
 
@@ -194,24 +194,11 @@ public class SkillDemandDataCollectorMain
      */
     private DCSpec createDCSpec()
     {
-        final DCSelector selector1 = new DCSelector();
-        selector1.setType(SelectorType.CLASS_NAME);
-        selector1.setValue("yui-g");
-
-        final DCSelector selector20 = new DCSelector();
-        selector20.setType(SelectorType.LITERAL);
-        selector20.setValue("Count");
-
-        final DCSelector selector21 = new DCSelector();
-        selector21.setType(SelectorType.TAG_NAME);
-        selector21.setValue("h2");
-
-        selector1.getSelectors().add(selector20);
-        selector1.getSelectors().add(selector21);
-
-        final DCSpec answer = new DCSpec();
-
-        answer.getSelectors().add(selector1);
+        final DCSpecReader dcReader = new DCSpecReader();
+        final InputStream inputStream = getClass().getResourceAsStream(
+                "DataCollectorDice.xml");
+        final Reader reader = new InputStreamReader(inputStream);
+        final DCSpec answer = dcReader.read(reader);
 
         return answer;
     }
@@ -244,48 +231,12 @@ public class SkillDemandDataCollectorMain
                     || keyword.toLowerCase().contains(" or "))
             {
                 // Construct a boolean search URL.
-                // answer = "http://seeker.dice.com/jobsearch/servlet/JobSearch"
-                // + "?op=300" + "&Ntx=mode+matchboolean" + "&QUICK=1"
-                // + "&FREE_TEXT=" + myKeyword;
-
                 answer += "&Ntx=mode+matchboolean";
             }
             else
             {
                 answer += "&Ntx=mode+matchall";
             }
-            // else
-            // {
-            // // answer =
-            // //
-            // "http://seeker.dice.com/jobsearch/servlet/JobSearch?op=300&N=0&Hf=0&NUM_PER_PAGE=30&Ntk=JobSearchRanking&Ntx=mode+matchall&AREA_CODES=&AC_COUNTRY=1525&QUICK=1&ZIPCODE=&RADIUS=64.37376&ZC_COUNTRY=0&COUNTRY=1525&STAT_PROV=0&METRO_AREA=33.78715899%2C-84.39164034&TRAVEL=0&TAXTERM=0&SORTSPEC=0&FRMT=0&DAYSBACK=30&LOCATION_OPTION=2&FREE_TEXT="
-            // // + myKeyword + "&WHERE=";
-            // answer = "http://seeker.dice.com/jobsearch/servlet/JobSearch"
-            // + "?op=300" +
-            // // "&N=0" +
-            // // "&Hf=0" +
-            // // "&NUM_PER_PAGE=30" +
-            // // "&Ntk=JobSearchRanking" +
-            // // "&Ntx=mode+matchall" +
-            // // "&AREA_CODES=" +
-            // // "&AC_COUNTRY=1525" +
-            // "&QUICK=1" +
-            // // "&ZIPCODE=" +
-            // // "&RADIUS=64.37376" +
-            // // "&ZC_COUNTRY=0" +
-            // // "&COUNTRY=1525" +
-            // // "&STAT_PROV=0" +
-            // // "&METRO_AREA=33.78715899%2C-84.39164034" +
-            // // "&TRAVEL=0" +
-            // // "&TAXTERM=0" +
-            // // "&SORTSPEC=0" +
-            // // "&FRMT=0" +
-            // // "&DAYSBACK=30" +
-            // // "&LOCATION_OPTION=2" +
-            // "&FREE_TEXT=" + myKeyword
-            // // + "&WHERE="
-            // ;
-            // }
         }
 
         return answer;
@@ -298,15 +249,11 @@ public class SkillDemandDataCollectorMain
     {
         final List<String> answer = new ArrayList<String>();
 
-        // answer.add("Java");
+        answer.add("Java");
         answer.add("JPA");
-        // answer.add("JSF");
-        // answer.add("Selenium");
         answer.add("Vaadin");
-        // answer.add("ROS");
         answer.add("Visual Basic");
         answer.add("ROS or \"robot operating system\"");
-        answer.add("ROS or robot operating system");
 
         return answer;
     }
@@ -336,15 +283,12 @@ public class SkillDemandDataCollectorMain
     {
         final List<String> answer = new ArrayList<String>();
 
-        final InputStream inputStream = getClass().getClassLoader()
+        final InputStream inputStream = getClass()
                 .getResourceAsStream(filename);
         if (inputStream != null)
         {
             try
             {
-                // final BufferedReader reader = new BufferedReader(new
-                // FileReader(
-                // filename));
                 final BufferedReader reader = new BufferedReader(
                         new InputStreamReader(inputStream));
                 String line = null;
