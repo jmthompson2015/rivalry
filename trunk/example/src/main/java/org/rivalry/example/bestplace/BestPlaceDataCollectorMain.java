@@ -28,21 +28,13 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.commons.lang.StringUtils;
 import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataCollector;
-import org.rivalry.core.datacollector.DefaultDataCollector;
-import org.rivalry.core.datacollector.DefaultNameStringParser;
-import org.rivalry.core.datacollector.DefaultValueStringParser;
-import org.rivalry.core.datacollector.NameStringParser;
-import org.rivalry.core.datacollector.ValueStringParser;
+import org.rivalry.core.datacollector.DataCollectorInjector;
+import org.rivalry.core.datacollector.DefaultDataCollectorInjector;
 import org.rivalry.core.datacollector.io.DCSpecReader;
 import org.rivalry.core.model.Candidate;
-import org.rivalry.core.model.Category;
-import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.DefaultCandidate;
-import org.rivalry.core.model.DefaultCategoryProvider;
-import org.rivalry.core.model.DefaultCriterionProvider;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.RivalryDataWriter;
-import org.rivalry.core.util.Provider;
 
 /**
  * Provides a data collector for dog breeds.
@@ -70,20 +62,15 @@ public class BestPlaceDataCollectorMain
         }
         else
         {
-            final NameStringParser nameStringParser = new DefaultNameStringParser();
-            final ValueStringParser valueStringParser = new DefaultValueStringParser();
-            final Provider<Category> categoryProvider = new DefaultCategoryProvider();
-            final Provider<Criterion> criterionProvider = new DefaultCriterionProvider();
-            final DataCollector dataCollector = new DefaultDataCollector(
-                    nameStringParser, valueStringParser, categoryProvider,
-                    criterionProvider);
+            final DataCollectorInjector injector = new DefaultDataCollectorInjector();
+            final DataCollector dataCollector = injector.injectDataCollector();
 
             final BestPlaceDataCollectorMain main = new BestPlaceDataCollectorMain();
 
             final DCSpec dcSpec = main.createDCSpec();
             final String username = null;
             final String password = null;
-            final RivalryData rivalryData = new RivalryData();
+            final RivalryData rivalryData = injector.injectRivalryData();
 
             final List<String> keywords = main.getKeywords();
             main.createCandidates(dcSpec, keywords, rivalryData);
