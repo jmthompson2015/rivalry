@@ -28,6 +28,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -36,19 +37,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataCollector;
-import org.rivalry.core.datacollector.DefaultDataCollector;
-import org.rivalry.core.datacollector.DefaultNameStringParser;
-import org.rivalry.core.datacollector.NameStringParser;
-import org.rivalry.core.datacollector.ValueStringParser;
+import org.rivalry.core.datacollector.DataCollectorInjector;
 import org.rivalry.core.datacollector.io.DCSpecReader;
 import org.rivalry.core.model.Candidate;
-import org.rivalry.core.model.Category;
 import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.DefaultCandidate;
-import org.rivalry.core.model.DefaultCategoryProvider;
-import org.rivalry.core.model.DefaultCriterionProvider;
 import org.rivalry.core.model.RivalryData;
-import org.rivalry.core.util.Provider;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -58,17 +52,11 @@ import org.xml.sax.SAXException;
  */
 public class DefaultDataCollectorTest
 {
-    /** Dog breeds value string processor. */
-    private final NameStringParser _nameStringParser = new DefaultNameStringParser();
+    /** Data collector. */
+    private DataCollector _dataCollector;
 
-    /** Dog breeds value string processor. */
-    private final ValueStringParser _valueStringParser = new DogBreedsParser();
-
-    /** Category provider. */
-    private final Provider<Category> _categoryProvider = new DefaultCategoryProvider();
-
-    /** Criterion provider. */
-    private final Provider<Criterion> _criterionProvider = new DefaultCriterionProvider();
+    /** Data collector specification. */
+    private DCSpec _dcSpec;
 
     /** Flag indicating whether to provide verbose output. */
     private final boolean _isVerbose = false;
@@ -148,16 +136,11 @@ public class DefaultDataCollectorTest
     @Test
     public void fetchDataDogBreeds()
     {
-        final DataCollector dataCollector = new DefaultDataCollector(
-                _nameStringParser, _valueStringParser, _categoryProvider,
-                _criterionProvider);
-
-        final DCSpec dcSpec = readDcSpec("");
         final RivalryData rivalryData = new RivalryData();
         final Candidate candidate = createCandidate("boston-terrier",
-                dcSpec.getUrl());
+                _dcSpec.getUrl());
 
-        dataCollector.fetchData(dcSpec, rivalryData, candidate);
+        _dataCollector.fetchData(_dcSpec, rivalryData, candidate);
 
         assertNotNull(rivalryData.getCandidatesList());
         assertNotNull(rivalryData.getCategoriesList());
@@ -191,6 +174,18 @@ public class DefaultDataCollectorTest
             assertNotNull(rating);
             assertThat(rating, is(1.0));
         }
+    }
+
+    /**
+     * Set up the tests.
+     */
+    @Before
+    public void setUp()
+    {
+        final DataCollectorInjector injector = new DogBreedInjector();
+        _dataCollector = injector.injectDataCollector();
+
+        _dcSpec = readDcSpec();
     }
 
     /**
@@ -272,12 +267,10 @@ public class DefaultDataCollectorTest
     }
 
     /**
-     * @param filename Filename.
-     * 
      * @return a new data collector specification read from a file of the given
      *         name.
      */
-    private DCSpec readDcSpec(final String filename)
+    private DCSpec readDcSpec()
     {
         final InputStream inputStream = getClass().getResourceAsStream(
                 "DataCollectorDogTime.xml");
@@ -289,5 +282,4 @@ public class DefaultDataCollectorTest
 
         return dcSpec;
     }
-
 }
