@@ -205,6 +205,22 @@ public class RivalryUI extends JPanel
     }
 
     /**
+     * @return a new skill demand action listener.
+     */
+    private ActionListener createSkillDemandActionListener()
+    {
+        return new ActionListener()
+        {
+            @Override
+            public void actionPerformed(final ActionEvent e)
+            {
+                final RivalryData rivalryData = readRivalryData("SkillDemandRivalryData.xml");
+                loadDataActionPerformed(rivalryData);
+            }
+        };
+    }
+
+    /**
      * @return a new tool bar.
      */
     private JToolBar createToolBar()
@@ -214,11 +230,15 @@ public class RivalryUI extends JPanel
         final JButton houseButton = createButton("House24",
                 "Load best place data", "Best Places",
                 createBestPlaceActionListener());
+        final JButton brainButton = createButton("Brain24",
+                "Load skill demand data", "Skill Demand",
+                createSkillDemandActionListener());
 
         final JToolBar answer = new JToolBar("Rivalry Tool Bar");
 
         answer.add(dogButton);
         answer.add(houseButton);
+        answer.add(brainButton);
 
         return answer;
     }
