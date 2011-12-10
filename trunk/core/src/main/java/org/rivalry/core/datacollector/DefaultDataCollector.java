@@ -218,27 +218,38 @@ public class DefaultDataCollector implements DataCollector
     /**
      * @param parent Parent web element.
      * @param selector0 Data collection selector.
+     * @param size Size.
      * 
      * @return a list of names.
      */
     private List<String> createNames(final WebElement parent,
-            final DCSelector selector0)
+            final DCSelector selector0, final int size)
     {
         final List<String> answer = new ArrayList<String>();
 
-        LOGGER.debug("parent = " + parent);
-        final List<WebElement> elements0 = selector0.getType().findElements(
-                parent, selector0.getValue());
-        final int size = elements0.size();
-        LOGGER.debug("size = " + size);
-
-        for (int i = 0; i < size; i++)
+        if (selector0.getType() == SelectorType.LITERAL)
         {
-            final String name = _nameStringParser.parse(elements0.get(i));
-            LOGGER.debug(i + " name = [" + name + "]");
-            if (StringUtils.isNotEmpty(name))
+            for (int i = 0; i < size; i++)
             {
-                answer.add(name);
+                answer.add(selector0.getValue());
+            }
+        }
+        else
+        {
+            LOGGER.debug("parent = " + parent);
+            final List<WebElement> elements0 = selector0.getType()
+                    .findElements(parent, selector0.getValue());
+            final int size0 = elements0.size();
+            LOGGER.debug("size0 = " + size0);
+
+            for (int i = 0; i < size0; i++)
+            {
+                final String name = _nameStringParser.parse(elements0.get(i));
+                LOGGER.debug(i + " name = [" + name + "]");
+                if (StringUtils.isNotEmpty(name))
+                {
+                    answer.add(name);
+                }
             }
         }
 
@@ -353,7 +364,7 @@ public class DefaultDataCollector implements DataCollector
                     .findElements(parent, selector1.getValue());
 
             final int size = elements1.size();
-            final List<String> names = createNames(parent, selector0);
+            final List<String> names = createNames(parent, selector0, size);
             LOGGER.debug("names = " + names);
 
             if (size > 0
