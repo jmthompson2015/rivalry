@@ -32,20 +32,12 @@ import org.apache.commons.lang.StringUtils;
 import org.rivalry.core.datacollector.DCSelector;
 import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataCollector;
-import org.rivalry.core.datacollector.DefaultDataCollector;
-import org.rivalry.core.datacollector.DefaultNameStringParser;
-import org.rivalry.core.datacollector.NameStringParser;
+import org.rivalry.core.datacollector.DataCollectorInjector;
 import org.rivalry.core.datacollector.SelectorType;
-import org.rivalry.core.datacollector.ValueStringParser;
 import org.rivalry.core.model.Candidate;
-import org.rivalry.core.model.Category;
-import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.DefaultCandidate;
-import org.rivalry.core.model.DefaultCategoryProvider;
-import org.rivalry.core.model.DefaultCriterionProvider;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.RivalryDataWriter;
-import org.rivalry.core.util.Provider;
 
 /**
  * Provides a data collector for Illyriad.
@@ -73,20 +65,15 @@ public class SkillDemandDataCollectorMain
         }
         else
         {
-            final NameStringParser nameStringParser = new DefaultNameStringParser();
-            final ValueStringParser valueStringParser = new SkillDemandValueStringParser();
-            final Provider<Category> categoryProvider = new DefaultCategoryProvider();
-            final Provider<Criterion> criterionProvider = new DefaultCriterionProvider();
-            final DataCollector dataCollector = new DefaultDataCollector(
-                    nameStringParser, valueStringParser, categoryProvider,
-                    criterionProvider);
+            final DataCollectorInjector injector = new SkillDemandInjector();
+            final DataCollector dataCollector = injector.injectDataCollector();
 
             final SkillDemandDataCollectorMain main = new SkillDemandDataCollectorMain();
 
             final DCSpec dcSpec = main.createDCSpec();
             final String username = null;
             final String password = null;
-            final RivalryData rivalryData = new RivalryData();
+            final RivalryData rivalryData = injector.injectRivalryData();
 
             final boolean isSimple = true;
 
