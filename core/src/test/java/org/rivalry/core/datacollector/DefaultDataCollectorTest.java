@@ -49,11 +49,14 @@ public class DefaultDataCollectorTest
                 if (StringUtils.isNotEmpty(valueString))
                 {
                     final String myString = valueString.trim();
+                    if (myString.endsWith("%"))
+                        System.out.println("myString = [" + myString + "]");
 
                     if (myString.endsWith("%"))
                     {
                         answer = parseDoubleOnly(myString.substring(0,
                                 myString.length() - 1)) / 100.0;
+                        System.out.println("answer = " + answer);
                     }
                     else if (myString.endsWith("B"))
                     {
@@ -101,6 +104,9 @@ public class DefaultDataCollectorTest
     /** Criterion provider. */
     private final Provider<Criterion> _criterionProvider = new DefaultCriterionProvider();
 
+    /** Rivalry data post processor. */
+    private final DataPostProcessor _dataPostProcessor = new DefaultDataPostProcessor();
+
     /** Flag indicating whether to provide verbose output. */
     private final boolean _isVerbose = false;
 
@@ -119,7 +125,7 @@ public class DefaultDataCollectorTest
     {
         final DataCollector dataCollector = new DefaultDataCollector(
                 _nameStringParser, _bestPlacesParser, _categoryProvider,
-                _criterionProvider);
+                _criterionProvider, _dataPostProcessor);
 
         final DCSpec dcSpec = createDCSpecBestPlaces();
         final RivalryData rivalryData = new RivalryData();
@@ -144,7 +150,7 @@ public class DefaultDataCollectorTest
     {
         final DataCollector dataCollector = new DefaultDataCollector(
                 _nameStringParser, _yahooParser, _categoryProvider,
-                _criterionProvider);
+                _criterionProvider, _dataPostProcessor);
 
         final DCSpec dcSpec = createDCSpecYahooFinance();
         final RivalryData rivalryData = new RivalryData();
@@ -183,7 +189,7 @@ public class DefaultDataCollectorTest
     {
         final DataCollector dataCollector = new DefaultDataCollector(
                 _nameStringParser, _yahooParser, _categoryProvider,
-                _criterionProvider);
+                _criterionProvider, _dataPostProcessor);
 
         final WebDriver webDriver = new HtmlUnitDriver();
         final DCSpec dcSpec = createDCSpecYahooFinance();
