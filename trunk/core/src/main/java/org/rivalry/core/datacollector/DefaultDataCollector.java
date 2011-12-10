@@ -39,6 +39,9 @@ public class DefaultDataCollector implements DataCollector
     /** Criterion provider. */
     private final Provider<Criterion> _criterionProvider;
 
+    /** Data post processor. */
+    private final DataPostProcessor _dataPostProcessor;
+
     /** Flag indicating whether to enable Javascript. */
     private boolean _isJavascriptEnabled;
 
@@ -55,16 +58,19 @@ public class DefaultDataCollector implements DataCollector
      * @param valueStringParser Value string parser.
      * @param categoryProvider Category provider.
      * @param criterionProvider Criterion provider.
+     * @param dataPostProcessor Data post processor.
      */
     public DefaultDataCollector(final NameStringParser nameStringParser,
             final ValueStringParser valueStringParser,
             final Provider<Category> categoryProvider,
-            final Provider<Criterion> criterionProvider)
+            final Provider<Criterion> criterionProvider,
+            final DataPostProcessor dataPostProcessor)
     {
         _nameStringParser = nameStringParser;
         _valueStringParser = valueStringParser;
         _categoryProvider = categoryProvider;
         _criterionProvider = criterionProvider;
+        _dataPostProcessor = dataPostProcessor;
     }
 
     @Override
@@ -156,6 +162,8 @@ public class DefaultDataCollector implements DataCollector
                 }
             }
         }
+
+        _dataPostProcessor.postProcess(rivalryData);
 
         final long end = System.currentTimeMillis();
         logTiming("2 fetchData()", start, end);
