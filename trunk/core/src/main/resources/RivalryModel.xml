@@ -2,7 +2,7 @@
 <tns:CGSpec xmlns:tns="http://core.jfab.org/model"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://core.jfab.org/model http://jfab.googlecode.com/svn/trunk/trunk/core/src/main/resources/CodeGenerator.xsd">
-    <cgInterface isPropertyChangeSupported="true">
+    <cgInterface propertyChangeSupported="true">
         <commentLine>Defines methods required by an entity for a decision making application.</commentLine>
         <modifiers>public</modifiers>
         <name>Entity</name>
@@ -16,46 +16,46 @@
             <type>String</type>
         </property>
     </cgInterface>
-    <cgInterface isPropertyChangeSupported="true">
+    <cgInterface propertyChangeSupported="true">
         <commentLine>Defines methods required by a category for a decision making application.</commentLine>
         <modifiers>public</modifiers>
         <name>Category</name>
         <packageName>org.rivalry.core.model</packageName>
         <extendsType>org.rivalry.core.model.Entity</extendsType>
     </cgInterface>
-    <cgInterface isPropertyChangeSupported="true">
+    <cgInterface propertyChangeSupported="true">
         <commentLine>Defines methods required by a criterion for a decision making application.</commentLine>
         <modifiers>public</modifiers>
         <name>Criterion</name>
         <packageName>org.rivalry.core.model</packageName>
-        <property>
+        <property usedInIdentity="false">
             <name>autoMinMax</name>
             <type>boolean</type>
         </property>
-        <property>
+        <property usedInIdentity="false">
             <name>category</name>
             <type>org.rivalry.core.model.Category</type>
         </property>
-        <property>
+        <property usedInIdentity="false">
             <name>maximumRating</name>
             <type>Double</type>
         </property>
-        <property>
+        <property usedInIdentity="false">
             <name>minimumRating</name>
             <type>Double</type>
         </property>
         <extendsType>org.rivalry.core.model.Entity</extendsType>
     </cgInterface>
-    <cgInterface isPropertyChangeSupported="true">
+    <cgInterface propertyChangeSupported="true">
         <commentLine>Defines methods required by a candidate for a decision making application.</commentLine>
         <modifiers>public</modifiers>
         <name>Candidate</name>
         <packageName>org.rivalry.core.model</packageName>
-        <property>
+        <property usedInIdentity="false">
             <name>page</name>
             <type>String</type>
         </property>
-        <property>
+        <property usedInIdentity="false">
             <name>ratings</name>
             <type>Map&lt;org.rivalry.core.model.Criterion, java.lang.Double&gt;</type>
         </property>
@@ -117,14 +117,14 @@
             <returnType>List&lt;org.rivalry.core.model.Candidate&gt;</returnType>
         </method>
     </cgInterface>
-    <cgClass isPropertyChangeSupported="true">
+    <cgClass propertyChangeSupported="true">
         <commentLine>Provides a default entity for a decision making application.</commentLine>
         <modifiers>abstract</modifiers>
         <name>DefaultEntity</name>
         <packageName>org.rivalry.core.model</packageName>
         <implementsInterface>org.rivalry.core.model.Entity</implementsInterface>
     </cgClass>
-    <cgClass isPropertyChangeSupported="true">
+    <cgClass propertyChangeSupported="true">
         <commentLine>Provides a default candidate for a decision making application.</commentLine>
         <modifiers>public</modifiers>
         <name>DefaultCandidate</name>
@@ -177,7 +177,7 @@
         <extendsType>org.rivalry.core.model.DefaultEntity</extendsType>
         <implementsInterface>org.rivalry.core.model.Category</implementsInterface>
     </cgClass>
-    <cgClass isPropertyChangeSupported="true">
+    <cgClass propertyChangeSupported="true">
         <commentLine>Provides a default criterion for a decision making application.</commentLine>
         <modifiers>public</modifiers>
         <name>DefaultCriterion</name>
