@@ -18,50 +18,34 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataCollector;
-import org.rivalry.core.datacollector.DefaultDataCollector;
-import org.rivalry.core.datacollector.DefaultNameStringParser;
-import org.rivalry.core.datacollector.DefaultValueStringParser;
-import org.rivalry.core.datacollector.NameStringParser;
-import org.rivalry.core.datacollector.ValueStringParser;
+import org.rivalry.core.datacollector.DataCollectorInjector;
+import org.rivalry.core.datacollector.DefaultDataCollectorInjector;
 import org.rivalry.core.datacollector.io.DCSpecReader;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Category;
 import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.DefaultCandidate;
-import org.rivalry.core.model.DefaultCategoryProvider;
-import org.rivalry.core.model.DefaultCriterionProvider;
 import org.rivalry.core.model.RivalryData;
-import org.rivalry.core.util.Provider;
 
 /**
  * Provides tests for the <code>DefaultDataCollector</code> class.
  */
 public class DefaultDataCollectorTest
 {
-    /** Category provider. */
-    private final Provider<Category> _categoryProvider = new DefaultCategoryProvider();
-
-    /** Criterion provider. */
-    private final Provider<Criterion> _criterionProvider = new DefaultCriterionProvider();
-
     /** Data collector. */
     private DataCollector _dataCollector;
 
     /** Data collector specification. */
     private DCSpec _dcSpec;
 
-    /** Best place value string processor. */
-    private final NameStringParser _nameStringParser = new DefaultNameStringParser();
-
-    /** Best place value string processor. */
-    private final ValueStringParser _valueStringParser = new DefaultValueStringParser();
-
     /**
      * Test the <code>fetchData()</code> method.
      */
+    @Ignore
     @Test
     public void fetchDataDenverColorado()
     {
@@ -80,7 +64,7 @@ public class DefaultDataCollectorTest
                 + 8 // Education
                 + 4 // Health
                 + 29 // Housing
-                // + 10 // People
+                + 10 // People
                 + 13 // Religion
                 + 10 // Transportation
                 + 3 // Voting
@@ -132,7 +116,7 @@ public class DefaultDataCollectorTest
         // People
         final Double[] peopleValues = { 612193.0, 3894.0, 0.1031, 37.1,
                 258139.0, 2.32, 0.5064, 0.4936, 0.3700, 0.6300, };
-        // verifyPeople(candidate, rivalryData, peopleValues);
+        verifyPeople(candidate, rivalryData, peopleValues);
 
         // Religion
         final Double[] religionValues = { 0.5083, 0.2739, 0.0061, 0.0362,
@@ -153,6 +137,7 @@ public class DefaultDataCollectorTest
     /**
      * Test the <code>fetchData()</code> method.
      */
+    @Ignore
     @Test
     public void fetchDataPortlandOregon()
     {
@@ -243,8 +228,8 @@ public class DefaultDataCollectorTest
     @Before
     public void setUp()
     {
-        _dataCollector = new DefaultDataCollector(_nameStringParser,
-                _valueStringParser, _categoryProvider, _criterionProvider);
+        final DataCollectorInjector injector = new DefaultDataCollectorInjector();
+        _dataCollector = injector.injectDataCollector();
 
         _dcSpec = readDcSpec();
     }
