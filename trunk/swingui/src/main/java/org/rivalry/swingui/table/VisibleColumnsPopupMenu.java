@@ -145,10 +145,10 @@ public class VisibleColumnsPopupMenu extends JPopupMenu
     {
         _tableModel = tableModel;
 
-        if (rivalryData.getCategoriesList().isEmpty())
+        if (rivalryData.getCategories().isEmpty())
         {
             // Just add all the criteria.
-            addMenuItems(this, rivalryData.getCriteriaList());
+            addMenuItems(this, rivalryData.getCriteria());
         }
         else
         {
@@ -157,7 +157,7 @@ public class VisibleColumnsPopupMenu extends JPopupMenu
             addSeparator();
 
             // Add each category's criteria as a submenu.
-            for (final Category category : rivalryData.getCategoriesList())
+            for (final Category category : rivalryData.getCategories())
             {
                 final JMenu menu = createMenu(category);
                 add(menu);

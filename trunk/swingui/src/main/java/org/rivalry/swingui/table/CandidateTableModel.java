@@ -91,7 +91,7 @@ public class CandidateTableModel extends AbstractTableModel
         answer++;
 
         // Add criteria count.
-        answer += _rivalryData.getCriteriaList().size();
+        answer += _rivalryData.getCriteria().size();
 
         return answer;
     }
@@ -121,7 +121,7 @@ public class CandidateTableModel extends AbstractTableModel
     @Override
     public int getRowCount()
     {
-        return _rivalryData.getCandidatesList().size();
+        return _rivalryData.getCandidates().size();
     }
 
     @Override
@@ -161,7 +161,7 @@ public class CandidateTableModel extends AbstractTableModel
      */
     public void recomputeCandidateScores()
     {
-        final List<Candidate> candidates = _rivalryData.getCandidatesList();
+        final List<Candidate> candidates = _rivalryData.getCandidates();
         _candidateScores = _fitnessProcessor
                 .computeCandidateFitness(candidates);
         fireTableDataChanged();
@@ -174,7 +174,7 @@ public class CandidateTableModel extends AbstractTableModel
      */
     private Candidate getCandidate(final int rowIndex)
     {
-        return _rivalryData.getCandidatesList().get(rowIndex);
+        return _rivalryData.getCandidates().get(rowIndex);
     }
 
     /**
@@ -186,6 +186,6 @@ public class CandidateTableModel extends AbstractTableModel
     {
         final int index = columnIndex - 2;
 
-        return _rivalryData.getCriteriaList().get(index);
+        return _rivalryData.getCriteria().get(index);
     }
 }

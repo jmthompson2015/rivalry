@@ -137,7 +137,7 @@ public class RivalryMainPanel extends JSplitPane
 
         final SortTablePanel criterionSortTablePanel;
 
-        if (rivalryData.getCategoriesList().isEmpty())
+        if (rivalryData.getCategories().isEmpty())
         {
             // There are no categories, so hide the category column.
             final VisibleColumnsTableModel vcTableModel = new VisibleColumnsTableModel(

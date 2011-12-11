@@ -123,7 +123,7 @@ public class CriterionTableModel extends AbstractTableModel
     @Override
     public int getRowCount()
     {
-        return _rivalryData.getCriteriaList().size();
+        return _rivalryData.getCriteria().size();
     }
 
     @Override
@@ -187,6 +187,6 @@ public class CriterionTableModel extends AbstractTableModel
      */
     private Criterion getCriterion(final int rowIndex)
     {
-        return _rivalryData.getCriteriaList().get(rowIndex);
+        return _rivalryData.getCriteria().get(rowIndex);
     }
 }
