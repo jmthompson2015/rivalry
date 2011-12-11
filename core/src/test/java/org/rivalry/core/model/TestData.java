@@ -127,11 +127,9 @@ public class TestData
     {
         final RivalryData answer = new RivalryData();
 
-        answer.getCategoriesList().addAll(createCategories());
-        answer.getCriteriaList().addAll(
-                createCriteria(answer.getCategoriesList()));
-        answer.getCandidatesList().addAll(
-                createCandidates(answer.getCriteriaList()));
+        answer.getCategories().addAll(createCategories());
+        answer.getCriteria().addAll(createCriteria(answer.getCategories()));
+        answer.getCandidates().addAll(createCandidates(answer.getCriteria()));
 
         return answer;
     }

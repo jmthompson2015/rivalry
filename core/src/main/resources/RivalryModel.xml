@@ -162,21 +162,17 @@
         <name>RivalryData</name>
         <packageName>org.rivalry.core.model</packageName>
         <property>
-            <name>dirty</name>
-            <type>boolean</type>
-        </property>
-        <property>
-            <name>candidatesList</name>
+            <name>candidates</name>
             <type>List&lt;org.rivalry.core.model.Candidate&gt;</type>
             <initialValue>new ArrayList&lt;org.rivalry.core.model.Candidate&gt;()</initialValue>
         </property>
         <property>
-            <name>categoriesList</name>
+            <name>categories</name>
             <type>List&lt;org.rivalry.core.model.Category&gt;</type>
             <initialValue>new ArrayList&lt;org.rivalry.core.model.Category&gt;()</initialValue>
         </property>
         <property>
-            <name>criteriaList</name>
+            <name>criteria</name>
             <type>List&lt;org.rivalry.core.model.Criterion&gt;</type>
             <initialValue>new ArrayList&lt;org.rivalry.core.model.Criterion&gt;()</initialValue>
         </property>
@@ -184,13 +180,6 @@
             <modifiers>public</modifiers>
             <name>placeholder</name>
         </methodExemplar>
-        <method>
-            <commentLine>Clear data.</commentLine>
-            <name>clear</name>
-            <methodBodyLine>_candidatesList.clear();</methodBodyLine>
-            <methodBodyLine>_categoriesList.clear();</methodBodyLine>
-            <methodBodyLine>_criteriaList.clear();</methodBodyLine>
-        </method>
         <method>
             <referencedType>org.apache.commons.lang.StringUtils</referencedType>
             <commentLine>@param name Name.</commentLine>
@@ -206,7 +195,7 @@
             <methodBodyLine>Candidate answer = null;</methodBodyLine>
             <methodBodyLine>if (StringUtils.isNotEmpty(name))</methodBodyLine>
             <methodBodyLine>{</methodBodyLine>
-            <methodBodyLine>List&lt;Candidate&gt; candidates = getCandidatesList();</methodBodyLine>
+            <methodBodyLine>List&lt;Candidate&gt; candidates = getCandidates();</methodBodyLine>
             <methodBodyLine>int size = candidates.size();</methodBodyLine>
             <methodBodyLine>for (int i=0; answer==null &amp;&amp; i&lt;size; i++)</methodBodyLine>
             <methodBodyLine>{</methodBodyLine>
@@ -235,7 +224,7 @@
             <methodBodyLine>Category answer = null;</methodBodyLine>
             <methodBodyLine>if (StringUtils.isNotEmpty(name))</methodBodyLine>
             <methodBodyLine>{</methodBodyLine>
-            <methodBodyLine>List&lt;Category&gt; categories = getCategoriesList();</methodBodyLine>
+            <methodBodyLine>List&lt;Category&gt; categories = getCategories();</methodBodyLine>
             <methodBodyLine>int size = categories.size();</methodBodyLine>
             <methodBodyLine>for (int i=0; answer==null &amp;&amp; i&lt;size; i++)</methodBodyLine>
             <methodBodyLine>{</methodBodyLine>
@@ -263,7 +252,7 @@
             <methodBodyLine>List&lt;Criterion&gt; answer = new ArrayList&lt;Criterion&gt;();</methodBodyLine>
             <methodBodyLine>if (category != null)</methodBodyLine>
             <methodBodyLine>{</methodBodyLine>
-            <methodBodyLine>List&lt;Criterion&gt; criteria = getCriteriaList();</methodBodyLine>
+            <methodBodyLine>List&lt;Criterion&gt; criteria = getCriteria();</methodBodyLine>
             <methodBodyLine>int size = criteria.size();</methodBodyLine>
             <methodBodyLine>for (int i=0; i&lt;size; i++)</methodBodyLine>
             <methodBodyLine>{</methodBodyLine>
@@ -292,7 +281,7 @@
             <methodBodyLine>Criterion answer = null;</methodBodyLine>
             <methodBodyLine>if (StringUtils.isNotEmpty(name))</methodBodyLine>
             <methodBodyLine>{</methodBodyLine>
-            <methodBodyLine>List&lt;Criterion&gt; criteria = getCriteriaList();</methodBodyLine>
+            <methodBodyLine>List&lt;Criterion&gt; criteria = getCriteria();</methodBodyLine>
             <methodBodyLine>int size = criteria.size();</methodBodyLine>
             <methodBodyLine>for (int i=0; answer==null &amp;&amp; i&lt;size; i++)</methodBodyLine>
             <methodBodyLine>{</methodBodyLine>
@@ -305,12 +294,6 @@
             <methodBodyLine>}</methodBodyLine>
             <methodBodyLine></methodBodyLine>
             <methodBodyLine>return answer;</methodBodyLine>
-        </method>
-        <method>
-            <commentLine>@return  a categories array. Manipulation of the returned array has no effect on data held by this object.</commentLine>
-            <name>getCandidatesArray</name>
-            <returnType>org.rivalry.core.model.Candidate[]</returnType>
-            <methodBodyLine>return _candidatesList.toArray(new Candidate[] {});</methodBodyLine>
         </method>
     </cgClass>
 </tns:CGSpec>

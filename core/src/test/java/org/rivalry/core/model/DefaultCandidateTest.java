@@ -19,7 +19,7 @@ public class DefaultCandidateTest
     {
         final TestData testData = new TestData();
         final RivalryData rivalryData = testData.createRivalryData();
-        final Candidate candidate0 = rivalryData.getCandidatesList().get(0);
+        final Candidate candidate0 = rivalryData.getCandidates().get(0);
 
         final Criterion criterionA0 = rivalryData.findCriterionByName("a");
         assertNotNull(criterionA0);

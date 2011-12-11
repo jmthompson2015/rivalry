@@ -28,8 +28,8 @@ public class DefaultDataPostProcessor implements DataPostProcessor
     @Override
     public void postProcess(final RivalryData rivalryData)
     {
-        final List<Candidate> candidates = rivalryData.getCandidatesList();
-        final List<Criterion> criteria = rivalryData.getCriteriaList();
+        final List<Candidate> candidates = rivalryData.getCandidates();
+        final List<Criterion> criteria = rivalryData.getCriteria();
 
         final MinFunction<Double> minFunction = new MinFunction<Double>();
         final MaxFunction<Double> maxFunction = new MaxFunction<Double>();

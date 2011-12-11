@@ -34,7 +34,7 @@ public class WeightedSumFitnessFunctionTest
     @Test
     public void computeFitness0()
     {
-        final Candidate candidate = _rivalryData.getCandidatesList().get(0);
+        final Candidate candidate = _rivalryData.getCandidates().get(0);
         final Double result = _fitnessFunction.computeFitness(candidate);
         assertNotNull(result);
         assertThat(result, is(7.4));
@@ -46,7 +46,7 @@ public class WeightedSumFitnessFunctionTest
     @Test
     public void computeFitness1()
     {
-        final Candidate candidate = _rivalryData.getCandidatesList().get(1);
+        final Candidate candidate = _rivalryData.getCandidates().get(1);
         Double result = _fitnessFunction.computeFitness(candidate);
         assertNotNull(result);
         result = Math.round(result * 100.0) / 100.0;
@@ -59,7 +59,7 @@ public class WeightedSumFitnessFunctionTest
     @Test
     public void computeFitness2()
     {
-        final Candidate candidate = _rivalryData.getCandidatesList().get(2);
+        final Candidate candidate = _rivalryData.getCandidates().get(2);
         final Double result = _fitnessFunction.computeFitness(candidate);
         assertNotNull(result);
         assertThat(result, is(19.4));
@@ -82,7 +82,7 @@ public class WeightedSumFitnessFunctionTest
     @Before
     public void setUp()
     {
-        final List<Criterion> criteria = _rivalryData.getCriteriaList();
+        final List<Criterion> criteria = _rivalryData.getCriteria();
         _fitnessFunction = _testData.createWeightedSumFitnessFunction(criteria);
     }
 }
