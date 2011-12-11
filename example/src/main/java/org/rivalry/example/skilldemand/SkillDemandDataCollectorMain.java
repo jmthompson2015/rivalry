@@ -91,7 +91,7 @@ public class SkillDemandDataCollectorMain
             }
 
             System.out.println("candidates.size() = "
-                    + rivalryData.getCandidatesList().size());
+                    + rivalryData.getCandidates().size());
             dataCollector.fetchData(dcSpec, username, password, rivalryData);
 
             final String outputFile = determineOutputFile(commandLine);
@@ -180,7 +180,7 @@ public class SkillDemandDataCollectorMain
     private void createCandidates(final List<String> keywords,
             final RivalryData rivalryData)
     {
-        final List<Candidate> candidates = rivalryData.getCandidatesList();
+        final List<Candidate> candidates = rivalryData.getCandidates();
 
         for (final String keyword : keywords)
         {

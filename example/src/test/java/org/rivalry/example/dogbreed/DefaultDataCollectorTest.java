@@ -142,16 +142,16 @@ public class DefaultDataCollectorTest
 
         _dataCollector.fetchData(_dcSpec, rivalryData, candidate);
 
-        assertNotNull(rivalryData.getCandidatesList());
-        assertNotNull(rivalryData.getCategoriesList());
-        assertNotNull(rivalryData.getCriteriaList());
-        assertThat(rivalryData.getCandidatesList().size(), is(1));
-        assertThat(rivalryData.getCategoriesList().size(), is(0));
-        assertThat(rivalryData.getCriteriaList().size(), is(25));
+        assertNotNull(rivalryData.getCandidates());
+        assertNotNull(rivalryData.getCategories());
+        assertNotNull(rivalryData.getCriteria());
+        assertThat(rivalryData.getCandidates().size(), is(1));
+        assertThat(rivalryData.getCategories().size(), is(0));
+        assertThat(rivalryData.getCriteria().size(), is(25));
 
         if (_isVerbose)
         {
-            for (final Criterion criterion : rivalryData.getCriteriaList())
+            for (final Criterion criterion : rivalryData.getCriteria())
             {
                 System.out.println("criterion = [" + criterion.getName() + "]");
             }
