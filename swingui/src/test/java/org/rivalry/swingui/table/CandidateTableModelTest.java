@@ -91,7 +91,7 @@ public class CandidateTableModelTest
         final TestData testData = new TestData();
         final RivalryData rivalryData = testData.createRivalryData();
         final FitnessFunction fitnessFunction = testData
-                .createWeightedSumFitnessFunction(rivalryData.getCriteriaList());
+                .createWeightedSumFitnessFunction(rivalryData.getCriteria());
         _tableModel = new CandidateTableModel(rivalryData, fitnessFunction);
     }
 }
