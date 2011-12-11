@@ -87,36 +87,6 @@
             </parameter>
         </method>
     </cgInterface>
-    <cgInterface>
-        <commentLine>Defines methods required by a candidate data processor.</commentLine>
-        <name>CandidateDataProcessor</name>
-        <packageName>org.rivalry.core.datacollector</packageName>
-        <method>
-            <commentLine>Fetch information for the given candidate name, and add it to the given rivalry data.</commentLine>
-            <commentLine></commentLine>
-            <commentLine>@param  rivalryData  Rivalry data.</commentLine>
-            <commentLine>@param  candidate   Candidate.</commentLine>
-            <name>fetchInformation</name>
-            <parameter>
-                <name>rivalryData</name>
-                <type>org.rivalry.core.model.RivalryData</type>
-            </parameter>
-            <parameter>
-                <name>candidate</name>
-                <type>org.rivalry.core.model.Candidate</type>
-            </parameter>
-        </method>
-    </cgInterface>
-    <cgInterface>
-        <commentLine>Defines methods required by a candidate name processor.</commentLine>
-        <name>CandidateNameProcessor</name>
-        <packageName>org.rivalry.core.datacollector</packageName>
-        <method>
-            <commentLine>@return  candidate names.</commentLine>
-            <name>fetchInformation</name>
-            <returnType>List&lt;org.rivalry.core.model.Candidate&gt;</returnType>
-        </method>
-    </cgInterface>
     <cgClass propertyChangeSupported="true">
         <commentLine>Provides a default entity for a decision making application.</commentLine>
         <modifiers>abstract</modifiers>
