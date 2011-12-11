@@ -110,7 +110,7 @@ public class DefaultReporter implements Reporter
     {
         final List<Candidate> answer = new ArrayList<Candidate>();
 
-        answer.addAll(_rivalryData.getCandidatesList());
+        answer.addAll(_rivalryData.getCandidates());
         final Comparator<Candidate> comparator = new CandidateRatingComparator(
                 criterion);
         Collections.sort(answer, comparator);
@@ -155,8 +155,8 @@ public class DefaultReporter implements Reporter
         final String columnFormat0 = " %" + columnWidth + "s";
         final String columnFormat1 = " %," + columnWidth + ".0f";
 
-        final List<Candidate> candidates = _rivalryData.getCandidatesList();
-        final List<Criterion> criteria = _rivalryData.getCriteriaList();
+        final List<Candidate> candidates = _rivalryData.getCandidates();
+        final List<Criterion> criteria = _rivalryData.getCriteria();
 
         writeLine(String.format(labelFormat + columnFormat0 + columnFormat0
                 + columnFormat0, "Candidates", candidates.get(0).getName(),
@@ -184,7 +184,7 @@ public class DefaultReporter implements Reporter
      */
     private void writeCriterionCandidateReport()
     {
-        final List<Criterion> criteria = _rivalryData.getCriteriaList();
+        final List<Criterion> criteria = _rivalryData.getCriteria();
 
         for (final Criterion criterion : criteria)
         {

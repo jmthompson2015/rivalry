@@ -99,7 +99,7 @@ public class DefaultDataCollector implements DataCollector
 
         try
         {
-            for (final Candidate candidate : rivalryData.getCandidatesList())
+            for (final Candidate candidate : rivalryData.getCandidates())
             {
                 fetchData(webDriver, dcSpec, rivalryData, candidate);
             }
@@ -367,10 +367,9 @@ public class DefaultDataCollector implements DataCollector
             final List<String> names = createNames(parent, selector0, size);
             LOGGER.debug("names = " + names);
 
-            if (size > 0
-                    && !rivalryData.getCandidatesList().contains(candidate))
+            if (size > 0 && !rivalryData.getCandidates().contains(candidate))
             {
-                rivalryData.getCandidatesList().add(candidate);
+                rivalryData.getCandidates().add(candidate);
             }
 
             Category category = null;
@@ -397,7 +396,7 @@ public class DefaultDataCollector implements DataCollector
                 if (category == null)
                 {
                     category = createCategory(categoryName);
-                    rivalryData.getCategoriesList().add(category);
+                    rivalryData.getCategories().add(category);
                 }
             }
 
@@ -415,7 +414,7 @@ public class DefaultDataCollector implements DataCollector
                     if (criterion == null)
                     {
                         criterion = createCriterion(criterionName, category);
-                        rivalryData.getCriteriaList().add(criterion);
+                        rivalryData.getCriteria().add(criterion);
                     }
 
                     final Double value = getValueStringParser().parse(
