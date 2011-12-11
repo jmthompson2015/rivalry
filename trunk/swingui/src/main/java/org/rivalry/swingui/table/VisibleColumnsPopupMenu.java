@@ -35,16 +35,16 @@ public class VisibleColumnsPopupMenu extends JPopupMenu
     /**
      * Provides an action to set selection of all items in a menu.
      */
-    private static class SelectAllAction extends AbstractAction
+    private class SelectAllAction extends AbstractAction
     {
         /** Serial version UID. */
         private static final long serialVersionUID = 1L;
 
-        /** Menu. */
-        private final JComponent _menu;
-
         /** Flag indicating whether the items should be selected. */
         private final boolean _isSelected;
+
+        /** Menu. */
+        private final JComponent _menu;
 
         /**
          * Construct this object with the given parameters.
@@ -122,7 +122,10 @@ public class VisibleColumnsPopupMenu extends JPopupMenu
                 final JCheckBoxMenuItem checkBox = (JCheckBoxMenuItem)component;
                 if (checkBox.isSelected() != _isSelected)
                 {
-                    checkBox.doClick();
+                    final String columnName = checkBox.getText();
+                    final boolean isVisible = _isSelected;
+                    setColumnVisible(columnName, isVisible);
+                    checkBox.setSelected(isVisible);
                 }
             }
         }
@@ -196,6 +199,16 @@ public class VisibleColumnsPopupMenu extends JPopupMenu
     }
 
     /**
+     * @param columnName Column name.
+     * @param isVisible Flag indicating if the column should be visible.
+     */
+    void setColumnVisible(final String columnName, final boolean isVisible)
+    {
+        final int absoluteColumnIndex = determineColumnIndex(columnName);
+        _tableModel.setColumnVisible(absoluteColumnIndex, isVisible);
+    }
+
+    /**
      * @param menu Menu.
      * 
      * @param criteria Criteria.
@@ -221,11 +234,9 @@ public class VisibleColumnsPopupMenu extends JPopupMenu
     }
 
     /**
-     * @param criterion Criterion.
-     * 
      * @return a new action listener.
      */
-    private ActionListener createActionListener(final Criterion criterion)
+    private ActionListener createActionListener()
     {
         return new ActionListener()
         {
@@ -235,13 +246,10 @@ public class VisibleColumnsPopupMenu extends JPopupMenu
                 final JCheckBoxMenuItem source = (JCheckBoxMenuItem)event
                         .getSource();
 
-                // Determine which column to change.
-                final String columnName = source.getText();
-                final int absoluteColumnIndex = determineColumnIndex(columnName);
-
                 // Change the column visibility in the table model.
+                final String columnName = source.getText();
                 final boolean isVisible = source.isSelected();
-                _tableModel.setColumnVisible(absoluteColumnIndex, isVisible);
+                setColumnVisible(columnName, isVisible);
             }
         };
     }
@@ -269,7 +277,7 @@ public class VisibleColumnsPopupMenu extends JPopupMenu
                 criterion.getName());
 
         answer.setSelected(true);
-        answer.addActionListener(createActionListener(criterion));
+        answer.addActionListener(createActionListener());
 
         return answer;
     }
