@@ -39,12 +39,21 @@ public class WeightedSumFitnessFunction implements FitnessFunction
 
             for (final Criterion criterion : criteria)
             {
+                final Double min = criterion.getMinimumRating();
+                final Double max = criterion.getMaximumRating();
                 final Double rating = candidate.getRating(criterion);
                 final Integer weight = _criterionWeight.get(criterion);
 
                 if (rating != null && weight != null)
                 {
-                    answer += rating * weight;
+                    if (min != null && max != null)
+                    {
+                        answer += weight * (rating - min) / (max - min);
+                    }
+                    else
+                    {
+                        answer += rating * weight;
+                    }
                 }
             }
         }
