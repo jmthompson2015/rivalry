@@ -55,9 +55,9 @@ public class DefaultDataCollectorTest
 
         _dataCollector.fetchData(_dcSpec, rivalryData, candidate);
 
-        assertThat(rivalryData.getCandidatesList().size(), is(1));
-        assertThat(rivalryData.getCategoriesList().size(), is(11));
-        assertThat(rivalryData.getCriteriaList().size(), is(9 // Climate
+        assertThat(rivalryData.getCandidates().size(), is(1));
+        assertThat(rivalryData.getCategories().size(), is(11));
+        assertThat(rivalryData.getCriteria().size(), is(9 // Climate
                 + 4 // Cost of Living
                 + 2 // Crime
                 + 24 // Economy
@@ -147,9 +147,9 @@ public class DefaultDataCollectorTest
 
         _dataCollector.fetchData(_dcSpec, rivalryData, candidate);
 
-        assertThat(rivalryData.getCandidatesList().size(), is(1));
-        assertThat(rivalryData.getCategoriesList().size(), is(11));
-        assertThat(rivalryData.getCriteriaList().size(), is(9 // Climate
+        assertThat(rivalryData.getCandidates().size(), is(1));
+        assertThat(rivalryData.getCategories().size(), is(11));
+        assertThat(rivalryData.getCriteria().size(), is(9 // Climate
                 + 4 // Cost of Living
                 + 2 // Crime
                 + 24 // Economy

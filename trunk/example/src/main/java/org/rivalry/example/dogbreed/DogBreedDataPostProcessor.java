@@ -27,7 +27,7 @@ public class DogBreedDataPostProcessor implements DataPostProcessor
         final Double minRating = 1.0;
         final Double maxRating = 5.0;
 
-        final List<Criterion> criteria = rivalryData.getCriteriaList();
+        final List<Criterion> criteria = rivalryData.getCriteria();
 
         for (final Criterion criterion : criteria)
         {
