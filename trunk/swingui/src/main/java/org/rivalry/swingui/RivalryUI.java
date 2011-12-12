@@ -11,8 +11,10 @@ package org.rivalry.swingui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -33,15 +35,18 @@ import org.slf4j.LoggerFactory;
  */
 public class RivalryUI extends JPanel
 {
-    /** Serial version UID. */
-    private static final long serialVersionUID = 1L;
+    /** Base location of data files. */
+    private final static String _fileLocation = "http://dl.dropbox.com/u/1267954/rivalry/";
+
+    /** Frame. */
+    private static JFrame _frame;
 
     /** Logger. */
     private static final Logger LOGGER = LoggerFactory
             .getLogger(RivalryUI.class);
 
-    /** Frame. */
-    private static JFrame _frame;
+    /** Serial version UID. */
+    private static final long serialVersionUID = 1L;
 
     /**
      * @return the frame
@@ -113,21 +118,27 @@ public class RivalryUI extends JPanel
     }
 
     /**
-     * @param inputFile Input file.
+     * @param inputFilename Input filename.
      * 
      * @return rivalry data.
      */
-    RivalryData readRivalryData(final String inputFile)
+    RivalryData readRivalryData(final String inputFilename)
     {
         RivalryData answer = null;
 
         try
         {
+            final URL fileLocation = new URL(_fileLocation + inputFilename);
+            final InputStream inputStream = fileLocation.openStream();
+            final InputStreamReader reader = new InputStreamReader(inputStream);
             final RivalryDataReader rivalryDataReader = new RivalryDataReader();
-            final FileReader reader = new FileReader(inputFile);
             answer = rivalryDataReader.read(reader);
         }
-        catch (final FileNotFoundException e)
+        catch (final MalformedURLException e)
+        {
+            handleException(e);
+        }
+        catch (final IOException e)
         {
             handleException(e);
         }
