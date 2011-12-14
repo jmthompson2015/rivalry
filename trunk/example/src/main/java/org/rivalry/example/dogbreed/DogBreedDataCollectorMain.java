@@ -9,15 +9,13 @@
 package org.rivalry.example.dogbreed;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -27,13 +25,11 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
-import org.apache.commons.lang.StringUtils;
 import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataCollector;
 import org.rivalry.core.datacollector.io.DCSpecReader;
-import org.rivalry.core.model.Candidate;
-import org.rivalry.core.model.DefaultCandidate;
 import org.rivalry.core.model.RivalryData;
+import org.rivalry.core.model.RivalryDataReader;
 import org.rivalry.core.model.RivalryDataWriter;
 
 /**
@@ -72,8 +68,7 @@ public class DogBreedDataCollectorMain
             final String password = null;
             final RivalryData rivalryData = injector.injectRivalryData();
 
-            final List<String> keywords = main.getKeywords();
-            main.createCandidates(dcSpec, keywords, rivalryData);
+            main.readCandidates(rivalryData);
 
             System.out.println("candidates.size() = "
                     + rivalryData.getCandidates().size());
@@ -143,39 +138,6 @@ public class DogBreedDataCollectorMain
     }
 
     /**
-     * @param name Name.
-     * @param url URL.
-     * 
-     * @return a new candidate.
-     */
-    private Candidate createCandidate(final String name, final String url)
-    {
-        final Candidate answer = new DefaultCandidate();
-
-        answer.setName(name);
-        answer.setPage(url);
-
-        return answer;
-    }
-
-    /**
-     * @param dcSpec Data collector specification.
-     * @param keywords Keywords.
-     * @param rivalryData Rivalry data.
-     */
-    private void createCandidates(final DCSpec dcSpec,
-            final List<String> keywords, final RivalryData rivalryData)
-    {
-        final List<Candidate> candidates = rivalryData.getCandidates();
-
-        for (final String keyword : keywords)
-        {
-            final String url = createUrl(dcSpec, keyword);
-            candidates.add(createCandidate(keyword, url));
-        }
-    }
-
-    /**
      * @return a new data collector specification.
      */
     private DCSpec createDCSpec()
@@ -190,56 +152,22 @@ public class DogBreedDataCollectorMain
     }
 
     /**
-     * @param dcSpec Data collector specification.
-     * @param keyword Search keyword.
-     * 
-     * @return URL.
+     * @param rivalryData Rivalry data.
      */
-    private String createUrl(final DCSpec dcSpec, final String keyword)
+    private void readCandidates(final RivalryData rivalryData)
     {
-        String answer = null;
-
-        if (StringUtils.isNotEmpty(keyword))
+        final RivalryDataReader rdReader = new RivalryDataReader();
+        try
         {
-            String myKeyword = null;
-            try
-            {
-                myKeyword = URLEncoder.encode(keyword, "UTF-8");
-            }
-            catch (final UnsupportedEncodingException ignore)
-            {
-                // Nothing to do.
-            }
+            final Reader reader = new FileReader("DogBreedCandidates.xml");
+            final RivalryData rivalryData0 = rdReader.read(reader);
 
-            final String url = dcSpec.getUrl();
-            // System.out.println("url = [" + url + "]");
-            // System.out.println("myKeyword" + myKeyword + "]");
-            answer = url.replaceAll("\\$1", myKeyword);
-            // System.out.println("answer = [" + answer + "]");
+            rivalryData.getCandidates().addAll(rivalryData0.getCandidates());
         }
-
-        return answer;
-    }
-
-    /**
-     * @return Search keywords.
-     */
-    private List<String> getKeywords()
-    {
-        final List<String> answer = new ArrayList<String>();
-
-        answer.add("basenji");
-        answer.add("beagle");
-        answer.add("boston-terrier");
-        answer.add("bulldog");
-        answer.add("canaan-dog");
-        answer.add("dachshund");
-        answer.add("french-bulldog");
-        answer.add("german-shepherd-dog");
-        answer.add("pug");
-        answer.add("shiba-inu");
-
-        return answer;
+        catch (final FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
