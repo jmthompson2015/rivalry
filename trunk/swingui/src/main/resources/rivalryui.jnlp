@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="http://dl.dropbox.com/u/1267954/rivalry">
+	<information>
+		<title>Rivalry UI</title>
+		<vendor>Rivalry.org</vendor>
+		<description>Rivalry UI</description>
+	</information>
+	<offline-allowed />
+	<security>
+		<all-permissions />
+	</security>
+	<resources>
+		<j2se version="1.6+" />
+		<jar href="RivalryUI.jar" />
+	</resources>
+	<application-desc main-class="org.rivalry.swingui.RivalryUI" />
+</jnlp>
