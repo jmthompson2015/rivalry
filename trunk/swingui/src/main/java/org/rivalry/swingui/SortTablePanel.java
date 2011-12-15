@@ -21,15 +21,14 @@ import javax.swing.RowSorter;
 import javax.swing.table.TableModel;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.rivalry.swingui.table.ColumnNameToolTipTable;
 
 /**
  * Provides a sort table panel.
  * <ul>
- * <li>TODO Add column header text as tool tip</li>
  * <li>TODO Add decimal number format for weight and score columns</li>
  * <li>TODO Alternate table row colors</li>
  * <li>TODO Center column header text?</li>
- * <li>TODO Optionally control visible columns</li>
  * </ul>
  */
 public class SortTablePanel extends JPanel
@@ -132,7 +131,7 @@ public class SortTablePanel extends JPanel
      */
     private JTable createTable(final TableModel tableModel)
     {
-        final JTable answer = new JTable(tableModel);
+        final JTable answer = new ColumnNameToolTipTable(tableModel);
 
         answer.setAutoCreateRowSorter(true);
         answer.setGridColor(Color.GRAY);
