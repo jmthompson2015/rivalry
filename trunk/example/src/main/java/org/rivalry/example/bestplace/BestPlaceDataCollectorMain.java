@@ -29,7 +29,6 @@ import org.apache.commons.lang.StringUtils;
 import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataCollector;
 import org.rivalry.core.datacollector.DataCollectorInjector;
-import org.rivalry.core.datacollector.DefaultDataCollectorInjector;
 import org.rivalry.core.datacollector.io.DCSpecReader;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.DefaultCandidate;
@@ -62,7 +61,7 @@ public class BestPlaceDataCollectorMain
         }
         else
         {
-            final DataCollectorInjector injector = new DefaultDataCollectorInjector();
+            final DataCollectorInjector injector = new BestPlaceInjector();
             final DataCollector dataCollector = injector.injectDataCollector();
 
             final BestPlaceDataCollectorMain main = new BestPlaceDataCollectorMain();
