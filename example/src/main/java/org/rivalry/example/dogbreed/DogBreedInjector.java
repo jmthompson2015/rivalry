@@ -11,6 +11,7 @@ package org.rivalry.example.dogbreed;
 import org.rivalry.core.datacollector.DataPostProcessor;
 import org.rivalry.core.datacollector.DefaultDataCollectorInjector;
 import org.rivalry.core.datacollector.ValueStringParser;
+import org.rivalry.core.model.RivalryData;
 
 /**
  * Provides a data collector injector for dog breeds.
@@ -21,6 +22,17 @@ public class DogBreedInjector extends DefaultDataCollectorInjector
     public DataPostProcessor injectDataPostProcessor()
     {
         return new DogBreedDataPostProcessor();
+    }
+
+    @Override
+    public RivalryData injectRivalryData()
+    {
+        final RivalryData answer = super.injectRivalryData();
+
+        answer.setDescription("Dog breed data \u00A9 2011 DogTime Inc. All rights reserved. Used without permission.");
+        answer.setPreferencePrefix("dogBreed");
+
+        return answer;
     }
 
     @Override
