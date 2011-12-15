@@ -54,6 +54,14 @@ public class RivalryMainPanel extends JSplitPane
     }
 
     /**
+     * @return rivalryData
+     */
+    public RivalryData getRivalryData()
+    {
+        return _criterionTableModel.getRivalryData();
+    }
+
+    /**
      * @param rivalryData Rivalry data.
      * @param fitnessFunction Fitness function.
      * 

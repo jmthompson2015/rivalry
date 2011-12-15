@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
+import org.apache.commons.lang.StringUtils;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.RivalryDataReader;
 import org.slf4j.Logger;
@@ -95,6 +97,27 @@ public class RivalryUI extends JPanel
     }
 
     /**
+     * @param imageLocation Image location.
+     * @param altText Alternate text.
+     * 
+     * @return a new image icon.
+     */
+    ImageIcon createImageIcon(final String imageLocation, final String altText)
+    {
+        ImageIcon answer = null;
+
+        final URL imageUrl = getClass().getClassLoader().getResource(
+                imageLocation);
+
+        if (imageUrl != null)
+        {
+            answer = new ImageIcon(imageUrl, altText);
+        }
+
+        return answer;
+    }
+
+    /**
      * @param rivalryData Rivalry data.
      * 
      * @return a new Rivalry main panel.
@@ -147,6 +170,42 @@ public class RivalryUI extends JPanel
     }
 
     /**
+     * @return a new about action listener.
+     */
+    private ActionListener createAboutActionListener()
+    {
+        return new ActionListener()
+        {
+            @Override
+            public void actionPerformed(final ActionEvent e)
+            {
+                final String description0 = "Rivalry is a comparison tool.";
+
+                final String description1 = "\n\nFor more information or to contribute, please see the open source project site at http://code.google.com/p/rivalry/"
+                        + "\n\nCopyright \u00A9 2011 Rivalry.org. All rights reserved.\n\n";
+
+                final RivalryData rivalryData = _rivalryMainPanel
+                        .getRivalryData();
+                String description2 = rivalryData.getDescription();
+                if (StringUtils.isEmpty(description2))
+                {
+                    description2 = "";
+                }
+
+                final String description = description0 + description1
+                        + description2;
+
+                final String title = "About Rivalry";
+                final Icon icon = createImageIcon("images/crossedSabres64.png",
+                        "Rivalry.org");
+
+                JOptionPane.showMessageDialog(getFrame(), description, title,
+                        JOptionPane.INFORMATION_MESSAGE, icon);
+            }
+        };
+    }
+
+    /**
      * @return a new best place action listener.
      */
     private ActionListener createBestPlaceActionListener()
@@ -175,7 +234,7 @@ public class RivalryUI extends JPanel
             final ActionListener actionListener)
     {
         // Look for the image.
-        final String imgLocation = "images/" + imageName + ".png";
+        final String imgLocation = "images/" + imageName;
         final URL imageURL = getClass().getClassLoader().getResource(
                 imgLocation);
 
@@ -236,20 +295,26 @@ public class RivalryUI extends JPanel
      */
     private JToolBar createToolBar()
     {
-        final JButton dogButton = createButton("Dog24", "Load dog breed data",
-                "Dog Breeds", createDogBreedActionListener());
-        final JButton houseButton = createButton("House24",
+        final JButton dogButton = createButton("Dog24.png",
+                "Load dog breed data", "Dog Breeds",
+                createDogBreedActionListener());
+        final JButton houseButton = createButton("House24.png",
                 "Load best place data", "Best Places",
                 createBestPlaceActionListener());
-        final JButton brainButton = createButton("Brain24",
+        final JButton brainButton = createButton("Brain24.png",
                 "Load skill demand data", "Skill Demand",
                 createSkillDemandActionListener());
+        final JButton aboutButton = createButton("About24.gif",
+                "View information about this application.", "About",
+                createAboutActionListener());
 
         final JToolBar answer = new JToolBar("Rivalry Tool Bar");
 
         answer.add(dogButton);
         answer.add(houseButton);
         answer.add(brainButton);
+        answer.addSeparator();
+        answer.add(aboutButton);
 
         return answer;
     }
