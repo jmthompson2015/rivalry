@@ -9,20 +9,32 @@
 package org.rivalry.core.fitness;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Criterion;
+import org.rivalry.core.util.UserPreferences;
 
 /**
  * Provides a fitness function implemented as a weighted sum of ratings.
  */
 public class WeightedSumFitnessFunction implements FitnessFunction
 {
-    /** Criterion weights. */
-    private final Map<Criterion, Integer> _criterionWeight = new HashMap<Criterion, Integer>();
+    /** User preferences. */
+    private final UserPreferences _userPreferences = new UserPreferences();
+
+    /** Preference prefix. */
+    private final String _prefPrefix;
+
+    /**
+     * Construct this object with the given parameter.
+     * 
+     * @param preferencePrefix Preference prefix.
+     */
+    public WeightedSumFitnessFunction(final String preferencePrefix)
+    {
+        _prefPrefix = preferencePrefix;
+    }
 
     @Override
     public Double computeFitness(final Candidate candidate)
@@ -42,7 +54,7 @@ public class WeightedSumFitnessFunction implements FitnessFunction
                 final Double min = criterion.getMinimumRating();
                 final Double max = criterion.getMaximumRating();
                 final Double rating = candidate.getRating(criterion);
-                final Integer weight = _criterionWeight.get(criterion);
+                final Integer weight = getWeight(criterion);
 
                 if (rating != null && weight != null)
                 {
@@ -68,7 +80,7 @@ public class WeightedSumFitnessFunction implements FitnessFunction
      */
     public Integer getWeight(final Criterion criterion)
     {
-        return _criterionWeight.get(criterion);
+        return _userPreferences.getCriterionWeight(_prefPrefix, criterion);
     }
 
     /**
@@ -77,6 +89,6 @@ public class WeightedSumFitnessFunction implements FitnessFunction
      */
     public void putWeight(final Criterion criterion, final Integer weight)
     {
-        _criterionWeight.put(criterion, weight);
+        _userPreferences.putCriterionWeight(_prefPrefix, criterion, weight);
     }
 }
