@@ -87,7 +87,9 @@ public class RivalryUI extends JPanel
     {
         setLayout(new BorderLayout());
 
+        final String preferencePrefix = "empty";
         final RivalryData rivalryData = new RivalryData();
+        rivalryData.setPreferencePrefix(preferencePrefix);
         _rivalryMainPanel = createRivalryMainPanel(rivalryData);
 
         _toolBarPanel = createToolBarPanel();

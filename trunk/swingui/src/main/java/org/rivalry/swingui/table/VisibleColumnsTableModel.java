@@ -8,13 +8,12 @@
 //*****************************************************************************
 package org.rivalry.swingui.table;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import org.rivalry.core.util.UserPreferences;
 
 /**
  * Provides a table model which manages visible columns in a table. It works by
@@ -29,17 +28,23 @@ public class VisibleColumnsTableModel extends DefaultTableModel
     /** Inner table model. */
     private final TableModel _dataModel;
 
-    /** Map of absolute column index to visibility. */
-    private final Map<Integer, Boolean> _isColumnVisible = new HashMap<Integer, Boolean>();
+    /** User preferences. */
+    private final UserPreferences _userPreferences = new UserPreferences();
+
+    /** Preference prefix. */
+    private final String _prefPrefix;
 
     /**
-     * Construct this object.
+     * Construct this object with the given parameters.
      * 
      * @param dataModel Table model.
+     * @param preferencePrefix Preference prefix.
      */
-    public VisibleColumnsTableModel(final TableModel dataModel)
+    public VisibleColumnsTableModel(final TableModel dataModel,
+            final String preferencePrefix)
     {
         _dataModel = dataModel;
+        _prefPrefix = preferencePrefix;
 
         _dataModel.addTableModelListener(new TableModelListener()
         {
@@ -134,12 +139,35 @@ public class VisibleColumnsTableModel extends DefaultTableModel
 
     /**
      * @param absoluteColumnIndex Absolute column index.
+     * 
+     * @return true if the column is visible.
+     */
+    public Boolean isColumnVisible(final int absoluteColumnIndex)
+    {
+        final String columnName = _dataModel.getColumnName(absoluteColumnIndex);
+
+        return isColumnVisible(columnName);
+    }
+
+    /**
+     * @param columnName Column name.
+     * 
+     * @return true if the column is visible.
+     */
+    public Boolean isColumnVisible(final String columnName)
+    {
+        return _userPreferences.isColumnVisible(_prefPrefix, columnName);
+    }
+
+    /**
+     * @param absoluteColumnIndex Absolute column index.
      * @param isVisible Flag indicating visibility.
      */
     public void setColumnVisible(final int absoluteColumnIndex,
             final boolean isVisible)
     {
-        _isColumnVisible.put(absoluteColumnIndex, isVisible);
+        final String columnName = _dataModel.getColumnName(absoluteColumnIndex);
+        _userPreferences.putColumnVisible(_prefPrefix, columnName, isVisible);
 
         fireTableStructureChanged();
     }
@@ -177,24 +205,6 @@ public class VisibleColumnsTableModel extends DefaultTableModel
 
                 count++;
             }
-        }
-
-        return answer;
-    }
-
-    /**
-     * @param columnIndex Column index.
-     * 
-     * @return true if the column is visible.
-     */
-    private Boolean isColumnVisible(final int columnIndex)
-    {
-        Boolean answer = _isColumnVisible.get(columnIndex);
-
-        if (answer == null)
-        {
-            answer = Boolean.TRUE;
-            _isColumnVisible.put(columnIndex, answer);
         }
 
         return answer;

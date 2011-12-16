@@ -273,10 +273,11 @@ public class VisibleColumnsPopupMenu extends JPopupMenu
      */
     private JMenuItem createMenuItem(final Criterion criterion)
     {
-        final JCheckBoxMenuItem answer = new JCheckBoxMenuItem(
-                criterion.getName());
+        final String columnName = criterion.getName();
+        final JCheckBoxMenuItem answer = new JCheckBoxMenuItem(columnName);
 
-        answer.setSelected(true);
+        final boolean isVisible = _tableModel.isColumnVisible(columnName);
+        answer.setSelected(isVisible);
         answer.addActionListener(createActionListener());
 
         return answer;

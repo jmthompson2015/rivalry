@@ -90,8 +90,10 @@ public class CandidateTableModelTest
     {
         final TestData testData = new TestData();
         final RivalryData rivalryData = testData.createRivalryData();
+        final String preferencePrefix = "test";
         final FitnessFunction fitnessFunction = testData
-                .createWeightedSumFitnessFunction(rivalryData.getCriteria());
+                .createWeightedSumFitnessFunction(preferencePrefix,
+                        rivalryData.getCriteria());
         _tableModel = new CandidateTableModel(rivalryData, fitnessFunction);
     }
 }

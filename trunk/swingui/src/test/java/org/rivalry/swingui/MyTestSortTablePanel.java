@@ -32,6 +32,9 @@ import org.rivalry.swingui.table.CriterionTableModel;
  */
 public class MyTestSortTablePanel
 {
+    /** Preference prefix. */
+    private static final String PREF_PREFIX = "test";
+
     /**
      * Test the user interface.
      * 
@@ -42,11 +45,14 @@ public class MyTestSortTablePanel
     {
         final TestData testData = new TestData();
         final RivalryData rivalryData = testData.createRivalryData();
+        final String preferencePrefix = "test";
         final FitnessFunction fitnessFunction = testData
-                .createWeightedSumFitnessFunction(rivalryData.getCriteria());
+                .createWeightedSumFitnessFunction(preferencePrefix,
+                        rivalryData.getCriteria());
         final TableModel tableModel = new CandidateTableModel(rivalryData,
                 fitnessFunction);
-        final SortTablePanel panel = new SortTablePanel(tableModel, null);
+        final SortTablePanel panel = new SortTablePanel(tableModel, null,
+                PREF_PREFIX);
 
         showFrame("CandidateSortTablePanel Test", panel);
     }
@@ -63,7 +69,8 @@ public class MyTestSortTablePanel
         final TestData testData = new TestData();
         final RivalryData rivalryData = testData.createRivalryData();
         final TableModel tableModel = new CriterionTableModel(rivalryData);
-        final SortTablePanel panel = new SortTablePanel(tableModel, null);
+        final SortTablePanel panel = new SortTablePanel(tableModel, null,
+                PREF_PREFIX);
 
         showFrame("CriterionSortTablePanel Test", panel);
     }
@@ -78,7 +85,7 @@ public class MyTestSortTablePanel
     public void testUI0() throws InterruptedException
     {
         final SortTablePanel panel = new SortTablePanel(new MyTestTableModel(),
-                null);
+                null, PREF_PREFIX);
 
         showFrame("TestSortTablePanel", panel);
     }

@@ -17,6 +17,7 @@ import javax.swing.table.TableModel;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.rivalry.core.util.UserPreferences;
 import org.rivalry.swingui.MyTestTableModel;
 
 /**
@@ -24,6 +25,9 @@ import org.rivalry.swingui.MyTestTableModel;
  */
 public class VisibleColumnsTableModelTest
 {
+    /** Preference prefix. */
+    private static final String PREF_PREFIX = "test";
+
     /** Table model. */
     private VisibleColumnsTableModel _tableModel;
 
@@ -181,8 +185,10 @@ public class VisibleColumnsTableModelTest
     @Before
     public void setUp()
     {
+        clearPrefs();
+
         final TableModel dataModel = new MyTestTableModel();
-        _tableModel = new VisibleColumnsTableModel(dataModel);
+        _tableModel = new VisibleColumnsTableModel(dataModel, PREF_PREFIX);
     }
 
     /**
@@ -199,5 +205,15 @@ public class VisibleColumnsTableModelTest
         _tableModel.setColumnVisible(1, false);
         _tableModel.setValueAt("bar", 4, 1);
         assertThat((String)_tableModel.getValueAt(4, 1), is("bar"));
+    }
+
+    /**
+     * Clear preference values.
+     */
+    private void clearPrefs()
+    {
+        final UserPreferences userPreferences = new UserPreferences();
+        userPreferences.clearColumnVisibility(PREF_PREFIX);
+        userPreferences.clearCriterionWeights(PREF_PREFIX);
     }
 }
