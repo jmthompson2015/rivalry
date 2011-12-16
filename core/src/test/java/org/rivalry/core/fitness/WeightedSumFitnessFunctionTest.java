@@ -82,7 +82,9 @@ public class WeightedSumFitnessFunctionTest
     @Before
     public void setUp()
     {
+        final String prefPrefix = "test";
         final List<Criterion> criteria = _rivalryData.getCriteria();
-        _fitnessFunction = _testData.createWeightedSumFitnessFunction(criteria);
+        _fitnessFunction = _testData.createWeightedSumFitnessFunction(
+                prefPrefix, criteria);
     }
 }
