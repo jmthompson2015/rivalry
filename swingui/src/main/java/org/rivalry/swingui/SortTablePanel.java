@@ -18,9 +18,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.RowSorter;
+import javax.swing.RowSorter.SortKey;
+import javax.swing.event.RowSorterEvent;
+import javax.swing.event.RowSorterListener;
 import javax.swing.table.TableModel;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.rivalry.core.util.UserPreferences;
 import org.rivalry.swingui.table.ColumnNameToolTipTable;
 
 /**
@@ -36,6 +40,9 @@ public class SortTablePanel extends JPanel
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
 
+    /** User preferences. */
+    final UserPreferences _userPreferences = new UserPreferences();
+
     /** Row count widget. */
     private final JLabel _rowCountUI;
 
@@ -47,11 +54,12 @@ public class SortTablePanel extends JPanel
      * 
      * @param tableModel Table model.
      * @param sortKeys Sort keys. (optional)
+     * @param preferencePrefix Preference prefix.
      */
     public SortTablePanel(final TableModel tableModel,
-            final List<RowSorter.SortKey> sortKeys)
+            final List<SortKey> sortKeys, final String preferencePrefix)
     {
-        _table = createTable(tableModel);
+        _table = createTable(tableModel, preferencePrefix);
         _rowCountUI = createRowCountUI(tableModel);
 
         setLayout(new BorderLayout());
@@ -126,15 +134,34 @@ public class SortTablePanel extends JPanel
 
     /**
      * @param tableModel Table model.
+     * @param preferencePrefix Preference prefix.
      * 
      * @return a new table.
      */
-    private JTable createTable(final TableModel tableModel)
+    private JTable createTable(final TableModel tableModel,
+            final String preferencePrefix)
     {
         final JTable answer = new ColumnNameToolTipTable(tableModel);
 
         answer.setAutoCreateRowSorter(true);
         answer.setGridColor(Color.GRAY);
+
+        final RowSorter<? extends TableModel> rowSorter = answer.getRowSorter();
+        rowSorter.addRowSorterListener(new RowSorterListener()
+        {
+            @Override
+            public void sorterChanged(final RowSorterEvent event)
+            {
+                final List<? extends SortKey> sortKeys = rowSorter
+                        .getSortKeys();
+
+                if (CollectionUtils.isNotEmpty(sortKeys))
+                {
+                    _userPreferences.putSortKey(preferencePrefix,
+                            sortKeys.get(0));
+                }
+            }
+        });
 
         return answer;
     }

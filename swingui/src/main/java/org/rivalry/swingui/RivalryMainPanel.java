@@ -15,13 +15,13 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
+import javax.swing.RowSorter.SortKey;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 import org.rivalry.core.fitness.FitnessFunction;
 import org.rivalry.core.model.RivalryData;
+import org.rivalry.core.util.UserPreferences;
 import org.rivalry.swingui.table.CandidateTableModel;
 import org.rivalry.swingui.table.CriterionTableModel;
 import org.rivalry.swingui.table.VisibleColumnsPopupMenu;
@@ -40,6 +40,9 @@ public class RivalryMainPanel extends JSplitPane
 
     /** Candidate table model. */
     CandidateTableModel _candidateTableModel;
+
+    /** User preferences. */
+    private final UserPreferences _userPreferences = new UserPreferences();
 
     /**
      * Construct this object with the given parameter.
@@ -72,11 +75,14 @@ public class RivalryMainPanel extends JSplitPane
     {
         _candidateTableModel = new CandidateTableModel(rivalryData,
                 fitnessFunction);
+        final String preferencePrefix = rivalryData.getPreferencePrefix()
+                + "/candidateTable";
         final VisibleColumnsTableModel vcTableModel = new VisibleColumnsTableModel(
-                _candidateTableModel);
+                _candidateTableModel, preferencePrefix);
 
         final SortTablePanel candidateSortTablePanel = new SortTablePanel(
-                vcTableModel, createCandidateTableSortKeys());
+                vcTableModel, createTableSortKeys(preferencePrefix),
+                preferencePrefix);
 
         final VisibleColumnsPopupMenu popupMenu = new VisibleColumnsPopupMenu(
                 rivalryData, vcTableModel);
@@ -84,45 +90,6 @@ public class RivalryMainPanel extends JSplitPane
                 .addMouseListener(new PopupListener(popupMenu));
 
         return createTitledSortTablePanel("Candidates", candidateSortTablePanel);
-    }
-
-    /**
-     * @return table sort keys.
-     */
-    private List<RowSorter.SortKey> createCandidateTableSortKeys()
-    {
-        final RowSorter.SortKey sortKey0 = new RowSorter.SortKey(
-                CandidateTableModel.SCORE_COLUMN, SortOrder.DESCENDING);
-        final RowSorter.SortKey sortKey1 = new RowSorter.SortKey(
-                CandidateTableModel.CANDIDATE_COLUMN, SortOrder.ASCENDING);
-
-        final List<RowSorter.SortKey> answer = new ArrayList<RowSorter.SortKey>();
-
-        answer.add(sortKey0);
-        answer.add(sortKey1);
-
-        return answer;
-    }
-
-    /**
-     * @return table sort keys.
-     */
-    private List<RowSorter.SortKey> createCriteriaTableSortKeys()
-    {
-        final RowSorter.SortKey sortKey0 = new RowSorter.SortKey(
-                CriterionTableModel.WEIGHT_COLUMN, SortOrder.DESCENDING);
-        final RowSorter.SortKey sortKey1 = new RowSorter.SortKey(
-                CriterionTableModel.CATEGORY_COLUMN, SortOrder.ASCENDING);
-        final RowSorter.SortKey sortKey2 = new RowSorter.SortKey(
-                CriterionTableModel.CRITERION_COLUMN, SortOrder.ASCENDING);
-
-        final List<RowSorter.SortKey> answer = new ArrayList<RowSorter.SortKey>();
-
-        answer.add(sortKey0);
-        answer.add(sortKey1);
-        answer.add(sortKey2);
-
-        return answer;
     }
 
     /**
@@ -144,24 +111,46 @@ public class RivalryMainPanel extends JSplitPane
         });
 
         final SortTablePanel criterionSortTablePanel;
+        final String preferencePrefix = rivalryData.getPreferencePrefix()
+                + "/criterionTable";
 
         if (rivalryData.getCategories().isEmpty())
         {
             // There are no categories, so hide the category column.
             final VisibleColumnsTableModel vcTableModel = new VisibleColumnsTableModel(
-                    _criterionTableModel);
+                    _criterionTableModel, preferencePrefix);
             criterionSortTablePanel = new SortTablePanel(vcTableModel,
-                    createCriteriaTableSortKeys());
+                    createTableSortKeys(preferencePrefix), preferencePrefix);
             vcTableModel.setColumnVisible(CriterionTableModel.CATEGORY_COLUMN,
                     false);
         }
         else
         {
             criterionSortTablePanel = new SortTablePanel(_criterionTableModel,
-                    createCriteriaTableSortKeys());
+                    createTableSortKeys(preferencePrefix), preferencePrefix);
         }
 
         return createTitledSortTablePanel("Criteria", criterionSortTablePanel);
+    }
+
+    /**
+     * @param preferencePrefix Preference prefix.
+     * 
+     * @return table sort keys.
+     */
+    private List<SortKey> createTableSortKeys(final String preferencePrefix)
+    {
+        List<SortKey> answer = null;
+
+        final SortKey sortKey = _userPreferences.getSortKey(preferencePrefix);
+
+        if (sortKey != null)
+        {
+            answer = new ArrayList<SortKey>();
+            answer.add(sortKey);
+        }
+
+        return answer;
     }
 
     /**

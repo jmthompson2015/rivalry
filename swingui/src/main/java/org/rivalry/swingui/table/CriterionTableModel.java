@@ -41,7 +41,7 @@ public class CriterionTableModel extends AbstractTableModel
     private static final long serialVersionUID = 1L;
 
     /** Weighted sum fitness function. */
-    private final WeightedSumFitnessFunction _fitnessFunction = new WeightedSumFitnessFunction();
+    private final WeightedSumFitnessFunction _fitnessFunction;
 
     /** Rivalry data. */
     private final RivalryData _rivalryData;
@@ -54,13 +54,13 @@ public class CriterionTableModel extends AbstractTableModel
     public CriterionTableModel(final RivalryData rivalryData)
     {
         _rivalryData = rivalryData;
+        _fitnessFunction = new WeightedSumFitnessFunction(
+                _rivalryData.getPreferencePrefix());
     }
 
     @Override
     public Class<?> getColumnClass(final int columnIndex)
     {
-        // return getValueAt(0, columnIndex).getClass();
-
         Class<?> answer = null;
 
         switch (columnIndex)
