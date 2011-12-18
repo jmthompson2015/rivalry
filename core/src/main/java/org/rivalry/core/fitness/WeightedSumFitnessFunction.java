@@ -58,7 +58,7 @@ public class WeightedSumFitnessFunction implements FitnessFunction
 
                 if (rating != null && weight != null)
                 {
-                    if (min != null && max != null)
+                    if (min != null && max != null && min < max)
                     {
                         answer += weight * (rating - min) / (max - min);
                     }
