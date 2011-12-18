@@ -36,7 +36,6 @@ import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.DefaultCandidate;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.RivalryDataWriter;
-import org.rivalry.core.util.UserPreferences;
 
 /**
  * Provides a data collector for stock.
@@ -74,11 +73,6 @@ public class StockDataCollectorMain
             final String password = null;
             final RivalryData rivalryData = injector.injectRivalryData();
 
-            final UserPreferences userPreferences = new UserPreferences();
-            userPreferences.clearCriterionWeights(rivalryData
-                    .getPreferencePrefix());
-
-            // main.readCandidates(rivalryData);
             final List<String> symbols = main.getSymbols();
             main.createCandidates(symbols, rivalryData);
 
