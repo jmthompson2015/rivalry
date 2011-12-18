@@ -35,9 +35,34 @@ public class YahooFinanceNameStringParser implements NameStringParser
                 answer = trimEndKey(answer, "5:");
                 answer = trimEndKey(answer, "6:");
                 answer = trimEndKey(answer, ":");
+
+                if (answer.startsWith("52-Week High")
+                        || answer.startsWith("52-Week Low")
+                        || answer.startsWith("Forward P/E"))
+                {
+                    answer = removeTrailingParentheses(answer);
+                }
             }
         }
 
+        return answer;
+    }
+
+    /**
+     * @param value Value.
+     * 
+     * @return the value without the trailing parentheses.
+     */
+    private String removeTrailingParentheses(final String value)
+    {
+        String answer = value;
+
+        final int index = answer.lastIndexOf('(');
+        if (index >= 0)
+        {
+            answer = answer.substring(0, index);
+            answer = answer.trim();
+        }
         return answer;
     }
 

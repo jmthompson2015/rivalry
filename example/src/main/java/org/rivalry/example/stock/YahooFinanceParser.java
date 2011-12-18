@@ -14,6 +14,14 @@ import org.rivalry.core.datacollector.ValueStringParser;
 
 /**
  * Provides a parser for double values.
+ * 
+ * <p>
+ * FIXME: need to handle these additional types:
+ * <ol>
+ * <li>Date</li>
+ * <li>Ratio (split factor 2:1)</li>
+ * </ol>
+ * </p>
  */
 public class YahooFinanceParser implements ValueStringParser
 {
