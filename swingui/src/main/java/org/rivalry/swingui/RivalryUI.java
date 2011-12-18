@@ -293,28 +293,47 @@ public class RivalryUI extends JPanel
     }
 
     /**
+     * @return a new stock action listener.
+     */
+    private ActionListener createStockActionListener()
+    {
+        return new ActionListener()
+        {
+            @Override
+            public void actionPerformed(final ActionEvent e)
+            {
+                final RivalryData rivalryData = readRivalryData("StockRivalryData.xml");
+                loadDataActionPerformed(rivalryData);
+            }
+        };
+    }
+
+    /**
      * @return a new tool bar.
      */
     private JToolBar createToolBar()
     {
-        final JButton dogButton = createButton("Dog24.png",
-                "Load dog breed data", "Dog Breeds",
-                createDogBreedActionListener());
         final JButton houseButton = createButton("House24.png",
                 "Load best place data", "Best Places",
                 createBestPlaceActionListener());
+        final JButton dogButton = createButton("Dog24.png",
+                "Load dog breed data", "Dog Breeds",
+                createDogBreedActionListener());
         final JButton brainButton = createButton("Brain24.png",
                 "Load skill demand data", "Skill Demand",
                 createSkillDemandActionListener());
+        final JButton stockButton = createButton("Money24.png",
+                "Load stock data", "Stocks", createStockActionListener());
         final JButton aboutButton = createButton("About24.gif",
                 "View information about this application.", "About",
                 createAboutActionListener());
 
         final JToolBar answer = new JToolBar("Rivalry Tool Bar");
 
-        answer.add(dogButton);
         answer.add(houseButton);
+        answer.add(dogButton);
         answer.add(brainButton);
+        answer.add(stockButton);
         answer.addSeparator();
         answer.add(aboutButton);
 
