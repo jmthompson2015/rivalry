@@ -30,19 +30,27 @@ public class YahooFinanceParser implements ValueStringParser
             {
                 final String myString = valueString.trim();
 
-                if (myString.endsWith("%"))
+                if (!"N/A".equalsIgnoreCase(myString))
                 {
-                    answer = parseDoubleOnly(myString.substring(0,
-                            myString.length() - 1)) / 100.0;
-                }
-                else if (myString.endsWith("B"))
-                {
-                    answer = parseDoubleOnly(myString.substring(0,
-                            myString.length() - 1)) * 1000000000;
-                }
-                else
-                {
-                    answer = parseDoubleOnly(myString);
+                    if (myString.endsWith("%"))
+                    {
+                        answer = parseDoubleOnly(myString.substring(0,
+                                myString.length() - 1)) / 100.0;
+                    }
+                    else if (myString.endsWith("M"))
+                    {
+                        answer = parseDoubleOnly(myString.substring(0,
+                                myString.length() - 1)) * 1000000;
+                    }
+                    else if (myString.endsWith("B"))
+                    {
+                        answer = parseDoubleOnly(myString.substring(0,
+                                myString.length() - 1)) * 1000000000;
+                    }
+                    else
+                    {
+                        answer = parseDoubleOnly(myString);
+                    }
                 }
             }
         }
