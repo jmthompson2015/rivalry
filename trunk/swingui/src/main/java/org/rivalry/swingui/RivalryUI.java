@@ -277,6 +277,22 @@ public class RivalryUI extends JPanel
     }
 
     /**
+     * @return a new Illyriad action listener.
+     */
+    private ActionListener createIllyriadActionListener()
+    {
+        return new ActionListener()
+        {
+            @Override
+            public void actionPerformed(final ActionEvent e)
+            {
+                final RivalryData rivalryData = readRivalryData("IllyriadRivalryData.xml");
+                loadDataActionPerformed(rivalryData);
+            }
+        };
+    }
+
+    /**
      * @return a new skill demand action listener.
      */
     private ActionListener createSkillDemandActionListener()
@@ -319,6 +335,9 @@ public class RivalryUI extends JPanel
         final JButton dogButton = createButton("Dog24.png",
                 "Load dog breed data", "Dog Breeds",
                 createDogBreedActionListener());
+        final JButton illyriadButton = createButton("Illyriad24.png",
+                "Load Illyriad data", "Illyriad",
+                createIllyriadActionListener());
         final JButton brainButton = createButton("Brain24.png",
                 "Load skill demand data", "Skill Demand",
                 createSkillDemandActionListener());
@@ -332,6 +351,7 @@ public class RivalryUI extends JPanel
 
         answer.add(houseButton);
         answer.add(dogButton);
+        answer.add(illyriadButton);
         answer.add(brainButton);
         answer.add(stockButton);
         answer.addSeparator();
