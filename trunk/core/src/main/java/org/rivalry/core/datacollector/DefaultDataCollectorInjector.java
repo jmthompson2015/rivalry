@@ -41,14 +41,25 @@ public class DefaultDataCollectorInjector implements DataCollectorInjector
         final Provider<Criterion> criterionProvider = injectCriterionProvider();
         final DataPostProcessor dataPostProcessor = injectDataPostProcessor();
 
-        return new DefaultDataCollector(nameStringParser, valueStringParser,
-                categoryProvider, criterionProvider, dataPostProcessor);
+        final DataCollector answer = new DefaultDataCollector(nameStringParser,
+                valueStringParser, categoryProvider, criterionProvider,
+                dataPostProcessor);
+
+        answer.setJavascriptEnabled(injectJavascriptEnabled());
+
+        return answer;
     }
 
     @Override
     public DataPostProcessor injectDataPostProcessor()
     {
         return new DefaultDataPostProcessor();
+    }
+
+    @Override
+    public boolean injectJavascriptEnabled()
+    {
+        return false;
     }
 
     @Override

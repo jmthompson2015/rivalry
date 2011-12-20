@@ -39,6 +39,11 @@ public interface DataCollectorInjector
     DataPostProcessor injectDataPostProcessor();
 
     /**
+     * @return a flag indicating if Javascript is enabled.
+     */
+    boolean injectJavascriptEnabled();
+
+    /**
      * @return a new name string parser.
      */
     NameStringParser injectNameStringParser();
