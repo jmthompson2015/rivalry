@@ -21,21 +21,21 @@ public interface DataCollector
      * Fetch data, process it, and load into the given rivalry data object.
      * 
      * @param dcSpec Data collector specification.
+     * @param rivalryData Rivalry data.
+     * @param candidate Candidate.
+     */
+    void fetchData(DCSpec dcSpec, RivalryData rivalryData, Candidate candidate);
+
+    /**
+     * Fetch data, process it, and load into the given rivalry data object.
+     * 
+     * @param dcSpec Data collector specification.
      * @param username Username.
      * @param password Password.
      * @param rivalryData Rivalry data.
      */
     void fetchData(DCSpec dcSpec, String username, String password,
             RivalryData rivalryData);
-
-    /**
-     * Fetch data, process it, and load into the given rivalry data object.
-     * 
-     * @param dcSpec Data collector specification.
-     * @param rivalryData Rivalry data.
-     * @param candidate Candidate.
-     */
-    void fetchData(DCSpec dcSpec, RivalryData rivalryData, Candidate candidate);
 
     /**
      * Fetch data, process it, and load into the given rivalry data object.
@@ -47,4 +47,14 @@ public interface DataCollector
      */
     void fetchData(WebDriver webDriver, DCSpec dcSpec, RivalryData rivalryData,
             Candidate candidate);
+
+    /**
+     * @return the isJavascriptEnabled
+     */
+    boolean isJavascriptEnabled();
+
+    /**
+     * @param isJavascriptEnabled the isJavascriptEnabled to set
+     */
+    void setJavascriptEnabled(final boolean isJavascriptEnabled);
 }

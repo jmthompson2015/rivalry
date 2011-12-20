@@ -172,14 +172,13 @@ public class DefaultDataCollector implements DataCollector
     /**
      * @return the isJavascriptEnabled
      */
+    @Override
     public boolean isJavascriptEnabled()
     {
         return _isJavascriptEnabled;
     }
 
-    /**
-     * @param isJavascriptEnabled the isJavascriptEnabled to set
-     */
+    @Override
     public void setJavascriptEnabled(final boolean isJavascriptEnabled)
     {
         _isJavascriptEnabled = isJavascriptEnabled;
