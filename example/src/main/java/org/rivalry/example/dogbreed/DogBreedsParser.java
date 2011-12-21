@@ -15,7 +15,7 @@ import org.rivalry.core.datacollector.ValueStringParser;
  * Provides a value string parser implementation to handle dog breed
  * information.
  */
-public class DogBreedsParser implements ValueStringParser
+public class DogBreedsParser implements ValueStringParser<Double>
 {
     @Override
     public Double parse(final WebElement webElement)

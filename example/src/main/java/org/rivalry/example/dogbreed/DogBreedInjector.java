@@ -36,7 +36,7 @@ public class DogBreedInjector extends DefaultDataCollectorInjector
     }
 
     @Override
-    public ValueStringParser injectValueStringParser()
+    public ValueStringParser<Double> injectValueStringParser()
     {
         return new DogBreedsParser();
     }
