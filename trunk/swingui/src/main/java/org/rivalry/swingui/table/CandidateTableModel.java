@@ -8,6 +8,7 @@
 //*****************************************************************************
 package org.rivalry.swingui.table;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,9 @@ public class CandidateTableModel extends AbstractTableModel
     /** Candidate scores. */
     private Map<Candidate, Double> _candidateScores;
 
+    /** Map of column index to column class. */
+    private Map<Integer, Class<?>> _columnToClass = new HashMap<Integer, Class<?>>();
+
     /** Fitness processor. */
     private final FitnessProcessor _fitnessProcessor;
 
@@ -60,20 +64,18 @@ public class CandidateTableModel extends AbstractTableModel
     @Override
     public Class<?> getColumnClass(final int columnIndex)
     {
-        Class<?> answer = null;
+        Class<?> answer = _columnToClass.get(columnIndex);
 
-        switch (columnIndex)
+        if (answer == null)
         {
-        case SCORE_COLUMN:
-            answer = Double.class;
-            break;
-
-        case CANDIDATE_COLUMN:
-            answer = String.class;
-            break;
-
-        default:
-            answer = Double.class;
+            if (getRowCount() > 0)
+            {
+                answer = determineColumnClass(columnIndex);
+            }
+            else
+            {
+                answer = Object.class;
+            }
         }
 
         return answer;
@@ -144,7 +146,7 @@ public class CandidateTableModel extends AbstractTableModel
             default:
                 final Candidate candidate = getCandidate(rowIndex);
                 final Criterion criterion = getCriterion(columnIndex);
-                answer = candidate.getRating(criterion);
+                answer = candidate.getValue(criterion);
                 break;
             }
         }
@@ -165,6 +167,72 @@ public class CandidateTableModel extends AbstractTableModel
         _candidateScores = _fitnessProcessor
                 .computeCandidateFitness(candidates);
         fireTableDataChanged();
+    }
+
+    /**
+     * @param columnIndex Column index.
+     * 
+     * @return column class.
+     */
+    private Class<?> determineColumnClass(final int columnIndex)
+    {
+        Class<?> answer = null;
+
+        if (columnIndex == SCORE_COLUMN)
+        {
+            answer = Double.class;
+        }
+        else if (columnIndex == CANDIDATE_COLUMN)
+        {
+            answer = String.class;
+        }
+        else
+        {
+            final int size = getRowCount();
+            boolean isString = false;
+            boolean isDouble = false;
+
+            for (int i = 0; i < size; i++)
+            {
+                final Object value = getValueAt(i, columnIndex);
+
+                if (value != null)
+                {
+                    if (value instanceof String)
+                    {
+                        isString = true;
+                    }
+                    else if (value instanceof Double)
+                    {
+                        isDouble = true;
+                    }
+                }
+            }
+
+            if (isString && isDouble)
+            {
+                // If there is a mix of double and string, object is the lowest
+                // common denominator.
+                answer = Object.class;
+            }
+            else if (isString)
+            {
+                answer = String.class;
+            }
+            else if (isDouble)
+            {
+                answer = Double.class;
+            }
+            else
+            {
+                answer = Object.class;
+            }
+        }
+
+        // Cache it.
+        _columnToClass.put(columnIndex, answer);
+
+        return answer;
     }
 
     /**
