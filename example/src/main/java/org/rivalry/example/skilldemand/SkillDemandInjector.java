@@ -21,7 +21,7 @@ public class SkillDemandInjector extends DefaultDataCollectorInjector
     }
 
     @Override
-    public ValueStringParser injectValueStringParser()
+    public ValueStringParser<Integer> injectValueStringParser()
     {
         return new SkillDemandValueStringParser();
     }
