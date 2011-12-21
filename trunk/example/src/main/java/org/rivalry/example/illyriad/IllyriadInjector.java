@@ -21,7 +21,7 @@ public class IllyriadInjector extends DefaultDataCollectorInjector
     @Override
     public DataCollector injectDataCollector()
     {
-        final ValueStringParser valueStringParser = injectValueStringParser();
+        final ValueStringParser<Integer> valueStringParser = injectValueStringParser();
 
         final DataCollector answer = new IllyriadDataCollector(
                 valueStringParser);
@@ -48,7 +48,7 @@ public class IllyriadInjector extends DefaultDataCollectorInjector
     }
 
     @Override
-    public ValueStringParser injectValueStringParser()
+    public ValueStringParser<Integer> injectValueStringParser()
     {
         return new IllyriadValueStringParser();
     }
