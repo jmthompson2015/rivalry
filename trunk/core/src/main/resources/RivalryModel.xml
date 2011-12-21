@@ -56,8 +56,9 @@
             <type>String</type>
         </property>
         <property usedInIdentity="false">
-            <name>ratings</name>
-            <type>Map&lt;org.rivalry.core.model.Criterion, java.lang.Double&gt;</type>
+            <name>values</name>
+            <type>Map&lt;org.rivalry.core.model.Criterion, java.lang.Object&gt;</type>
+            <initialValue>new LinkedHashMap&lt;org.rivalry.core.model.Criterion, java.lang.Object&gt;()</initialValue>
         </property>
         <extendsType>org.rivalry.core.model.Entity</extendsType>
         <method>
@@ -72,18 +73,29 @@
             </parameter>
         </method>
         <method>
-            <commentLine>Store the given rating for the given criterion.</commentLine>
+            <commentLine>@param   criterion  Criterion.</commentLine>
+            <commentLine></commentLine>
+            <commentLine>@return  the value for the given parameter.</commentLine>
+            <name>getValue</name>
+            <returnType>Object</returnType>
+            <parameter>
+                <name>criterion</name>
+                <type>org.rivalry.core.model.Criterion</type>
+            </parameter>
+        </method>
+        <method>
+            <commentLine>Store the given value for the given criterion.</commentLine>
             <commentLine></commentLine>
             <commentLine>@param  criterion  Criterion.</commentLine>
-            <commentLine>@param  rating     Rating.</commentLine>
-            <name>putRating</name>
+            <commentLine>@param  value      Value.</commentLine>
+            <name>putValue</name>
             <parameter>
                 <name>criterion</name>
                 <type>org.rivalry.core.model.Criterion</type>
             </parameter>
             <parameter>
-                <name>rating</name>
-                <type>Double</type>
+                <name>value</name>
+                <type>Object</type>
             </parameter>
         </method>
     </cgInterface>
@@ -113,30 +125,47 @@
                 <name>criterion</name>
                 <type>org.rivalry.core.model.Criterion</type>
             </parameter>
-            <methodBodyLine>if (_ratings == null)</methodBodyLine>
+            <methodBodyLine>Double answer = null;</methodBodyLine>
+            <methodBodyLine>Object value = getValue(criterion);</methodBodyLine>
+            <methodBodyLine>if (value instanceof Double)</methodBodyLine>
             <methodBodyLine>{</methodBodyLine>
-            <methodBodyLine>_ratings = new LinkedHashMap&lt;org.rivalry.core.model.Criterion, java.lang.Double&gt;();</methodBodyLine>
+            <methodBodyLine>answer = (Double)value;</methodBodyLine>
             <methodBodyLine>}</methodBodyLine>
-            <methodBodyLine>return _ratings.get(criterion);</methodBodyLine>
+            <methodBodyLine>return answer;</methodBodyLine>
+        </method>
+        <method>
+            <referencedType>LinkedHashMap</referencedType>
+            <annotation>
+                <type>Override</type>
+            </annotation>
+            <modifiers>public</modifiers>
+            <name>getValue</name>
+            <returnType>Object</returnType>
+            <parameter>
+                <name>criterion</name>
+                <type>org.rivalry.core.model.Criterion</type>
+            </parameter>
+            <methodBodyLine>if (_values == null)</methodBodyLine>
+            <methodBodyLine>{</methodBodyLine>
+            <methodBodyLine>_values = new LinkedHashMap&lt;org.rivalry.core.model.Criterion, java.lang.Object&gt;();</methodBodyLine>
+            <methodBodyLine>}</methodBodyLine>
+            <methodBodyLine>return _values.get(criterion);</methodBodyLine>
         </method>
         <method>
             <annotation>
                 <type>Override</type>
             </annotation>
             <modifiers>public</modifiers>
-            <name>putRating</name>
+            <name>putValue</name>
             <parameter>
                 <name>criterion</name>
                 <type>org.rivalry.core.model.Criterion</type>
             </parameter>
             <parameter>
-                <name>rating</name>
-                <type>Double</type>
+                <name>value</name>
+                <type>Object</type>
             </parameter>
-            <methodBodyLine>Double oldValue = getRating(criterion);</methodBodyLine>
-            <methodBodyLine>_ratings.put(criterion, rating);</methodBodyLine>
-            <methodBodyLine></methodBodyLine>
-            <methodBodyLine>// maybeFirePropertyChange(RATING_PROPERTY, oldValue, rating);</methodBodyLine>
+            <methodBodyLine>_values.put(criterion, value);</methodBodyLine>
         </method>
     </cgClass>
     <cgClass>
