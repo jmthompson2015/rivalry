@@ -14,12 +14,12 @@ import org.rivalry.core.datacollector.ValueStringParser;
 /**
  * Provides a value string parser for skill demand.
  */
-public class SkillDemandValueStringParser implements ValueStringParser
+public class SkillDemandValueStringParser implements ValueStringParser<Integer>
 {
     @Override
-    public Double parse(final WebElement webElement)
+    public Integer parse(final WebElement webElement)
     {
-        Double answer = null;
+        Integer answer = null;
 
         if (webElement != null)
         {
@@ -31,7 +31,7 @@ public class SkillDemandValueStringParser implements ValueStringParser
                 totalString = totalString.substring(index + key.length());
             }
 
-            answer = Double.parseDouble(totalString);
+            answer = Integer.parseInt(totalString);
         }
 
         return answer;
