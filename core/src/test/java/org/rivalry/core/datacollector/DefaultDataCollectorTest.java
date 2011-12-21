@@ -35,7 +35,7 @@ public class DefaultDataCollectorTest
     /**
      * Provides a parser for double values.
      */
-    static class YahooFinanceParser implements ValueStringParser
+    static class YahooFinanceParser implements ValueStringParser<Double>
     {
         @Override
         public Double parse(final WebElement webElement)
@@ -96,7 +96,7 @@ public class DefaultDataCollectorTest
     }
 
     /** Best places value string processor. */
-    private final ValueStringParser _bestPlacesParser = new DefaultValueStringParser();
+    private final ValueStringParser<?> _bestPlacesParser = new DefaultValueStringParser();
 
     /** Category provider. */
     private final Provider<Category> _categoryProvider = new DefaultCategoryProvider();
@@ -114,7 +114,7 @@ public class DefaultDataCollectorTest
     private final NameStringParser _nameStringParser = new DefaultNameStringParser();
 
     /** Yahoo! Finance value string processor. */
-    private final ValueStringParser _yahooParser = new YahooFinanceParser();
+    private final ValueStringParser<Double> _yahooParser = new YahooFinanceParser();
 
     /**
      * Test the <code>fetchData()</code> method.
