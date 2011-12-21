@@ -16,15 +16,15 @@ import org.rivalry.core.util.StringParser;
 /**
  * Provides a parser for double values.
  */
-public class DefaultValueStringParser implements ValueStringParser
+public class DefaultValueStringParser implements ValueStringParser<Object>
 {
     /** String parser. */
     private final StringParser _stringParser = new DefaultStringParser();
 
     @Override
-    public Double parse(final WebElement webElement)
+    public Object parse(final WebElement webElement)
     {
-        Double answer = null;
+        Object answer = null;
 
         if (webElement != null)
         {
@@ -33,6 +33,11 @@ public class DefaultValueStringParser implements ValueStringParser
             if (StringUtils.isNotEmpty(valueString))
             {
                 answer = _stringParser.parseDouble(valueString);
+
+                if (answer == null)
+                {
+                    answer = valueString;
+                }
             }
         }
 
