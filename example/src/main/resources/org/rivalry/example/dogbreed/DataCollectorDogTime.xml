@@ -16,7 +16,7 @@
         <value>characteristics</value>
         <selector>
             <type>TAG_NAME</type>
-            <value>h3</value>
+            <value>h4</value>
         </selector>
         <selector>
             <type>CLASS_NAME</type>
