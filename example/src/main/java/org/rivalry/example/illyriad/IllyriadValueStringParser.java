@@ -31,16 +31,43 @@ public class IllyriadValueStringParser implements ValueStringParser<Integer>
                 String myValueString = valueString.replaceAll(",", "");
                 myValueString = myValueString.replaceAll("[+]", "");
 
-                if (myValueString.endsWith("M"))
+                if (StringUtils.isNotEmpty(myValueString))
                 {
-                    answer = parseIntegerOnly(myValueString.substring(0,
-                            myValueString.length() - 1)) * 1000000;
-                }
-                else
-                {
-                    answer = parseIntegerOnly(myValueString);
+                    if (myValueString.endsWith("M"))
+                    {
+                        final int length = myValueString.length();
+                        myValueString = myValueString.substring(0, length - 1);
+                        answer = Double.valueOf(
+                                parseDoubleOnly(myValueString) * 1000000)
+                                .intValue();
+                    }
+                    else
+                    {
+                        answer = parseIntegerOnly(myValueString);
+                    }
                 }
             }
+        }
+
+        return answer;
+    }
+
+    /**
+     * @param valueString Value string.
+     * 
+     * @return a double parsed from the given parameter, if possible.
+     */
+    private Double parseDoubleOnly(final String valueString)
+    {
+        Double answer = null;
+
+        try
+        {
+            answer = Double.parseDouble(valueString);
+        }
+        catch (final NumberFormatException ignore)
+        {
+            // Nothing to do.
         }
 
         return answer;
