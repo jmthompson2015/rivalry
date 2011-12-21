@@ -36,7 +36,7 @@ public class DefaultDataCollectorInjector implements DataCollectorInjector
     public DataCollector injectDataCollector()
     {
         final NameStringParser nameStringParser = injectNameStringParser();
-        final ValueStringParser valueStringParser = injectValueStringParser();
+        final ValueStringParser<?> valueStringParser = injectValueStringParser();
         final Provider<Category> categoryProvider = injectCategoryProvider();
         final Provider<Criterion> criterionProvider = injectCriterionProvider();
         final DataPostProcessor dataPostProcessor = injectDataPostProcessor();
@@ -75,7 +75,7 @@ public class DefaultDataCollectorInjector implements DataCollectorInjector
     }
 
     @Override
-    public ValueStringParser injectValueStringParser()
+    public ValueStringParser<?> injectValueStringParser()
     {
         return new DefaultValueStringParser();
     }
