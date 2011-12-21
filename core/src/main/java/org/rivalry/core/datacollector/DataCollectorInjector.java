@@ -56,5 +56,5 @@ public interface DataCollectorInjector
     /**
      * @return a new value string parser.
      */
-    ValueStringParser injectValueStringParser();
+    ValueStringParser<?> injectValueStringParser();
 }
