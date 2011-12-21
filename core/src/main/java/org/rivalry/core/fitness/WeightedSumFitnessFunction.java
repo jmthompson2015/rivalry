@@ -47,10 +47,10 @@ public class WeightedSumFitnessFunction implements FitnessFunction
 
             final List<Criterion> criteria = new ArrayList<Criterion>();
             criteria.clear();
-            
-            if (candidate.getRatings() != null)
+
+            if (candidate.getValues() != null)
             {
-                criteria.addAll(candidate.getRatings().keySet());
+                criteria.addAll(candidate.getValues().keySet());
             }
 
             for (final Criterion criterion : criteria)
