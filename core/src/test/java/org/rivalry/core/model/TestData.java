@@ -35,25 +35,25 @@ public class TestData
 
         {
             final Candidate candidate = createCandidate("1");
-            candidate.putRating(criteria.get(0), 1.1);
-            candidate.putRating(criteria.get(1), 1.2);
-            candidate.putRating(criteria.get(2), 1.3);
+            candidate.putValue(criteria.get(0), 1.1);
+            candidate.putValue(criteria.get(1), 1.2);
+            candidate.putValue(criteria.get(2), 1.3);
             answer.add(candidate);
         }
 
         {
             final Candidate candidate = createCandidate("2");
-            candidate.putRating(criteria.get(0), 2.1);
-            candidate.putRating(criteria.get(1), 2.2);
-            candidate.putRating(criteria.get(2), 2.3);
+            candidate.putValue(criteria.get(0), 2.1);
+            candidate.putValue(criteria.get(1), 2.2);
+            candidate.putValue(criteria.get(2), 2.3);
             answer.add(candidate);
         }
 
         {
             final Candidate candidate = createCandidate("3");
-            candidate.putRating(criteria.get(0), 3.1);
-            candidate.putRating(criteria.get(1), 3.2);
-            candidate.putRating(criteria.get(2), 3.3);
+            candidate.putValue(criteria.get(0), 3.1);
+            candidate.putValue(criteria.get(1), 3.2);
+            candidate.putValue(criteria.get(2), 3.3);
             answer.add(candidate);
         }
 
