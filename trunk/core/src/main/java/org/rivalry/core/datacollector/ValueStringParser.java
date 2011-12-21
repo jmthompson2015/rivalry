@@ -12,13 +12,15 @@ import org.openqa.selenium.WebElement;
 
 /**
  * Defines methods required by a value string parser.
+ * 
+ * @param <T> Type.
  */
-public interface ValueStringParser
+public interface ValueStringParser<T>
 {
     /**
      * @param webElement Web element.
      * 
-     * @return a new double which represents the given parameter.
+     * @return a new object which represents the given parameter.
      */
-    Double parse(WebElement webElement);
+    T parse(WebElement webElement);
 }
