@@ -36,7 +36,7 @@ public class StockInjector extends DefaultDataCollectorInjector
     }
 
     @Override
-    public ValueStringParser injectValueStringParser()
+    public ValueStringParser<?> injectValueStringParser()
     {
         return new YahooFinanceParser();
     }
