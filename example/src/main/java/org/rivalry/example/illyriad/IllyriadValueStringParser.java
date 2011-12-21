@@ -15,12 +15,12 @@ import org.rivalry.core.datacollector.ValueStringParser;
 /**
  * Provides a value string parser implementation for Illyriad.
  */
-public class IllyriadValueStringParser implements ValueStringParser
+public class IllyriadValueStringParser implements ValueStringParser<Integer>
 {
     @Override
-    public Double parse(final WebElement webElement)
+    public Integer parse(final WebElement webElement)
     {
-        Double answer = null;
+        Integer answer = null;
 
         if (webElement != null)
         {
@@ -33,12 +33,12 @@ public class IllyriadValueStringParser implements ValueStringParser
 
                 if (myValueString.endsWith("M"))
                 {
-                    answer = parseDoubleOnly(myValueString.substring(0,
+                    answer = parseIntegerOnly(myValueString.substring(0,
                             myValueString.length() - 1)) * 1000000;
                 }
                 else
                 {
-                    answer = parseDoubleOnly(myValueString);
+                    answer = parseIntegerOnly(myValueString);
                 }
             }
         }
@@ -49,15 +49,15 @@ public class IllyriadValueStringParser implements ValueStringParser
     /**
      * @param valueString Value string.
      * 
-     * @return a double parsed from the given parameter, if possible.
+     * @return an integer parsed from the given parameter, if possible.
      */
-    private Double parseDoubleOnly(final String valueString)
+    private Integer parseIntegerOnly(final String valueString)
     {
-        Double answer = null;
+        Integer answer = null;
 
         try
         {
-            answer = Double.parseDouble(valueString);
+            answer = Integer.parseInt(valueString);
         }
         catch (final NumberFormatException ignore)
         {

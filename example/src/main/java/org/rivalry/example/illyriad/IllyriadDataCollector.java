@@ -73,7 +73,7 @@ public class IllyriadDataCollector implements DataCollector
     private boolean _isJavascriptEnabled;
 
     /** Value string parser. */
-    private final ValueStringParser _valueStringParser;
+    private final ValueStringParser<Integer> _valueStringParser;
 
     /** Web driver. */
     private WebDriver _webDriver;
@@ -83,7 +83,8 @@ public class IllyriadDataCollector implements DataCollector
      * 
      * @param valueStringParser Value string parser.
      */
-    public IllyriadDataCollector(final ValueStringParser valueStringParser)
+    public IllyriadDataCollector(
+            final ValueStringParser<Integer> valueStringParser)
     {
         _valueStringParser = valueStringParser;
     }
@@ -300,8 +301,8 @@ public class IllyriadDataCollector implements DataCollector
                         {
                             final Long buildingNumber = (long)j;
                             // final Long buildingPosition = (Long)list3.get(0);
-                            final Double buildingLevel = ((Long)list3.get(1))
-                                    .doubleValue();
+                            final Integer buildingLevel = ((Long)list3.get(1))
+                                    .intValue();
                             final String criterionName = getBuildingName(buildingNumber);
                             putRating(rivalryData, candidate, category,
                                     criterionName, buildingLevel);
@@ -367,7 +368,7 @@ public class IllyriadDataCollector implements DataCollector
             if (resource != null)
             {
                 final WebElement element = elements.get(i);
-                final Double value = getValueStringParser().parse(element);
+                final Integer value = getValueStringParser().parse(element);
                 final String criterionName = resource.getProductionName();
                 putRating(rivalryData, candidate, category, criterionName,
                         value);
@@ -401,7 +402,7 @@ public class IllyriadDataCollector implements DataCollector
             if (resource != null)
             {
                 final WebElement element = elements.get(i);
-                final Double value = getValueStringParser().parse(element);
+                final Integer value = getValueStringParser().parse(element);
                 final String criterionName = resource.getDisplayName();
                 putRating(rivalryData, candidate, category, criterionName,
                         value);
@@ -526,7 +527,7 @@ public class IllyriadDataCollector implements DataCollector
     /**
      * @return the valueStringParser
      */
-    private ValueStringParser getValueStringParser()
+    private ValueStringParser<Integer> getValueStringParser()
     {
         return _valueStringParser;
     }
@@ -631,12 +632,12 @@ public class IllyriadDataCollector implements DataCollector
      */
     private void putRating(final RivalryData rivalryData,
             final Candidate candidate, final Category category,
-            final String criterionName, final Double value)
+            final String criterionName, final Integer value)
     {
         final Criterion criterion = getCriterion(rivalryData, category,
                 criterionName);
 
-        candidate.putRating(criterion, value);
+        candidate.putValue(criterion, value);
     }
 
     /**
