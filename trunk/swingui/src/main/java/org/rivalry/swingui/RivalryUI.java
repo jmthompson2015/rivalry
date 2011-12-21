@@ -224,6 +224,22 @@ public class RivalryUI extends JPanel
     }
 
     /**
+     * @return a new boardgame action listener.
+     */
+    private ActionListener createBoardgameActionListener()
+    {
+        return new ActionListener()
+        {
+            @Override
+            public void actionPerformed(final ActionEvent e)
+            {
+                final RivalryData rivalryData = readRivalryData("BoardgameRivalryData.xml");
+                loadDataActionPerformed(rivalryData);
+            }
+        };
+    }
+
+    /**
      * @param imageName Image name.
      * @param toolTipText Tool tip text.
      * @param altText Alternate text.
@@ -332,6 +348,9 @@ public class RivalryUI extends JPanel
         final JButton houseButton = createButton("House24.png",
                 "Load best place data", "Best Places",
                 createBestPlaceActionListener());
+        final JButton boardgameButton = createButton("Boardgame24.png",
+                "Load board game data", "Boardgames",
+                createBoardgameActionListener());
         final JButton dogButton = createButton("Dog24.png",
                 "Load dog breed data", "Dog Breeds",
                 createDogBreedActionListener());
@@ -350,6 +369,7 @@ public class RivalryUI extends JPanel
         final JToolBar answer = new JToolBar("Rivalry Tool Bar");
 
         answer.add(houseButton);
+        answer.add(boardgameButton);
         answer.add(dogButton);
         answer.add(illyriadButton);
         answer.add(brainButton);
