@@ -49,7 +49,7 @@ public class DefaultDataCollector implements DataCollector
     private final NameStringParser _nameStringParser;
 
     /** Value string parser. */
-    private final ValueStringParser _valueStringParser;
+    private final ValueStringParser<?> _valueStringParser;
 
     /**
      * Construct this object with the given parameter.
@@ -61,7 +61,7 @@ public class DefaultDataCollector implements DataCollector
      * @param dataPostProcessor Data post processor.
      */
     public DefaultDataCollector(final NameStringParser nameStringParser,
-            final ValueStringParser valueStringParser,
+            final ValueStringParser<?> valueStringParser,
             final Provider<Category> categoryProvider,
             final Provider<Criterion> criterionProvider,
             final DataPostProcessor dataPostProcessor)
@@ -243,7 +243,8 @@ public class DefaultDataCollector implements DataCollector
 
             for (int i = 0; i < size0; i++)
             {
-                final String name = _nameStringParser.parse(elements0.get(i));
+                final String name = getNameStringParser().parse(
+                        elements0.get(i));
                 LOGGER.debug(i + " name = [" + name + "]");
                 if (StringUtils.isNotEmpty(name))
                 {
@@ -291,9 +292,17 @@ public class DefaultDataCollector implements DataCollector
     }
 
     /**
+     * @return the nameStringParser
+     */
+    private NameStringParser getNameStringParser()
+    {
+        return _nameStringParser;
+    }
+
+    /**
      * @return the valueStringParser
      */
-    private ValueStringParser getValueStringParser()
+    private ValueStringParser<?> getValueStringParser()
     {
         return _valueStringParser;
     }
@@ -416,11 +425,11 @@ public class DefaultDataCollector implements DataCollector
                         rivalryData.getCriteria().add(criterion);
                     }
 
-                    final Double value = getValueStringParser().parse(
+                    final Object value = getValueStringParser().parse(
                             valueElement);
                     LOGGER.debug("name = [" + name + "] value = [" + value
                             + "]");
-                    candidate.putRating(criterion, value);
+                    candidate.putValue(criterion, value);
                 }
             }
         }
