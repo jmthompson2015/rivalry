@@ -23,12 +23,12 @@ import org.rivalry.core.datacollector.ValueStringParser;
  * </ol>
  * </p>
  */
-public class YahooFinanceParser implements ValueStringParser
+public class YahooFinanceParser implements ValueStringParser<Object>
 {
     @Override
-    public Double parse(final WebElement webElement)
+    public Object parse(final WebElement webElement)
     {
-        Double answer = null;
+        Object answer = null;
 
         if (webElement != null)
         {
@@ -59,6 +59,11 @@ public class YahooFinanceParser implements ValueStringParser
                     {
                         answer = parseDoubleOnly(myString);
                     }
+                }
+
+                if (answer == null)
+                {
+                    answer = myString;
                 }
             }
         }
