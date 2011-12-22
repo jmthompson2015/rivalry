@@ -191,6 +191,7 @@ public class CandidateTableModel extends AbstractTableModel
             final int size = getRowCount();
             boolean isString = false;
             boolean isDouble = false;
+            boolean isInteger = false;
 
             for (int i = 0; i < size; i++)
             {
@@ -206,12 +207,16 @@ public class CandidateTableModel extends AbstractTableModel
                     {
                         isDouble = true;
                     }
+                    else if (value instanceof Integer)
+                    {
+                        isInteger = true;
+                    }
                 }
             }
 
-            if (isString && isDouble)
+            if (isString && (isDouble || isInteger))
             {
-                // If there is a mix of double and string, object is the lowest
+                // If there is a mix of string and number, object is the lowest
                 // common denominator.
                 answer = Object.class;
             }
@@ -222,6 +227,10 @@ public class CandidateTableModel extends AbstractTableModel
             else if (isDouble)
             {
                 answer = Double.class;
+            }
+            else if (isInteger)
+            {
+                answer = Integer.class;
             }
             else
             {
