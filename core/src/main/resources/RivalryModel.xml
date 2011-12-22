@@ -131,6 +131,22 @@
             <methodBodyLine>{</methodBodyLine>
             <methodBodyLine>answer = (Double)value;</methodBodyLine>
             <methodBodyLine>}</methodBodyLine>
+            <methodBodyLine>else if (value instanceof Integer)</methodBodyLine>
+            <methodBodyLine>{</methodBodyLine>
+            <methodBodyLine>answer = ((Integer)value).doubleValue();</methodBodyLine>
+            <methodBodyLine>}</methodBodyLine>
+            <methodBodyLine>else if (value instanceof Float)</methodBodyLine>
+            <methodBodyLine>{</methodBodyLine>
+            <methodBodyLine>answer = ((Float)value).doubleValue();</methodBodyLine>
+            <methodBodyLine>}</methodBodyLine>
+            <methodBodyLine>else if (value instanceof Long)</methodBodyLine>
+            <methodBodyLine>{</methodBodyLine>
+            <methodBodyLine>answer = ((Long)value).doubleValue();</methodBodyLine>
+            <methodBodyLine>}</methodBodyLine>
+            <methodBodyLine>else if (value instanceof Short)</methodBodyLine>
+            <methodBodyLine>{</methodBodyLine>
+            <methodBodyLine>answer = ((Short)value).doubleValue();</methodBodyLine>
+            <methodBodyLine>}</methodBodyLine>
             <methodBodyLine>return answer;</methodBodyLine>
         </method>
         <method>
