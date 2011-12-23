@@ -19,16 +19,20 @@ import org.apache.commons.lang.StringUtils;
  */
 public enum Building
 {
-    /** Lumberjacks: buildings[1][2] */
-    /** Clay Pits: buildings[1][3] */
-    /** Iron Mines: buildings[1][4] */
-    /** Quarries: buildings[1][5] */
-    /** Farmyards: buildings[1][6] */
-
     /** City wall. */
     CITY_WALL("City Wall", 10, -1L),
     /** Storehouse. buildings[0][1] */
     STOREHOUSE("Storehouse", 0, 1L),
+    /** Lumberjacks: buildings[1][2] */
+    LUMBERJACKS("Lumberjacks", 200, 2L),
+    /** Clay Pits: buildings[1][3] */
+    CLAY_PITS("Clay Pits", 201, 3L),
+    /** Iron Mines: buildings[1][4] */
+    IRON_MINES("Iron Mines", 202, 4L),
+    /** Quarries: buildings[1][5] */
+    QUARRIES("Quarries", 203, 5L),
+    /** Farmyards: buildings[1][6] */
+    FARMYARDS("Farmyards", 204, 6L),
     /** Library. buildings[0][7] */
     LIBRARY("Library", 1, 7L),
     /** Barracks. buildings[0][8] */
@@ -51,16 +55,32 @@ public enum Building
     STONEMASON("Stonemason", 23, 16L),
     /** Flourmill. buildings[0][17] */
     FLOURMILL("Flourmill", 24, 17L),
+    /** Unknown. */
+    UNKNOWN_18("Unknown 18", 101, 18L),
     /** Common ground. buildings[0][19] */
     COMMON_GROUND("Common Ground", 11, 19L),
+    /** Unknown. */
+    UNKNOWN_20("Unknown 20", 102, 20L),
     /** Paddock. buildings[0][21] */
     PADDOCK("Paddock", 12, 21L),
+    /** Unknown. */
+    UNKNOWN_22("Unknown 22", 103, 22L),
+    /** Unknown. */
+    UNKNOWN_23("Unknown 23", 104, 23L),
     /** Vault. buildings[0][24] */
     VAULT("Vault", 90, 24L),
+    /** Unknown. */
+    UNKNOWN_25("Unknown 25", 105, 25L),
     /** Mage tower. buildings[0][26] */
     MAGE_TOWER("Mage Tower", 5, 26L),
+    /** Unknown. */
+    UNKNOWN_27("Unknown 27", 106, 27L),
     /** Fletcher. buildings[0][28] */
     FLETCHER("Fletcher", 33, 28L),
+    /** Unknown. */
+    UNKNOWN_29("Unknown 29", 107, 29L),
+    /** Unknown. */
+    UNKNOWN_30("Unknown 30", 108, 30L),
     /** Spearmaker. buildings[0][31] */
     SPEARMAKER("Spearmaker", 37, 31L),
     /** Blacksmith. buildings[0][32] */
@@ -75,8 +95,14 @@ public enum Building
     SIEGE_WORKSHOP("Siege Workshop", 36, 36L),
     /** Book binder. buildings[0][37] */
     BOOK_BINDER("Book Binder", 31, 37L),
+    /** Unknown. */
+    UNKNOWN_38("Unknown 38", 109, 38L),
     /** Warehouse. buildings[0][39] */
     WAREHOUSE("Warehouse", 7, 39L),
+    /** Unknown. */
+    UNKNOWN_40("Unknown 40", 110, 40L),
+    /** Unknown. */
+    UNKNOWN_41("Unknown 41", 111, 41L),
     /** Runemasters' Grounding. buildings[0][42] */
     RUNEMASTERS_GROUNDING("Runemasters' Grounding", 70, 42L),
     /** Geomancers' retreat. buildings[0][43] */
