@@ -390,6 +390,8 @@ public class IllyriadDataCollector implements DataCollector
 
         final Category category = getCategory(rivalryData, "Resource");
 
+        fetchStorehouseCapacity(rivalryData, candidate, category);
+
         final List<WebElement> elements = getWebDriver().findElements(
                 By.className("resTxt"));
 
@@ -411,6 +413,30 @@ public class IllyriadDataCollector implements DataCollector
 
         final long end = System.currentTimeMillis();
         logTiming("fetchResourceData()", start, end);
+    }
+
+    /**
+     * Fetch the maximum storage from a Javascript variable.
+     * 
+     * @param rivalryData Rivalry data.
+     * @param candidate Candidate.
+     * @param category Category.
+     */
+    private void fetchStorehouseCapacity(final RivalryData rivalryData,
+            final Candidate candidate, final Category category)
+    {
+        final JavascriptExecutor js = (JavascriptExecutor)getWebDriver();
+        final Long maxStorage = (Long)js.executeScript("return maxStorage;");
+
+        Integer value = null;
+
+        if (maxStorage != null)
+        {
+            value = maxStorage.intValue();
+        }
+
+        putRating(rivalryData, candidate, category, "Storehouse(s) Capacity",
+                value);
     }
 
     /**
