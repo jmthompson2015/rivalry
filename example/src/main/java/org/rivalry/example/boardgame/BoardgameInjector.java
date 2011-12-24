@@ -8,6 +8,7 @@
 //*****************************************************************************
 package org.rivalry.example.boardgame;
 
+import org.rivalry.core.datacollector.DataPostProcessor;
 import org.rivalry.core.datacollector.DefaultDataCollectorInjector;
 import org.rivalry.core.model.RivalryData;
 
@@ -16,11 +17,11 @@ import org.rivalry.core.model.RivalryData;
  */
 public class BoardgameInjector extends DefaultDataCollectorInjector
 {
-    // @Override
-    // public boolean injectJavascriptEnabled()
-    // {
-    // return true;
-    // }
+    @Override
+    public DataPostProcessor injectDataPostProcessor()
+    {
+        return new BoardgameDataPostProcessor();
+    }
 
     @Override
     public RivalryData injectRivalryData()
