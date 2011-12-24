@@ -3,7 +3,6 @@ package org.rivalry.example.boardgame;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -14,7 +13,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.rivalry.core.model.Candidate;
+import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.DefaultCandidate;
+import org.rivalry.core.model.DefaultCriterion;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.RivalryDataWriter;
 
@@ -36,11 +37,9 @@ public class BoardgameNameDataCollectorMain
     {
         System.out.println("start");
         final BoardgameNameDataCollectorMain dataCollector = new BoardgameNameDataCollectorMain();
-        final List<Candidate> candidates = dataCollector.fetchCandidates();
-
         final BoardgameInjector injector = new BoardgameInjector();
         final RivalryData rivalryData = injector.injectRivalryData();
-        rivalryData.getCandidates().addAll(candidates);
+        dataCollector.fetchCandidates(rivalryData);
 
         final RivalryDataWriter rdWriter = new RivalryDataWriter();
         final Writer writer = new FileWriter("BoardgameCandidates.xml");
@@ -48,47 +47,70 @@ public class BoardgameNameDataCollectorMain
     }
 
     /**
-     * @return Candidates.
+     * @param rivalryData Rivalry data.
      */
-    public List<Candidate> fetchCandidates()
+    public void fetchCandidates(final RivalryData rivalryData)
     {
-        final List<Candidate> answer = new ArrayList<Candidate>();
-
         final WebDriver webDriver = createWebDriver();
         webDriver.get("http://www.boardgamegeek.com/browse/boardgame");
 
-        final List<WebElement> tables = webDriver.findElements(By
-                .id("collectionitems"));
+        final WebElement table = webDriver
+                .findElement(By.id("collectionitems"));
 
-        if (CollectionUtils.isNotEmpty(tables))
+        if (table != null)
         {
-            final WebElement table = tables.get(0);
-
             final List<WebElement> parents = table.findElements(By
-                    .className("collection_objectname"));
+                    .tagName("tr"));
 
             if (CollectionUtils.isNotEmpty(parents))
             {
+                // The first one is the header row; skip it.
+                parents.remove(0);
+
                 for (final WebElement parent : parents)
                 {
-                    final List<WebElement> anchors = parent.findElements(By
-                            .tagName("a"));
+                    final WebElement td = parent.findElement(By
+                            .className("collection_objectname"));
+                    final WebElement anchor = td.findElement(By.tagName("a"));
 
-                    if (CollectionUtils.isNotEmpty(tables))
+                    final String name = anchor.getText();
+                    final String page = anchor.getAttribute("href");
+                    final Candidate candidate = createCandidate(name, page);
+                    rivalryData.getCandidates().add(candidate);
+
+                    final WebElement rankElement = parent.findElement(By
+                            .className("collection_rank"));
+                    final Integer rank = Integer
+                            .parseInt(rankElement.getText());
+                    Criterion criterion = getCriterion(rivalryData,
+                            "Board Game Rank");
+                    candidate.putValue(criterion, rank);
+
+                    final List<WebElement> stats = parent.findElements(By
+                            .className("collection_bggrating"));
+                    if (CollectionUtils.isNotEmpty(stats))
                     {
-                        final WebElement anchor = anchors.get(0);
+                        final Double geekRating = Double.parseDouble(stats.get(
+                                0).getText());
+                        criterion = getCriterion(rivalryData, "Geek Rating");
+                        candidate.putValue(criterion, geekRating);
 
-                        final String name = anchor.getText();
-                        final String page = anchor.getAttribute("href");
-                        answer.add(createCandidate(name, page));
+                        final Double avgRating = Double.parseDouble(stats
+                                .get(1).getText());
+                        criterion = getCriterion(rivalryData, "Avg Rating");
+                        candidate.putValue(criterion, avgRating);
+
+                        final Integer numVoters = Integer.parseInt(stats.get(2)
+                                .getText());
+                        criterion = getCriterion(rivalryData, "Num Voters");
+                        candidate.putValue(criterion, numVoters);
                     }
                 }
             }
         }
 
-        System.out.println("Candidates found: " + answer.size());
-
-        return answer;
+        System.out.println("Candidates found: "
+                + rivalryData.getCandidates().size());
     }
 
     /**
@@ -121,6 +143,28 @@ public class BoardgameNameDataCollectorMain
         if (answer instanceof HtmlUnitDriver)
         {
             ((HtmlUnitDriver)answer).setJavascriptEnabled(false);
+        }
+
+        return answer;
+    }
+
+    /**
+     * @param rivalryData Rivalry data.
+     * @param criterionName Criterion name.
+     * 
+     * @return the criterion of the given name, creating it if necessary.
+     */
+    private Criterion getCriterion(final RivalryData rivalryData,
+            final String criterionName)
+    {
+        Criterion answer = rivalryData.findCriterionByName(criterionName);
+
+        if (answer == null)
+        {
+            answer = new DefaultCriterion();
+            answer.setName(criterionName);
+
+            rivalryData.getCriteria().add(answer);
         }
 
         return answer;
