@@ -54,6 +54,8 @@ public class RivalryMainPanel extends JSplitPane
         setLeftComponent(createCriterionPanel(rivalryData));
         setRightComponent(createCandidatePanel(rivalryData,
                 _criterionTableModel.getFitnessFunction()));
+
+        setOneTouchExpandable(true);
     }
 
     /**
