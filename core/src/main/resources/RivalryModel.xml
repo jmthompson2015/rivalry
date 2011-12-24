@@ -217,7 +217,6 @@
             <initialValue>new ArrayList&lt;org.rivalry.core.model.Category&gt;()</initialValue>
         </property>
         <property>
-            <modifiers>final</modifiers>
             <name>createDate</name>
             <type>Date</type>
             <initialValue>new Date()</initialValue>

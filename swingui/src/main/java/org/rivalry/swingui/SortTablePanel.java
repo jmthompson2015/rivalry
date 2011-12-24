@@ -10,6 +10,9 @@ package org.rivalry.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -43,6 +46,9 @@ public class SortTablePanel extends JPanel
     /** User preferences. */
     final UserPreferences _userPreferences = new UserPreferences();
 
+    /** Create date widget. */
+    private final JLabel _createDateUI;
+
     /** Row count widget. */
     private final JLabel _rowCountUI;
 
@@ -55,12 +61,15 @@ public class SortTablePanel extends JPanel
      * @param tableModel Table model.
      * @param sortKeys Sort keys. (optional)
      * @param preferencePrefix Preference prefix.
+     * @param createDate Create date.
      */
     public SortTablePanel(final TableModel tableModel,
-            final List<SortKey> sortKeys, final String preferencePrefix)
+            final List<SortKey> sortKeys, final String preferencePrefix,
+            final Date createDate)
     {
         _table = createTable(tableModel, preferencePrefix);
         _rowCountUI = createRowCountUI(tableModel);
+        _createDateUI = createCreateDateUI(createDate);
 
         setLayout(new BorderLayout());
 
@@ -94,6 +103,27 @@ public class SortTablePanel extends JPanel
     }
 
     /**
+     * @param createDate Create date.
+     * 
+     * @return a new create date widget.
+     */
+    private JLabel createCreateDateUI(final Date createDate)
+    {
+        JLabel answer = null;
+
+        if (createDate != null)
+        {
+            final Format formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+            final String createDateString = "Data collected: "
+                    + formatter.format(createDate);
+
+            answer = new JLabel(createDateString);
+        }
+
+        return answer;
+    }
+
+    /**
      * @param tableModel Table model.
      * 
      * @return a new row count widget.
@@ -115,7 +145,6 @@ public class SortTablePanel extends JPanel
      */
     private JPanel createSouthPanel(final TableModel tableModel)
     {
-
         final int hgap = 20;
         final int vgap = 0;
         final JPanel answer = new JPanel(new BorderLayout(hgap, vgap));
@@ -128,6 +157,11 @@ public class SortTablePanel extends JPanel
                 right));
 
         answer.add(_rowCountUI, BorderLayout.WEST);
+
+        if (_createDateUI != null)
+        {
+            answer.add(_createDateUI, BorderLayout.EAST);
+        }
 
         return answer;
     }
