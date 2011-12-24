@@ -52,7 +52,7 @@ public class MyTestSortTablePanel
         final TableModel tableModel = new CandidateTableModel(rivalryData,
                 fitnessFunction);
         final SortTablePanel panel = new SortTablePanel(tableModel, null,
-                PREF_PREFIX);
+                PREF_PREFIX, null);
 
         showFrame("CandidateSortTablePanel Test", panel);
     }
@@ -70,7 +70,7 @@ public class MyTestSortTablePanel
         final RivalryData rivalryData = testData.createRivalryData();
         final TableModel tableModel = new CriterionTableModel(rivalryData);
         final SortTablePanel panel = new SortTablePanel(tableModel, null,
-                PREF_PREFIX);
+                PREF_PREFIX, null);
 
         showFrame("CriterionSortTablePanel Test", panel);
     }
@@ -85,7 +85,7 @@ public class MyTestSortTablePanel
     public void testUI0() throws InterruptedException
     {
         final SortTablePanel panel = new SortTablePanel(new MyTestTableModel(),
-                null, PREF_PREFIX);
+                null, PREF_PREFIX, null);
 
         showFrame("TestSortTablePanel", panel);
     }

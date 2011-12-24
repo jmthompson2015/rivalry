@@ -84,7 +84,7 @@ public class RivalryMainPanel extends JSplitPane
 
         final SortTablePanel candidateSortTablePanel = new SortTablePanel(
                 vcTableModel, createTableSortKeys(preferencePrefix),
-                preferencePrefix);
+                preferencePrefix, rivalryData.getCreateDate());
 
         final VisibleColumnsPopupMenu popupMenu = new VisibleColumnsPopupMenu(
                 rivalryData, vcTableModel);
@@ -122,14 +122,16 @@ public class RivalryMainPanel extends JSplitPane
             final VisibleColumnsTableModel vcTableModel = new VisibleColumnsTableModel(
                     _criterionTableModel, preferencePrefix);
             criterionSortTablePanel = new SortTablePanel(vcTableModel,
-                    createTableSortKeys(preferencePrefix), preferencePrefix);
+                    createTableSortKeys(preferencePrefix), preferencePrefix,
+                    null);
             vcTableModel.setColumnVisible(CriterionTableModel.CATEGORY_COLUMN,
                     false);
         }
         else
         {
             criterionSortTablePanel = new SortTablePanel(_criterionTableModel,
-                    createTableSortKeys(preferencePrefix), preferencePrefix);
+                    createTableSortKeys(preferencePrefix), preferencePrefix,
+                    null);
         }
 
         return createTitledSortTablePanel("Criteria", criterionSortTablePanel);
