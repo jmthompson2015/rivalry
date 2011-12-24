@@ -28,8 +28,6 @@ import org.apache.commons.cli.PosixParser;
 import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataCollector;
 import org.rivalry.core.datacollector.io.DCSpecReader;
-import org.rivalry.core.model.Candidate;
-import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.RivalryDataReader;
 import org.rivalry.core.model.RivalryDataWriter;
@@ -68,29 +66,12 @@ public class BoardgameDataCollectorMain
             final DCSpec dcSpec = main.createDCSpec();
             final String username = null;
             final String password = null;
-            final RivalryData rivalryData0 = injector.injectRivalryData();
-
-            main.readCandidates(rivalryData0);
-
-            // Copy the first n candidates for testing
-            final RivalryData rivalryData = injector.injectRivalryData();
-            for (int i = 0; i < 5; i++)
-            {
-                final Candidate candidate = rivalryData0.getCandidates().get(i);
-                rivalryData.getCandidates().add(candidate);
-            }
+            final RivalryData rivalryData = main.readCandidates();
 
             dataCollector.fetchData(dcSpec, username, password, rivalryData);
 
             System.out.println("\n\ncandidates.size() = "
                     + rivalryData.getCandidates().size());
-
-            final Candidate candidate = rivalryData.getCandidates().get(0);
-            for (final Criterion criterion : rivalryData.getCriteria())
-            {
-                System.out.println("criterion " + criterion.getName()
-                        + " value [" + candidate.getValue(criterion) + "]");
-            }
 
             final String outputFile = determineOutputFile(commandLine);
             System.out.println("outputFile = [" + outputFile + "]");
@@ -170,22 +151,24 @@ public class BoardgameDataCollectorMain
     }
 
     /**
-     * @param rivalryData Rivalry data.
+     * @return rivalry data.
      */
-    private void readCandidates(final RivalryData rivalryData)
+    private RivalryData readCandidates()
     {
+        RivalryData answer = null;
+
         final RivalryDataReader rdReader = new RivalryDataReader();
         try
         {
             final Reader reader = new FileReader("BoardgameCandidates.xml");
-            final RivalryData rivalryData0 = rdReader.read(reader);
-
-            rivalryData.getCandidates().addAll(rivalryData0.getCandidates());
+            answer = rdReader.read(reader);
         }
         catch (final FileNotFoundException e)
         {
             e.printStackTrace();
         }
+
+        return answer;
     }
 
     /**
