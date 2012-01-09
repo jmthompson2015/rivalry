@@ -9,21 +9,19 @@
 package org.rivalry.swingui;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.RowSorter.SortKey;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 import org.rivalry.core.fitness.FitnessFunction;
 import org.rivalry.core.model.RivalryData;
-import org.rivalry.core.util.UserPreferences;
 import org.rivalry.swingui.table.CandidateTableModel;
 import org.rivalry.swingui.table.CriterionTableModel;
+import org.rivalry.swingui.table.DefaultTableUserPreferences;
+import org.rivalry.swingui.table.TableUserPreferences;
 import org.rivalry.swingui.table.VisibleColumnsPopupMenu;
 import org.rivalry.swingui.table.VisibleColumnsTableModel;
 
@@ -40,9 +38,6 @@ public class RivalryMainPanel extends JSplitPane
 
     /** Candidate table model. */
     CandidateTableModel _candidateTableModel;
-
-    /** User preferences. */
-    private final UserPreferences _userPreferences = new UserPreferences();
 
     /**
      * Construct this object with the given parameter.
@@ -79,12 +74,12 @@ public class RivalryMainPanel extends JSplitPane
                 fitnessFunction);
         final String preferencePrefix = rivalryData.getPreferencePrefix()
                 + "/candidateTable";
+        final TableUserPreferences tableUserPreferences = new DefaultTableUserPreferences(
+                preferencePrefix);
         final VisibleColumnsTableModel vcTableModel = new VisibleColumnsTableModel(
-                _candidateTableModel, preferencePrefix);
-
+                _candidateTableModel, tableUserPreferences);
         final SortTablePanel candidateSortTablePanel = new SortTablePanel(
-                vcTableModel, createTableSortKeys(preferencePrefix),
-                preferencePrefix, rivalryData.getCreateDate());
+                vcTableModel, rivalryData.getCreateDate(), tableUserPreferences);
 
         final VisibleColumnsPopupMenu popupMenu = new VisibleColumnsPopupMenu(
                 rivalryData, vcTableModel);
@@ -115,46 +110,26 @@ public class RivalryMainPanel extends JSplitPane
         final SortTablePanel criterionSortTablePanel;
         final String preferencePrefix = rivalryData.getPreferencePrefix()
                 + "/criterionTable";
+        final TableUserPreferences tableUserPreferences = new DefaultTableUserPreferences(
+                preferencePrefix);
 
         if (rivalryData.getCategories().isEmpty())
         {
             // There are no categories, so hide the category column.
             final VisibleColumnsTableModel vcTableModel = new VisibleColumnsTableModel(
-                    _criterionTableModel, preferencePrefix);
-            criterionSortTablePanel = new SortTablePanel(vcTableModel,
-                    createTableSortKeys(preferencePrefix), preferencePrefix,
-                    null);
+                    _criterionTableModel, tableUserPreferences);
+            criterionSortTablePanel = new SortTablePanel(vcTableModel, null,
+                    tableUserPreferences);
             vcTableModel.setColumnVisible(CriterionTableModel.CATEGORY_COLUMN,
                     false);
         }
         else
         {
             criterionSortTablePanel = new SortTablePanel(_criterionTableModel,
-                    createTableSortKeys(preferencePrefix), preferencePrefix,
-                    null);
+                    null, tableUserPreferences);
         }
 
         return createTitledSortTablePanel("Criteria", criterionSortTablePanel);
-    }
-
-    /**
-     * @param preferencePrefix Preference prefix.
-     * 
-     * @return table sort keys.
-     */
-    private List<SortKey> createTableSortKeys(final String preferencePrefix)
-    {
-        List<SortKey> answer = null;
-
-        final SortKey sortKey = _userPreferences.getSortKey(preferencePrefix);
-
-        if (sortKey != null)
-        {
-            answer = new ArrayList<SortKey>();
-            answer.add(sortKey);
-        }
-
-        return answer;
     }
 
     /**
