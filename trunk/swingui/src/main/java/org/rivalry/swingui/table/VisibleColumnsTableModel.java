@@ -13,8 +13,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import org.rivalry.core.util.UserPreferences;
-
 /**
  * Provides a table model which manages visible columns in a table. It works by
  * channeling a normal table model, and adjusting the column index for
@@ -29,22 +27,20 @@ public class VisibleColumnsTableModel extends DefaultTableModel
     private final TableModel _dataModel;
 
     /** User preferences. */
-    private final UserPreferences _userPreferences = new UserPreferences();
-
-    /** Preference prefix. */
-    private final String _prefPrefix;
+    private final TableUserPreferences _userPreferences;
 
     /**
      * Construct this object with the given parameters.
      * 
      * @param dataModel Table model.
-     * @param preferencePrefix Preference prefix.
+     * @param tableUserPreferences User preferences.
      */
     public VisibleColumnsTableModel(final TableModel dataModel,
-            final String preferencePrefix)
+            final TableUserPreferences tableUserPreferences)
     {
+        _userPreferences = tableUserPreferences;
+
         _dataModel = dataModel;
-        _prefPrefix = preferencePrefix;
 
         _dataModel.addTableModelListener(new TableModelListener()
         {
@@ -156,7 +152,7 @@ public class VisibleColumnsTableModel extends DefaultTableModel
      */
     public Boolean isColumnVisible(final String columnName)
     {
-        return _userPreferences.isColumnVisible(_prefPrefix, columnName);
+        return _userPreferences.isColumnVisible(columnName);
     }
 
     /**
@@ -167,7 +163,7 @@ public class VisibleColumnsTableModel extends DefaultTableModel
             final boolean isVisible)
     {
         final String columnName = _dataModel.getColumnName(absoluteColumnIndex);
-        _userPreferences.putColumnVisible(_prefPrefix, columnName, isVisible);
+        _userPreferences.putColumnVisible(columnName, isVisible);
 
         fireTableStructureChanged();
     }

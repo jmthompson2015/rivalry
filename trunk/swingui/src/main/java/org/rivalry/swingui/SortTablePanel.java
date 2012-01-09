@@ -12,6 +12,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,8 +28,8 @@ import javax.swing.event.RowSorterListener;
 import javax.swing.table.TableModel;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.rivalry.core.util.UserPreferences;
 import org.rivalry.swingui.table.ColumnNameToolTipTable;
+import org.rivalry.swingui.table.TableUserPreferences;
 
 /**
  * Provides a sort table panel.
@@ -44,7 +45,7 @@ public class SortTablePanel extends JPanel
     private static final long serialVersionUID = 1L;
 
     /** User preferences. */
-    final UserPreferences _userPreferences = new UserPreferences();
+    final TableUserPreferences _userPreferences;
 
     /** Create date widget. */
     private final JLabel _createDateUI;
@@ -59,15 +60,15 @@ public class SortTablePanel extends JPanel
      * Construct this object with the given parameter.
      * 
      * @param tableModel Table model.
-     * @param sortKeys Sort keys. (optional)
-     * @param preferencePrefix Preference prefix.
      * @param createDate Create date.
+     * @param tableUserPreferences User preferences.
      */
-    public SortTablePanel(final TableModel tableModel,
-            final List<SortKey> sortKeys, final String preferencePrefix,
-            final Date createDate)
+    public SortTablePanel(final TableModel tableModel, final Date createDate,
+            final TableUserPreferences tableUserPreferences)
     {
-        _table = createTable(tableModel, preferencePrefix);
+        _userPreferences = tableUserPreferences;
+
+        _table = createTable(tableModel);
         _rowCountUI = createRowCountUI(tableModel);
         _createDateUI = createCreateDateUI(createDate);
 
@@ -75,6 +76,8 @@ public class SortTablePanel extends JPanel
 
         add(createCenterPanel(_table), BorderLayout.CENTER);
         add(createSouthPanel(tableModel), BorderLayout.SOUTH);
+
+        final List<SortKey> sortKeys = createTableSortKeys();
 
         if (CollectionUtils.isNotEmpty(sortKeys))
         {
@@ -168,12 +171,10 @@ public class SortTablePanel extends JPanel
 
     /**
      * @param tableModel Table model.
-     * @param preferencePrefix Preference prefix.
      * 
      * @return a new table.
      */
-    private JTable createTable(final TableModel tableModel,
-            final String preferencePrefix)
+    private JTable createTable(final TableModel tableModel)
     {
         final JTable answer = new ColumnNameToolTipTable(tableModel);
 
@@ -191,11 +192,28 @@ public class SortTablePanel extends JPanel
 
                 if (CollectionUtils.isNotEmpty(sortKeys))
                 {
-                    _userPreferences.putSortKey(preferencePrefix,
-                            sortKeys.get(0));
+                    _userPreferences.putSortKey(sortKeys.get(0));
                 }
             }
         });
+
+        return answer;
+    }
+
+    /**
+     * @return table sort keys.
+     */
+    private List<SortKey> createTableSortKeys()
+    {
+        List<SortKey> answer = null;
+
+        final SortKey sortKey = _userPreferences.getSortKey();
+
+        if (sortKey != null)
+        {
+            answer = new ArrayList<SortKey>();
+            answer.add(sortKey);
+        }
 
         return answer;
     }
