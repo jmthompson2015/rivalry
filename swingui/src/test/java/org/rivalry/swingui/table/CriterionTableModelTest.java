@@ -18,12 +18,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.TestData;
+import org.rivalry.core.util.UserPreferences;
 
 /**
  * Provides tests for the <code>CriterionTableModel</code> class.
  */
 public class CriterionTableModelTest
 {
+    /** Preference prefix. */
+    private static final String PREF_PREFIX = "test";
     /** Table model. */
     private CriterionTableModel _tableModel;
 
@@ -109,8 +112,11 @@ public class CriterionTableModelTest
     @Before
     public void setUp()
     {
+        final UserPreferences userPreferences = new UserPreferences(PREF_PREFIX);
+        userPreferences.clearCriterionWeights();
+
         final TestData testData = new TestData();
-        final RivalryData rivalryData = testData.createRivalryData();
+        final RivalryData rivalryData = testData.createRivalryData(PREF_PREFIX);
         _tableModel = new CriterionTableModel(rivalryData);
     }
 

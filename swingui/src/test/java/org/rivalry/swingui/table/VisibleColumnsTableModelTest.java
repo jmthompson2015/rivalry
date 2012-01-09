@@ -17,7 +17,6 @@ import javax.swing.table.TableModel;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.rivalry.core.util.UserPreferences;
 import org.rivalry.swingui.MyTestTableModel;
 
 /**
@@ -30,6 +29,10 @@ public class VisibleColumnsTableModelTest
 
     /** Table model. */
     private VisibleColumnsTableModel _tableModel;
+
+    /** User preferences. */
+    private final DefaultTableUserPreferences _userPreferences = new DefaultTableUserPreferences(
+            PREF_PREFIX);
 
     /**
      * Test the <code>getColumnClass()</code> method.
@@ -188,7 +191,7 @@ public class VisibleColumnsTableModelTest
         clearPrefs();
 
         final TableModel dataModel = new MyTestTableModel();
-        _tableModel = new VisibleColumnsTableModel(dataModel, PREF_PREFIX);
+        _tableModel = new VisibleColumnsTableModel(dataModel, _userPreferences);
     }
 
     /**
@@ -212,8 +215,6 @@ public class VisibleColumnsTableModelTest
      */
     private void clearPrefs()
     {
-        final UserPreferences userPreferences = new UserPreferences();
-        userPreferences.clearColumnVisibility(PREF_PREFIX);
-        userPreferences.clearCriterionWeights(PREF_PREFIX);
+        _userPreferences.clearColumnVisibility();
     }
 }
