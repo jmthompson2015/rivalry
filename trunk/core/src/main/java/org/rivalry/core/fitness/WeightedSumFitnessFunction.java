@@ -21,10 +21,7 @@ import org.rivalry.core.util.UserPreferences;
 public class WeightedSumFitnessFunction implements FitnessFunction
 {
     /** User preferences. */
-    private final UserPreferences _userPreferences = new UserPreferences();
-
-    /** Preference prefix. */
-    private final String _prefPrefix;
+    private final UserPreferences _userPreferences;
 
     /**
      * Construct this object with the given parameter.
@@ -33,7 +30,7 @@ public class WeightedSumFitnessFunction implements FitnessFunction
      */
     public WeightedSumFitnessFunction(final String preferencePrefix)
     {
-        _prefPrefix = preferencePrefix;
+        _userPreferences = new UserPreferences(preferencePrefix);
     }
 
     @Override
@@ -84,7 +81,7 @@ public class WeightedSumFitnessFunction implements FitnessFunction
      */
     public Integer getWeight(final Criterion criterion)
     {
-        return _userPreferences.getCriterionWeight(_prefPrefix, criterion);
+        return _userPreferences.getCriterionWeight(criterion);
     }
 
     /**
@@ -93,6 +90,6 @@ public class WeightedSumFitnessFunction implements FitnessFunction
      */
     public void putWeight(final Criterion criterion, final Integer weight)
     {
-        _userPreferences.putCriterionWeight(_prefPrefix, criterion, weight);
+        _userPreferences.putCriterionWeight(criterion, weight);
     }
 }
