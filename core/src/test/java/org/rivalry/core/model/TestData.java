@@ -125,11 +125,23 @@ public class TestData
      */
     public RivalryData createRivalryData()
     {
+        return createRivalryData("test");
+    }
+
+    /**
+     * @param preferencePrefix Preference prefix.
+     * 
+     * @return a new rivalry data.
+     */
+    public RivalryData createRivalryData(final String preferencePrefix)
+    {
         final RivalryData answer = new RivalryData();
 
         answer.getCategories().addAll(createCategories());
         answer.getCriteria().addAll(createCriteria(answer.getCategories()));
         answer.getCandidates().addAll(createCandidates(answer.getCriteria()));
+
+        answer.setPreferencePrefix(preferencePrefix);
 
         return answer;
     }
