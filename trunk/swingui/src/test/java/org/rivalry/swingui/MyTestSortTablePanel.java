@@ -21,6 +21,8 @@ import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.TestData;
 import org.rivalry.swingui.table.CandidateTableModel;
 import org.rivalry.swingui.table.CriterionTableModel;
+import org.rivalry.swingui.table.DefaultTableUserPreferences;
+import org.rivalry.swingui.table.TableUserPreferences;
 
 /**
  * Provides tests for the <code>SortTablePanel</code> class.
@@ -34,6 +36,10 @@ public class MyTestSortTablePanel
 {
     /** Preference prefix. */
     private static final String PREF_PREFIX = "test";
+
+    /** User preferences. */
+    private static final TableUserPreferences USER_PREFS = new DefaultTableUserPreferences(
+            PREF_PREFIX);
 
     /**
      * Test the user interface.
@@ -52,7 +58,7 @@ public class MyTestSortTablePanel
         final TableModel tableModel = new CandidateTableModel(rivalryData,
                 fitnessFunction);
         final SortTablePanel panel = new SortTablePanel(tableModel, null,
-                PREF_PREFIX, null);
+                USER_PREFS);
 
         showFrame("CandidateSortTablePanel Test", panel);
     }
@@ -70,7 +76,7 @@ public class MyTestSortTablePanel
         final RivalryData rivalryData = testData.createRivalryData();
         final TableModel tableModel = new CriterionTableModel(rivalryData);
         final SortTablePanel panel = new SortTablePanel(tableModel, null,
-                PREF_PREFIX, null);
+                USER_PREFS);
 
         showFrame("CriterionSortTablePanel Test", panel);
     }
@@ -85,7 +91,7 @@ public class MyTestSortTablePanel
     public void testUI0() throws InterruptedException
     {
         final SortTablePanel panel = new SortTablePanel(new MyTestTableModel(),
-                null, PREF_PREFIX, null);
+                null, USER_PREFS);
 
         showFrame("TestSortTablePanel", panel);
     }
