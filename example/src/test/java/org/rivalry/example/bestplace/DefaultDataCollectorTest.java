@@ -49,11 +49,14 @@ public class DefaultDataCollectorTest
     @Test
     public void fetchDataDenverColorado()
     {
+        final String username = null;
+        final String password = null;
         final RivalryData rivalryData = new RivalryData();
         final Candidate candidate = createCandidate("colorado/denver",
                 _dcSpec.getUrl());
+        rivalryData.getCandidates().add(candidate);
 
-        _dataCollector.fetchData(_dcSpec, rivalryData, candidate);
+        _dataCollector.fetchData(_dcSpec, username, password, rivalryData);
 
         assertThat(rivalryData.getCandidates().size(), is(1));
         assertThat(rivalryData.getCategories().size(), is(11));
@@ -141,11 +144,14 @@ public class DefaultDataCollectorTest
     @Test
     public void fetchDataPortlandOregon()
     {
+        final String username = null;
+        final String password = null;
         final RivalryData rivalryData = new RivalryData();
         final Candidate candidate = createCandidate("oregon/portland",
                 _dcSpec.getUrl());
+        rivalryData.getCandidates().add(candidate);
 
-        _dataCollector.fetchData(_dcSpec, rivalryData, candidate);
+        _dataCollector.fetchData(_dcSpec, username, password, rivalryData);
 
         assertThat(rivalryData.getCandidates().size(), is(1));
         assertThat(rivalryData.getCategories().size(), is(11));

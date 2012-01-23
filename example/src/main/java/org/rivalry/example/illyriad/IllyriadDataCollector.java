@@ -19,7 +19,9 @@ import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidSelectorException;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -59,6 +61,7 @@ public class IllyriadDataCollector implements DataCollector
         map.put(109395L, "Frakshush");
         map.put(134891L, "Fraktull");
         map.put(139164L, "Frakshure");
+        map.put(148216L, "Infrakshun");
 
         TOWN_ID_TO_TOWN_NAME = map;
     }
@@ -89,29 +92,6 @@ public class IllyriadDataCollector implements DataCollector
         _valueStringParser = valueStringParser;
     }
 
-    /**
-     * @param dcSpec Data collector specification.
-     * @param rivalryData Rivalry data.
-     * @param candidate Candidate.
-     */
-    @Override
-    public void fetchData(final DCSpec dcSpec, final RivalryData rivalryData,
-            final Candidate candidate)
-    {
-        final long start = System.currentTimeMillis();
-
-        final IllyriadCandidate illyriadCandidate = (IllyriadCandidate)candidate;
-        final Long newFocusTownId = illyriadCandidate.getTownId();
-        changeTownFocus(newFocusTownId);
-
-        fetchResourceData(rivalryData, candidate);
-        fetchProductionData(rivalryData, candidate);
-        fetchBuildingData(rivalryData, candidate);
-
-        final long end = System.currentTimeMillis();
-        logTiming("1 fetchData()", start, end);
-    }
-
     @Override
     public void fetchData(final DCSpec dcSpec, final String username,
             final String password, final RivalryData rivalryData)
@@ -134,6 +114,14 @@ public class IllyriadDataCollector implements DataCollector
         catch (final Exception e)
         {
             e.printStackTrace();
+            if (e instanceof StaleElementReferenceException)
+            {
+                throw (StaleElementReferenceException)e;
+            }
+            else if (e instanceof InvalidSelectorException)
+            {
+                throw (InvalidSelectorException)e;
+            }
         }
         finally
         {
@@ -142,13 +130,6 @@ public class IllyriadDataCollector implements DataCollector
 
         final long end = System.currentTimeMillis();
         logTiming("0 fetchData()", start, end);
-    }
-
-    @Override
-    public void fetchData(final WebDriver webDriver, final DCSpec dcSpec,
-            final RivalryData rivalryData, final Candidate candidate)
-    {
-        // TODO Auto-generated method stub
     }
 
     /**
@@ -343,6 +324,28 @@ public class IllyriadDataCollector implements DataCollector
         Collections.sort(candidates, comparator);
 
         rivalryData.getCandidates().addAll(candidates);
+    }
+
+    /**
+     * @param dcSpec Data collector specification.
+     * @param rivalryData Rivalry data.
+     * @param candidate Candidate.
+     */
+    private void fetchData(final DCSpec dcSpec, final RivalryData rivalryData,
+            final Candidate candidate)
+    {
+        final long start = System.currentTimeMillis();
+
+        final IllyriadCandidate illyriadCandidate = (IllyriadCandidate)candidate;
+        final Long newFocusTownId = illyriadCandidate.getTownId();
+        changeTownFocus(newFocusTownId);
+
+        fetchResourceData(rivalryData, candidate);
+        fetchProductionData(rivalryData, candidate);
+        fetchBuildingData(rivalryData, candidate);
+
+        final long end = System.currentTimeMillis();
+        logTiming("1 fetchData()", start, end);
     }
 
     /**
