@@ -13,11 +13,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import org.apache.commons.lang.StringUtils;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Category;
 import org.rivalry.core.model.Criterion;
@@ -49,14 +46,11 @@ public class DefaultDataCollectorTest
                 if (StringUtils.isNotEmpty(valueString))
                 {
                     final String myString = valueString.trim();
-                    if (myString.endsWith("%"))
-                        System.out.println("myString = [" + myString + "]");
 
                     if (myString.endsWith("%"))
                     {
                         answer = parseDoubleOnly(myString.substring(0,
                                 myString.length() - 1)) / 100.0;
-                        System.out.println("answer = " + answer);
                     }
                     else if (myString.endsWith("B"))
                     {
@@ -119,50 +113,98 @@ public class DefaultDataCollectorTest
     /**
      * Test the <code>fetchData()</code> method.
      */
-    @Ignore
     @Test
     public void fetchDataBestPlaces()
     {
-        final DataCollector dataCollector = new DefaultDataCollector(
+        final DataCollector dataCollector = new DefaultDataCollector(5,
                 _nameStringParser, _bestPlacesParser, _categoryProvider,
                 _criterionProvider, _dataPostProcessor);
 
         final DCSpec dcSpec = createDCSpecBestPlaces();
+        String username = null;
+        String password = null;
         final RivalryData rivalryData = new RivalryData();
-        final Candidate candidate = createCandidate("724690", dcSpec.getUrl());
 
-        dataCollector.fetchData(dcSpec, rivalryData, candidate);
+        {
+            final Candidate candidate = createCandidate("Denver CO",
+                    "http://www.bestplaces.net/climate/city/colorado/denver");
+            rivalryData.getCandidates().add(candidate);
+        }
+
+        {
+            final Candidate candidate = createCandidate("San Diego CA",
+                    "http://www.bestplaces.net/climate/city/california/san_diego");
+            rivalryData.getCandidates().add(candidate);
+        }
+
+        {
+            final Candidate candidate = createCandidate("West Lafayette IN",
+                    "http://www.bestplaces.net/city/indiana/west_lafayette");
+            rivalryData.getCandidates().add(candidate);
+        }
+
+        {
+            final Candidate candidate = createCandidate("Clearwater FL",
+                    "http://www.bestplaces.net/city/florida/clearwater");
+            rivalryData.getCandidates().add(candidate);
+        }
+
+        {
+            final Candidate candidate = createCandidate("Jeffersonville IN",
+                    "http://www.bestplaces.net/city/indiana/jeffersonville");
+            rivalryData.getCandidates().add(candidate);
+        }
+
+        dataCollector.fetchData(dcSpec, username, password, rivalryData);
 
         assertNotNull(rivalryData.getCandidates());
         assertNotNull(rivalryData.getCategories());
         assertNotNull(rivalryData.getCriteria());
-        assertThat(rivalryData.getCandidates().size(), is(1));
-        assertThat(rivalryData.getCategories().size(), is(57));
-        assertThat(rivalryData.getCriteria().size(), is(57));
+        assertThat(rivalryData.getCandidates().size(), is(5));
+        assertThat(rivalryData.getCategories().size(), is(0));
+        assertThat(rivalryData.getCriteria().size(), is(9));
+
+        final Criterion criterion = rivalryData
+                .findCriterionByName("Snowfall (in.)");
+        assertNotNull(criterion);
+        {
+            Candidate candidate = rivalryData.getCandidates().get(0);
+            final Double rating = candidate.getRating(criterion);
+            assertNotNull(rating);
+            assertThat(rating, is(53.8));
+        }
+        {
+            Candidate candidate = rivalryData.getCandidates().get(1);
+            final Double rating = candidate.getRating(criterion);
+            assertNotNull(rating);
+            assertThat(rating, is(0.0));
+        }
     }
 
     /**
      * Test the <code>fetchData()</code> method.
      */
-    @Ignore
     @Test
     public void fetchDataYahooFinance()
     {
-        final DataCollector dataCollector = new DefaultDataCollector(
+        final DataCollector dataCollector = new DefaultDataCollector(1,
                 _nameStringParser, _yahooParser, _categoryProvider,
                 _criterionProvider, _dataPostProcessor);
 
         final DCSpec dcSpec = createDCSpecYahooFinance();
+        String username = null;
+        String password = null;
         final RivalryData rivalryData = new RivalryData();
         final Candidate candidate = createCandidate("AAPL", dcSpec.getUrl());
+        rivalryData.getCandidates().add(candidate);
 
-        dataCollector.fetchData(dcSpec, rivalryData, candidate);
+        dataCollector.fetchData(dcSpec, username, password, rivalryData);
 
         assertNotNull(rivalryData.getCandidates());
         assertNotNull(rivalryData.getCategories());
         assertNotNull(rivalryData.getCriteria());
         assertThat(rivalryData.getCandidates().size(), is(1));
-        assertThat(rivalryData.getCategories().size(), is(57));
+        assertThat(rivalryData.getCategories().size(), is(0));
         assertThat(rivalryData.getCriteria().size(), is(57));
 
         if (_isVerbose)
@@ -178,7 +220,7 @@ public class DefaultDataCollectorTest
         assertNotNull(criterion);
         final Double rating = candidate.getRating(criterion);
         assertNotNull(rating);
-        assertThat(rating, is(0.2353));
+        assertThat(rating, is(0.2395));
     }
 
     /**
@@ -187,16 +229,18 @@ public class DefaultDataCollectorTest
     @Test
     public void fetchDataYahooFinanceHtmlUnitDriver()
     {
-        final DataCollector dataCollector = new DefaultDataCollector(
+        final DataCollector dataCollector = new DefaultDataCollector(1,
                 _nameStringParser, _yahooParser, _categoryProvider,
                 _criterionProvider, _dataPostProcessor);
 
-        final WebDriver webDriver = new HtmlUnitDriver();
         final DCSpec dcSpec = createDCSpecYahooFinance();
+        String username = null;
+        String password = null;
         final RivalryData rivalryData = new RivalryData();
         final Candidate candidate = createCandidate("INTC", dcSpec.getUrl());
+        rivalryData.getCandidates().add(candidate);
 
-        dataCollector.fetchData(webDriver, dcSpec, rivalryData, candidate);
+        dataCollector.fetchData(dcSpec, username, password, rivalryData);
 
         assertNotNull(rivalryData.getCandidates());
         assertNotNull(rivalryData.getCategories());
@@ -275,8 +319,8 @@ public class DefaultDataCollectorTest
     {
         final DCSelector answer = new DCSelector();
 
-        answer.setType(SelectorType.CLASS_NAME);
-        answer.setValue("data");
+        answer.setType(SelectorType.ID);
+        answer.setValue("mainContent_dgClimate");
 
         answer.getSelectors().add(createSelectorBestPlaces1());
         answer.getSelectors().add(createSelectorBestPlaces2());
@@ -292,7 +336,7 @@ public class DefaultDataCollectorTest
         final DCSelector answer = new DCSelector();
 
         answer.setType(SelectorType.XPATH);
-        answer.setValue("something");
+        answer.setValue("//td/a|//td/font/a");
 
         return answer;
     }
@@ -305,7 +349,7 @@ public class DefaultDataCollectorTest
         final DCSelector answer = new DCSelector();
 
         answer.setType(SelectorType.XPATH);
-        answer.setValue("something");
+        answer.setValue("(//td/a|//td/font/a)/ancestor::td/following-sibling::td[1]");
 
         return answer;
     }

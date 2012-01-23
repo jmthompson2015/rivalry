@@ -44,6 +44,11 @@ public interface DataCollectorInjector
     boolean injectJavascriptEnabled();
 
     /**
+     * @return the maximum number of threads to use.
+     */
+    Integer injectMaxThreads();
+
+    /**
      * @return a new name string parser.
      */
     NameStringParser injectNameStringParser();
