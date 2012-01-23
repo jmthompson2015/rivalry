@@ -9,13 +9,13 @@
 package org.rivalry.example.bestplace;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -25,18 +25,16 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
-import org.apache.commons.lang.StringUtils;
 import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataCollector;
 import org.rivalry.core.datacollector.DataCollectorInjector;
 import org.rivalry.core.datacollector.io.DCSpecReader;
-import org.rivalry.core.model.Candidate;
-import org.rivalry.core.model.DefaultCandidate;
 import org.rivalry.core.model.RivalryData;
+import org.rivalry.core.model.RivalryDataReader;
 import org.rivalry.core.model.RivalryDataWriter;
 
 /**
- * Provides a data collector for dog breeds.
+ * Provides a data collector for best places.
  */
 public class BestPlaceDataCollectorMain
 {
@@ -69,14 +67,12 @@ public class BestPlaceDataCollectorMain
             final DCSpec dcSpec = main.createDCSpec();
             final String username = null;
             final String password = null;
-            final RivalryData rivalryData = injector.injectRivalryData();
+            final RivalryData rivalryData = main.readCandidates();
 
-            final List<String> keywords = main.getKeywords();
-            main.createCandidates(dcSpec, keywords, rivalryData);
-
-            System.out.println("candidates.size() = "
-                    + rivalryData.getCandidates().size());
             dataCollector.fetchData(dcSpec, username, password, rivalryData);
+
+            System.out.println("\n\ncandidates.size() = "
+                    + rivalryData.getCandidates().size());
 
             final String outputFile = determineOutputFile(commandLine);
             System.out.println("outputFile = [" + outputFile + "]");
@@ -142,39 +138,6 @@ public class BestPlaceDataCollectorMain
     }
 
     /**
-     * @param name Name.
-     * @param url URL.
-     * 
-     * @return a new candidate.
-     */
-    private Candidate createCandidate(final String name, final String url)
-    {
-        final Candidate answer = new DefaultCandidate();
-
-        answer.setName(name);
-        answer.setPage(url);
-
-        return answer;
-    }
-
-    /**
-     * @param dcSpec Data collector specification.
-     * @param keywords Keywords.
-     * @param rivalryData Rivalry data.
-     */
-    private void createCandidates(final DCSpec dcSpec,
-            final List<String> keywords, final RivalryData rivalryData)
-    {
-        final List<Candidate> candidates = rivalryData.getCandidates();
-
-        for (final String keyword : keywords)
-        {
-            final String url = createUrl(dcSpec, keyword);
-            candidates.add(createCandidate(keyword, url));
-        }
-    }
-
-    /**
      * @return a new data collector specification.
      */
     private DCSpec createDCSpec()
@@ -189,47 +152,22 @@ public class BestPlaceDataCollectorMain
     }
 
     /**
-     * @param dcSpec Data collector specification.
-     * @param keyword Search keyword.
-     * 
-     * @return URL.
+     * @return rivalry data.
      */
-    private String createUrl(final DCSpec dcSpec, final String keyword)
+    private RivalryData readCandidates()
     {
-        String answer = null;
+        RivalryData answer = null;
 
-        if (StringUtils.isNotEmpty(keyword))
+        final RivalryDataReader rdReader = new RivalryDataReader();
+        try
         {
-            String myKeyword = null;
-            // try
-            // {
-            // myKeyword = URLEncoder.encode(keyword, "UTF-8");
-            // }
-            // catch (final UnsupportedEncodingException ignore)
-            // {
-            // // Nothing to do.
-            // }
-            myKeyword = keyword;
-
-            final String url = dcSpec.getUrl();
-            answer = url.replaceAll("\\$1", myKeyword);
+            final Reader reader = new FileReader("BestPlaceCandidates.xml");
+            answer = rdReader.read(reader);
         }
-
-        return answer;
-    }
-
-    /**
-     * @return Search keywords.
-     */
-    private List<String> getKeywords()
-    {
-        final List<String> answer = new ArrayList<String>();
-
-        answer.add("oregon/portland");
-        answer.add("colorado/denver");
-        // answer.add("california/san_diego");
-        answer.add("arizona/phoenix");
-        answer.add("california/los%20angeles");
+        catch (final FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
 
         return answer;
     }
