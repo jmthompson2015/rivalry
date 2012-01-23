@@ -136,11 +136,14 @@ public class DefaultDataCollectorTest
     @Test
     public void fetchDataDogBreeds()
     {
+        final String username = null;
+        final String password = null;
         final RivalryData rivalryData = new RivalryData();
         final Candidate candidate = createCandidate("boston-terrier",
                 _dcSpec.getUrl());
+        rivalryData.getCandidates().add(candidate);
 
-        _dataCollector.fetchData(_dcSpec, rivalryData, candidate);
+        _dataCollector.fetchData(_dcSpec, username, password, rivalryData);
 
         assertNotNull(rivalryData.getCandidates());
         assertNotNull(rivalryData.getCategories());
