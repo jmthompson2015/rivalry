@@ -1,8 +1,6 @@
 package org.rivalry.core.util;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Provides a default implementation of a string parser.
@@ -10,8 +8,8 @@ import org.slf4j.LoggerFactory;
 public class DefaultStringParser implements StringParser
 {
     /** Logger. */
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(DefaultStringParser.class);
+    // private static final Logger LOGGER = LoggerFactory
+    // .getLogger(DefaultStringParser.class);
 
     @Override
     public final Double parseDouble(final String valueString)
@@ -82,7 +80,8 @@ public class DefaultStringParser implements StringParser
         }
         catch (final NumberFormatException e)
         {
-            LOGGER.warn("Unable to parse [" + valueString + "] as a Double.");
+            // LOGGER.warn("Unable to parse [" + valueString +
+            // "] as a Double.");
         }
 
         return answer;
