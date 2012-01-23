@@ -55,32 +55,16 @@ public enum Building
     STONEMASON("Stonemason", 23, 16L),
     /** Flourmill. buildings[0][17] */
     FLOURMILL("Flourmill", 24, 17L),
-    /** Unknown. */
-    UNKNOWN_18("Unknown 18", 101, 18L),
     /** Common ground. buildings[0][19] */
     COMMON_GROUND("Common Ground", 11, 19L),
-    /** Unknown. */
-    UNKNOWN_20("Unknown 20", 102, 20L),
     /** Paddock. buildings[0][21] */
     PADDOCK("Paddock", 12, 21L),
-    /** Unknown. */
-    UNKNOWN_22("Unknown 22", 103, 22L),
-    /** Unknown. */
-    UNKNOWN_23("Unknown 23", 104, 23L),
     /** Vault. buildings[0][24] */
     VAULT("Vault", 90, 24L),
-    /** Unknown. */
-    UNKNOWN_25("Unknown 25", 105, 25L),
     /** Mage tower. buildings[0][26] */
     MAGE_TOWER("Mage Tower", 5, 26L),
-    /** Unknown. */
-    UNKNOWN_27("Unknown 27", 106, 27L),
     /** Fletcher. buildings[0][28] */
     FLETCHER("Fletcher", 33, 28L),
-    /** Unknown. */
-    UNKNOWN_29("Unknown 29", 107, 29L),
-    /** Unknown. */
-    UNKNOWN_30("Unknown 30", 108, 30L),
     /** Spearmaker. buildings[0][31] */
     SPEARMAKER("Spearmaker", 37, 31L),
     /** Blacksmith. buildings[0][32] */
@@ -95,44 +79,59 @@ public enum Building
     SIEGE_WORKSHOP("Siege Workshop", 36, 36L),
     /** Book binder. buildings[0][37] */
     BOOK_BINDER("Book Binder", 31, 37L),
-    /** Unknown. */
-    UNKNOWN_38("Unknown 38", 109, 38L),
-    /** Warehouse. buildings[0][39] */
-    WAREHOUSE("Warehouse", 7, 39L),
-    /** Unknown. */
-    UNKNOWN_40("Unknown 40", 110, 40L),
-    /** Unknown. */
-    UNKNOWN_41("Unknown 41", 111, 41L),
     /** Runemasters' Grounding. buildings[0][42] */
     RUNEMASTERS_GROUNDING("Runemasters' Grounding", 70, 42L),
     /** Geomancers' retreat. buildings[0][43] */
     GEOMANCERS_RETREAT("Geomancers' Retreat", 71, 43L),
-    /** Unknown. */
-    UNKNOWN_44("Unknown 44", 72, 44L),
     /** Scouts' lookout. */
     SCOUTS_LOOKOUT("Scouts' Lookout", 73, 45L),
     /** Spies's hideout. */
     SPIES_HIDEOUT("Spies' Hideout", 74, 46L),
     /** Thieves' den. */
     THIEVES_DEN("Thieves' Den", 75, 47L),
-    /** Unknown. */
-    UNKNOWN_48("Unknown 48", 76, 48L),
-    /** Unknown. */
-    UNKNOWN_49("Unknown 49", 77, 49L),
     /** Spearmens' billets. buildings[0][50] */
     SPEARMENS_BILLETS("Spearmens' Billets", 78, 50L),
     /** Archers' field. */
     ARCHERS_FIELD("Archers' Field", 79, 51L),
     /** Infantry quarters. buildings[0][52] */
     INFANTRY_QUARTERS("Infantry Quarters", 80, 52L),
-    /** Unknown. */
-    UNKNOWN_53("Unknown 53", 81, 53L),
-    /** Unknown. */
-    UNKNOWN_54("Unknown 54", 82, 54L),
+    /** Cavalry parade ground. */
+    CAVALRY_PARADE_GROUND("Cavalry Parade Ground", 81, 53L),
     /** Architects' office. buildings[0][55] */
     ARCHITECTS_OFFICE("Architects' Office", 2, 55L),
     /** Foreign office. */
-    FOREIGN_OFFICE("Foreign Office", 83, 56L);
+    FOREIGN_OFFICE("Foreign Office", 83, 56L),
+
+    /** Unknown. */
+    UNKNOWN_18("Unknown 18", 101, 18L),
+    /** Unknown. */
+    UNKNOWN_20("Unknown 20", 102, 20L),
+    /** Unknown. */
+    UNKNOWN_22("Unknown 22", 103, 22L),
+    /** Unknown. */
+    UNKNOWN_23("Unknown 23", 104, 23L),
+    /** Unknown. */
+    UNKNOWN_25("Unknown 25", 105, 25L),
+    /** Unknown. */
+    UNKNOWN_27("Unknown 27", 106, 27L),
+    /** Unknown. */
+    UNKNOWN_29("Unknown 29", 107, 29L),
+    /** Unknown. */
+    UNKNOWN_30("Unknown 30", 108, 30L),
+    /** Unknown. */
+    UNKNOWN_38("Unknown 38", 109, 38L),
+    /** Unknown. */
+    UNKNOWN_40("Unknown 40", 110, 40L),
+    /** Unknown. */
+    UNKNOWN_41("Unknown 41", 111, 41L),
+    /** Unknown. */
+    UNKNOWN_44("Unknown 44", 72, 44L),
+    /** Unknown. */
+    UNKNOWN_48("Unknown 48", 76, 48L),
+    /** Unknown. */
+    UNKNOWN_49("Unknown 49", 77, 49L),
+    /** Unknown. */
+    UNKNOWN_54("Unknown 54", 82, 54L);
 
     /**
      * @return a new sorted list of display names.
