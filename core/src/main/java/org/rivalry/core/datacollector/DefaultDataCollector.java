@@ -10,6 +10,9 @@ package org.rivalry.core.datacollector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import org.apache.commons.lang.StringUtils;
@@ -51,21 +54,27 @@ public class DefaultDataCollector implements DataCollector
     /** Value string parser. */
     private final ValueStringParser<?> _valueStringParser;
 
+    /** Maximum number of threads. */
+    private final Integer _maxThreads;
+
     /**
      * Construct this object with the given parameter.
      * 
+     * @param maxThreads Maximum number of threads.
      * @param nameStringParser Name string parser.
      * @param valueStringParser Value string parser.
      * @param categoryProvider Category provider.
      * @param criterionProvider Criterion provider.
      * @param dataPostProcessor Data post processor.
      */
-    public DefaultDataCollector(final NameStringParser nameStringParser,
+    public DefaultDataCollector(final Integer maxThreads,
+            final NameStringParser nameStringParser,
             final ValueStringParser<?> valueStringParser,
             final Provider<Category> categoryProvider,
             final Provider<Criterion> criterionProvider,
             final DataPostProcessor dataPostProcessor)
     {
+        _maxThreads = maxThreads;
         _nameStringParser = nameStringParser;
         _valueStringParser = valueStringParser;
         _categoryProvider = categoryProvider;
@@ -74,43 +83,97 @@ public class DefaultDataCollector implements DataCollector
     }
 
     @Override
-    public void fetchData(final DCSpec dcSpec, final RivalryData rivalryData,
-            final Candidate candidate)
-    {
-        final long start = System.currentTimeMillis();
-
-        final WebDriver webDriver = createWebDriver();
-
-        fetchData(webDriver, dcSpec, rivalryData, candidate);
-
-        webDriver.quit();
-
-        final long end = System.currentTimeMillis();
-        logTiming("1 fetchData()", start, end);
-    }
-
-    @Override
     public void fetchData(final DCSpec dcSpec, final String username,
             final String password, final RivalryData rivalryData)
     {
         final long start = System.currentTimeMillis();
 
-        final WebDriver webDriver = createWebDriver();
-
-        try
+        if (_maxThreads == 1)
         {
-            for (final Candidate candidate : rivalryData.getCandidates())
+            final WebDriver webDriver = createWebDriver();
+
+            try
             {
-                fetchData(webDriver, dcSpec, rivalryData, candidate);
+                for (final Candidate candidate : rivalryData.getCandidates())
+                {
+                    fetchData(webDriver, dcSpec, rivalryData, candidate);
+                }
+            }
+            catch (final Exception e)
+            {
+                e.printStackTrace();
             }
         }
-        catch (final Exception e)
+        else
         {
-            e.printStackTrace();
+            final ExecutorService executorService = Executors
+                    .newFixedThreadPool(_maxThreads);
+
+            for (final Candidate candidate : rivalryData.getCandidates())
+            {
+                final Runnable task = new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        final WebDriver webDriver = createWebDriver();
+                        fetchData(webDriver, dcSpec, rivalryData, candidate);
+                    }
+                };
+
+                System.out.println(candidate.getName() + " submit");
+                executorService.submit(task);
+            }
+
+            executorService.shutdown();
+
+            try
+            {
+                executorService.awaitTermination(Long.MAX_VALUE,
+                        TimeUnit.NANOSECONDS);
+            }
+            catch (final InterruptedException e)
+            {
+                e.printStackTrace();
+            }
         }
 
         final long end = System.currentTimeMillis();
         logTiming("0 fetchData()", start, end);
+    }
+
+    /**
+     * @return the isJavascriptEnabled
+     */
+    @Override
+    public boolean isJavascriptEnabled()
+    {
+        return _isJavascriptEnabled;
+    }
+
+    @Override
+    public void setJavascriptEnabled(final boolean isJavascriptEnabled)
+    {
+        _isJavascriptEnabled = isJavascriptEnabled;
+    }
+
+    /**
+     * @return a new web driver.
+     */
+    WebDriver createWebDriver()
+    {
+        final WebDriver answer = new HtmlUnitDriver();
+
+        final java.util.logging.Logger logger = java.util.logging.Logger
+                .getLogger("");
+        logger.setLevel(Level.OFF);
+
+        if (answer instanceof HtmlUnitDriver)
+        {
+            ((HtmlUnitDriver)answer).setJavascriptEnabled(_isJavascriptEnabled);
+        }
+
+        return answer;
     }
 
     /**
@@ -119,8 +182,7 @@ public class DefaultDataCollector implements DataCollector
      * @param rivalryData Rivalry data.
      * @param candidate Candidate.
      */
-    @Override
-    public void fetchData(final WebDriver webDriver, final DCSpec dcSpec,
+    void fetchData(final WebDriver webDriver, final DCSpec dcSpec,
             final RivalryData rivalryData, final Candidate candidate)
     {
         final long start = System.currentTimeMillis();
@@ -166,22 +228,7 @@ public class DefaultDataCollector implements DataCollector
         _dataPostProcessor.postProcess(rivalryData);
 
         final long end = System.currentTimeMillis();
-        logTiming("2 fetchData()", start, end);
-    }
-
-    /**
-     * @return the isJavascriptEnabled
-     */
-    @Override
-    public boolean isJavascriptEnabled()
-    {
-        return _isJavascriptEnabled;
-    }
-
-    @Override
-    public void setJavascriptEnabled(final boolean isJavascriptEnabled)
-    {
-        _isJavascriptEnabled = isJavascriptEnabled;
+        logTiming(candidate.getName() + " 2 fetchData()", start, end);
     }
 
     /**
@@ -251,25 +298,6 @@ public class DefaultDataCollector implements DataCollector
                     answer.add(name);
                 }
             }
-        }
-
-        return answer;
-    }
-
-    /**
-     * @return a new web driver.
-     */
-    private WebDriver createWebDriver()
-    {
-        final WebDriver answer = new HtmlUnitDriver();
-
-        final java.util.logging.Logger logger = java.util.logging.Logger
-                .getLogger("");
-        logger.setLevel(Level.OFF);
-
-        if (answer instanceof HtmlUnitDriver)
-        {
-            ((HtmlUnitDriver)answer).setJavascriptEnabled(_isJavascriptEnabled);
         }
 
         return answer;
