@@ -17,6 +17,12 @@ import org.rivalry.core.model.RivalryData;
 public class BestPlaceInjector extends DefaultDataCollectorInjector
 {
     @Override
+    public Integer injectMaxThreads()
+    {
+        return 10;
+    }
+
+    @Override
     public RivalryData injectRivalryData()
     {
         final RivalryData answer = super.injectRivalryData();
