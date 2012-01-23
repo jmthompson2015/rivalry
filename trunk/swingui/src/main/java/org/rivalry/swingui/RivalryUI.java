@@ -11,15 +11,20 @@ package org.rivalry.swingui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -37,11 +42,11 @@ import org.slf4j.LoggerFactory;
  */
 public class RivalryUI extends JPanel
 {
-    /** Base location of data files. */
-    private final static String _fileLocation = "http://dl.dropbox.com/u/1267954/rivalry/";
-
     /** Frame. */
     private static JFrame _frame;
+
+    /** Base location of data files. */
+    private final static String FILE_LOCATION = "http://dl.dropbox.com/u/1267954/rivalry/";
 
     /** Logger. */
     private static final Logger LOGGER = LoggerFactory
@@ -73,6 +78,9 @@ public class RivalryUI extends JPanel
         _frame.setSize(1900, 600);
         _frame.setVisible(true);
     }
+
+    /** File chooser. */
+    JFileChooser _fileChooser;
 
     /** Rivalry main panel. */
     RivalryMainPanel _rivalryMainPanel;
@@ -151,13 +159,27 @@ public class RivalryUI extends JPanel
     {
         RivalryData answer = null;
 
+        Reader reader = null;
+
         try
         {
-            final URL fileLocation = new URL(_fileLocation + inputFilename);
-            final InputStream inputStream = fileLocation.openStream();
-            final InputStreamReader reader = new InputStreamReader(inputStream);
+            if (inputFilename.startsWith("/"))
+            {
+                reader = new FileReader(inputFilename);
+            }
+            else
+            {
+                final URL fileLocation = new URL(FILE_LOCATION + inputFilename);
+                final InputStream inputStream = fileLocation.openStream();
+                reader = new InputStreamReader(inputStream);
+            }
+
             final RivalryDataReader rivalryDataReader = new RivalryDataReader();
             answer = rivalryDataReader.read(reader);
+        }
+        catch (final FileNotFoundException e)
+        {
+            handleException(e);
         }
         catch (final MalformedURLException e)
         {
@@ -166,6 +188,20 @@ public class RivalryUI extends JPanel
         catch (final IOException e)
         {
             handleException(e);
+        }
+        finally
+        {
+            if (reader != null)
+            {
+                try
+                {
+                    reader.close();
+                }
+                catch (final IOException e)
+                {
+                    handleException(e);
+                }
+            }
         }
 
         return answer;
@@ -309,6 +345,34 @@ public class RivalryUI extends JPanel
     }
 
     /**
+     * @return a new open action listener.
+     */
+    private ActionListener createOpenActionListener()
+    {
+        return new ActionListener()
+        {
+            @Override
+            public void actionPerformed(final ActionEvent e)
+            {
+                if (_fileChooser == null)
+                {
+                    _fileChooser = new JFileChooser();
+                }
+
+                final int returnVal = _fileChooser.showOpenDialog(getFrame());
+
+                if (returnVal == JFileChooser.APPROVE_OPTION)
+                {
+                    final File file = _fileChooser.getSelectedFile();
+                    final RivalryData rivalryData = readRivalryData(file
+                            .getAbsolutePath());
+                    loadDataActionPerformed(rivalryData);
+                }
+            }
+        };
+    }
+
+    /**
      * @return a new skill demand action listener.
      */
     private ActionListener createSkillDemandActionListener()
@@ -345,7 +409,10 @@ public class RivalryUI extends JPanel
      */
     private JToolBar createToolBar()
     {
-        final JButton houseButton = createButton("House24.png",
+        final JButton openButton = createButton("Open24.gif",
+                "Load data from a file", "Open...", createOpenActionListener());
+
+        final JButton bestPlaceButton = createButton("PalmTreeBeach24.png",
                 "Load best place data", "Best Places",
                 createBestPlaceActionListener());
         final JButton boardgameButton = createButton("Boardgame24.png",
@@ -357,22 +424,25 @@ public class RivalryUI extends JPanel
         final JButton illyriadButton = createButton("Illyriad24.png",
                 "Load Illyriad data", "Illyriad",
                 createIllyriadActionListener());
-        final JButton brainButton = createButton("Brain24.png",
+        final JButton skillDemandButton = createButton("Brain24.png",
                 "Load skill demand data", "Skill Demand",
                 createSkillDemandActionListener());
         final JButton stockButton = createButton("Money24.png",
                 "Load stock data", "Stocks", createStockActionListener());
+
         final JButton aboutButton = createButton("About24.gif",
                 "View information about this application.", "About",
                 createAboutActionListener());
 
         final JToolBar answer = new JToolBar("Rivalry Tool Bar");
 
-        answer.add(houseButton);
+        answer.add(openButton);
+        answer.addSeparator();
+        answer.add(bestPlaceButton);
         answer.add(boardgameButton);
         answer.add(dogButton);
         answer.add(illyriadButton);
-        answer.add(brainButton);
+        answer.add(skillDemandButton);
         answer.add(stockButton);
         answer.addSeparator();
         answer.add(aboutButton);
