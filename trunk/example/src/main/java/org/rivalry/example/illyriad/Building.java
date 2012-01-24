@@ -79,6 +79,8 @@ public enum Building
     SIEGE_WORKSHOP("Siege Workshop", 36, 36L),
     /** Book binder. buildings[0][37] */
     BOOK_BINDER("Book Binder", 31, 37L),
+    /** Warehouse. buildings[0][39] */
+    WAREHOUSE("Warehouse", 7, 39L),
     /** Runemasters' Grounding. buildings[0][42] */
     RUNEMASTERS_GROUNDING("Runemasters' Grounding", 70, 42L),
     /** Geomancers' retreat. buildings[0][43] */
