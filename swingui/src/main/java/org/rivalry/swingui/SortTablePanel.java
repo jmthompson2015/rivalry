@@ -94,6 +94,14 @@ public class SortTablePanel extends JPanel
     }
 
     /**
+     * @return the table row sorter.
+     */
+    public RowSorter<? extends TableModel> getTableRowSorter()
+    {
+        return getTable().getRowSorter();
+    }
+
+    /**
      * @param table Table.
      * 
      * @return a new main panel.
