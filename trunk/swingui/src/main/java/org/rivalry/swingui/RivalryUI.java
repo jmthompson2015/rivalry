@@ -21,19 +21,23 @@ import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.swing.DefaultRowSorter;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.RowFilter;
 import javax.swing.WindowConstants;
 
 import org.apache.commons.lang.StringUtils;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.RivalryDataReader;
+import org.rivalry.swingui.table.CandidateTableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -135,6 +139,18 @@ public class RivalryUI extends JPanel
     RivalryMainPanel createRivalryMainPanel(final RivalryData rivalryData)
     {
         return new RivalryMainPanel(rivalryData);
+    }
+
+    /**
+     * @return the candidate table row sorter.
+     */
+    DefaultRowSorter<CandidateTableModel, Integer> getCandidateTableRowSorter()
+    {
+        @SuppressWarnings("unchecked")
+        final DefaultRowSorter<CandidateTableModel, Integer> answer = (DefaultRowSorter<CandidateTableModel, Integer>)_rivalryMainPanel
+                .getCandidateSortTablePanel().getTableRowSorter();
+
+        return answer;
     }
 
     /**
@@ -329,6 +345,37 @@ public class RivalryUI extends JPanel
     }
 
     /**
+     * @return a new filter action listener.
+     */
+    private ActionListener createFilterActionListener()
+    {
+        return new ActionListener()
+        {
+            @Override
+            public void actionPerformed(final ActionEvent e)
+            {
+                final FilterDialog filterDialog = new FilterDialog(
+                        _rivalryMainPanel.getCandidateTableModel());
+                final JDialog dialog = filterDialog.createDialog(getFrame(),
+                        "Candidate Table Filter");
+                dialog.setVisible(true);
+
+                // Modal dialog blocks here until done.
+
+                final Object value = filterDialog.getValue();
+
+                if (value instanceof Integer
+                        && (Integer)value == JOptionPane.OK_OPTION)
+                {
+                    final RowFilter<CandidateTableModel, Integer> rowFilter = filterDialog
+                            .getCandidateTableRowFilter();
+                    getCandidateTableRowSorter().setRowFilter(rowFilter);
+                }
+            }
+        };
+    }
+
+    /**
      * @return a new Illyriad action listener.
      */
     private ActionListener createIllyriadActionListener()
@@ -410,9 +457,13 @@ public class RivalryUI extends JPanel
     private JToolBar createToolBar()
     {
         final JButton openButton = createButton("Open24.gif",
-                "Load data from a file", "Open...", createOpenActionListener());
+                "Open a rivalry data file", "Open...",
+                createOpenActionListener());
+        final JButton filterButton = createButton("Filter24.gif",
+                "Filter candidate data", "Filter...",
+                createFilterActionListener());
 
-        final JButton bestPlaceButton = createButton("PalmTreeBeach24.png",
+        final JButton bestPlaceButton = createButton("PalmTree24.png",
                 "Load best place data", "Best Places",
                 createBestPlaceActionListener());
         final JButton boardgameButton = createButton("Boardgame24.png",
@@ -437,6 +488,7 @@ public class RivalryUI extends JPanel
         final JToolBar answer = new JToolBar("Rivalry Tool Bar");
 
         answer.add(openButton);
+        answer.add(filterButton);
         answer.addSeparator();
         answer.add(bestPlaceButton);
         answer.add(boardgameButton);

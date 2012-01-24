@@ -33,11 +33,14 @@ public class RivalryMainPanel extends JSplitPane
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
 
-    /** Criterion table model. */
-    private CriterionTableModel _criterionTableModel;
-
     /** Candidate table model. */
     CandidateTableModel _candidateTableModel;
+
+    /** Candidate sort table panel. */
+    private SortTablePanel _candidateSortTablePanel;
+
+    /** Criterion table model. */
+    private CriterionTableModel _criterionTableModel;
 
     /**
      * Construct this object with the given parameter.
@@ -51,6 +54,22 @@ public class RivalryMainPanel extends JSplitPane
                 _criterionTableModel.getFitnessFunction()));
 
         setOneTouchExpandable(true);
+    }
+
+    /**
+     * @return the candidateSortTablePanel
+     */
+    public SortTablePanel getCandidateSortTablePanel()
+    {
+        return _candidateSortTablePanel;
+    }
+
+    /**
+     * @return the candidateTableModel
+     */
+    public CandidateTableModel getCandidateTableModel()
+    {
+        return _candidateTableModel;
     }
 
     /**
@@ -78,15 +97,16 @@ public class RivalryMainPanel extends JSplitPane
                 preferencePrefix);
         final VisibleColumnsTableModel vcTableModel = new VisibleColumnsTableModel(
                 _candidateTableModel, tableUserPreferences);
-        final SortTablePanel candidateSortTablePanel = new SortTablePanel(
-                vcTableModel, rivalryData.getCreateDate(), tableUserPreferences);
+        _candidateSortTablePanel = new SortTablePanel(vcTableModel,
+                rivalryData.getCreateDate(), tableUserPreferences);
 
         final VisibleColumnsPopupMenu popupMenu = new VisibleColumnsPopupMenu(
                 rivalryData, vcTableModel);
-        candidateSortTablePanel.getTable().getTableHeader()
+        _candidateSortTablePanel.getTable().getTableHeader()
                 .addMouseListener(new PopupListener(popupMenu));
 
-        return createTitledSortTablePanel("Candidates", candidateSortTablePanel);
+        return createTitledSortTablePanel("Candidates",
+                _candidateSortTablePanel);
     }
 
     /**
