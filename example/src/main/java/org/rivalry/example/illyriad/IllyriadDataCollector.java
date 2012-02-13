@@ -62,6 +62,7 @@ public class IllyriadDataCollector implements DataCollector
         map.put(134891L, "Fraktull");
         map.put(139164L, "Frakshure");
         map.put(148216L, "Infrakshun");
+        map.put(159102L, "Frakburrow");
 
         TOWN_ID_TO_TOWN_NAME = map;
     }
