@@ -17,6 +17,12 @@ import org.rivalry.core.model.RivalryData;
 public class BestPlaceInjector extends DefaultDataCollectorInjector
 {
     @Override
+    public boolean injectIsMedianCandidateCreated()
+    {
+        return true;
+    }
+
+    @Override
     public Integer injectMaxThreads()
     {
         return 10;
