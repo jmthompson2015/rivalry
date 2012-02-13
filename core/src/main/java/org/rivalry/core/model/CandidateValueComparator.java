@@ -33,34 +33,45 @@ public class CandidateValueComparator implements Comparator<Candidate>
     {
         int answer = 0;
 
-        final Object rating0 = candidate0.getValue(_criterion);
-        final Object rating1 = candidate1.getValue(_criterion);
+        final Object value0 = candidate0.getValue(_criterion);
+        final Object value1 = candidate1.getValue(_criterion);
 
-        if (rating0 == rating1)
+        if (value0 == value1)
         {
+            // Same object or both null.
             answer = 0;
         }
-        else if (rating0 != null)
+        else if (value0 == null)
         {
-            if (rating1 == null)
+            // value0 == null && value1 != null
+            answer = 1;
+        }
+        else
+        {
+            if (value1 == null)
             {
+                // value0 !=null && value1 == null
                 answer = -1;
             }
             else
             {
-                if (rating0 instanceof Comparable)
+                if (value0 instanceof Number && value1 instanceof Number)
+                {
+                    final Double myValue0 = Double.parseDouble(value0
+                            .toString());
+                    final Double myValue1 = Double.parseDouble(value1
+                            .toString());
+                    answer = myValue0.compareTo(myValue1);
+                }
+                else if (value0 instanceof Comparable)
                 {
                     @SuppressWarnings("rawtypes")
-                    final Comparable myRating0 = (Comparable)rating0;
+                    final Comparable myValue0 = (Comparable)value0;
                     @SuppressWarnings("unchecked")
-                    final int comp = myRating0.compareTo(rating1);
+                    final int comp = myValue0.compareTo(value1);
                     answer = comp;
                 }
             }
-        }
-        else
-        {
-            answer = 1;
         }
 
         return answer;
