@@ -8,6 +8,7 @@
 //*****************************************************************************
 package org.rivalry.core.datacollector;
 
+import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Category;
 import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.RivalryData;
@@ -18,6 +19,11 @@ import org.rivalry.core.util.Provider;
  */
 public interface DataCollectorInjector
 {
+    /**
+     * @return a new candidate provider.
+     */
+    Provider<Candidate> injectCandidateProvider();
+
     /**
      * @return a new category provider.
      */
@@ -39,9 +45,19 @@ public interface DataCollectorInjector
     DataPostProcessor injectDataPostProcessor();
 
     /**
-     * @return a flag indicating if Javascript is enabled.
+     * @return true if an average candidate is created.
      */
-    boolean injectJavascriptEnabled();
+    boolean injectIsAverageCandidateCreated();
+
+    /**
+     * @return true if Javascript is enabled.
+     */
+    boolean injectIsJavascriptEnabled();
+
+    /**
+     * @return true if a median candidate is created.
+     */
+    boolean injectIsMedianCandidateCreated();
 
     /**
      * @return the maximum number of threads to use.

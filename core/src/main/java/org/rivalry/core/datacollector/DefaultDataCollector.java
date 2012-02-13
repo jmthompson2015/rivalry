@@ -9,6 +9,8 @@
 package org.rivalry.core.datacollector;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,6 +22,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.rivalry.core.model.Candidate;
+import org.rivalry.core.model.CandidateValueComparator;
 import org.rivalry.core.model.Category;
 import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.RivalryData;
@@ -36,6 +39,9 @@ public class DefaultDataCollector implements DataCollector
     static final Logger LOGGER = LoggerFactory
             .getLogger(DefaultDataCollector.class);
 
+    /** Candidate provider. */
+    private final Provider<Candidate> _candidateProvider;
+
     /** Category provider. */
     private final Provider<Category> _categoryProvider;
 
@@ -45,8 +51,14 @@ public class DefaultDataCollector implements DataCollector
     /** Data post processor. */
     private final DataPostProcessor _dataPostProcessor;
 
+    /** Flag indicating whether to create an average candidate. */
+    private boolean _isAverageCandidateCreated;
+
     /** Flag indicating whether to enable Javascript. */
     private boolean _isJavascriptEnabled;
+
+    /** Flag indicating whether to create a median candidate. */
+    private boolean _isMedianCandidateCreated;
 
     /** Name string parser. */
     private final NameStringParser _nameStringParser;
@@ -60,23 +72,33 @@ public class DefaultDataCollector implements DataCollector
     /**
      * Construct this object with the given parameter.
      * 
+     * @param isJavascriptEnabled Flag indicating whether to enable Javascript.
      * @param maxThreads Maximum number of threads.
      * @param nameStringParser Name string parser.
      * @param valueStringParser Value string parser.
+     * @param candidateProvider Candidate provider.
      * @param categoryProvider Category provider.
      * @param criterionProvider Criterion provider.
      * @param dataPostProcessor Data post processor.
+     * @param isAverageCandidateCreated Flag indicating whether to create an
+     *            average candidate.
+     * @param isMedianCandidateCreated Flag indicating whether to create a
+     *            median candidate.
      */
-    public DefaultDataCollector(final Integer maxThreads,
-            final NameStringParser nameStringParser,
+    public DefaultDataCollector(final boolean isJavascriptEnabled,
+            final Integer maxThreads, final NameStringParser nameStringParser,
             final ValueStringParser<?> valueStringParser,
+            final Provider<Candidate> candidateProvider,
             final Provider<Category> categoryProvider,
             final Provider<Criterion> criterionProvider,
-            final DataPostProcessor dataPostProcessor)
+            final DataPostProcessor dataPostProcessor,
+            final boolean isAverageCandidateCreated,
+            final boolean isMedianCandidateCreated)
     {
         _maxThreads = maxThreads;
         _nameStringParser = nameStringParser;
         _valueStringParser = valueStringParser;
+        _candidateProvider = candidateProvider;
         _categoryProvider = categoryProvider;
         _criterionProvider = criterionProvider;
         _dataPostProcessor = dataPostProcessor;
@@ -138,23 +160,21 @@ public class DefaultDataCollector implements DataCollector
             }
         }
 
+        final Candidate averageCandidate = createAverageCandidate(rivalryData);
+        final Candidate medianCandidate = createMedianCandidate(rivalryData);
+
+        if (averageCandidate != null)
+        {
+            rivalryData.getCandidates().add(averageCandidate);
+        }
+
+        if (medianCandidate != null)
+        {
+            rivalryData.getCandidates().add(medianCandidate);
+        }
+
         final long end = System.currentTimeMillis();
         logTiming("0 fetchData()", start, end);
-    }
-
-    /**
-     * @return the isJavascriptEnabled
-     */
-    @Override
-    public boolean isJavascriptEnabled()
-    {
-        return _isJavascriptEnabled;
-    }
-
-    @Override
-    public void setJavascriptEnabled(final boolean isJavascriptEnabled)
-    {
-        _isJavascriptEnabled = isJavascriptEnabled;
     }
 
     /**
@@ -232,6 +252,50 @@ public class DefaultDataCollector implements DataCollector
     }
 
     /**
+     * @param rivalryData Rivalry data.
+     * 
+     * @return a new candidate with average ratings.
+     */
+    private Candidate createAverageCandidate(final RivalryData rivalryData)
+    {
+        Candidate answer = null;
+
+        if (_isAverageCandidateCreated)
+        {
+            answer = getCandidateProvider().newInstance();
+            answer.setName("*AVERAGE*");
+
+            final int size = rivalryData.getCandidates().size();
+
+            for (final Criterion criterion : rivalryData.getCriteria())
+            {
+                Double sum = null;
+
+                for (final Candidate candidate : rivalryData.getCandidates())
+                {
+                    final Double rating = candidate.getRating(criterion);
+
+                    if (rating != null)
+                    {
+                        if (sum == null)
+                        {
+                            sum = 0.0;
+                        }
+                        sum += rating;
+                    }
+                }
+
+                if (sum != null)
+                {
+                    answer.putValue(criterion, sum / size);
+                }
+            }
+        }
+
+        return answer;
+    }
+
+    /**
      * @param name Name.
      * 
      * @return a new category.
@@ -257,6 +321,38 @@ public class DefaultDataCollector implements DataCollector
 
         answer.setName(name);
         answer.setCategory(category);
+
+        return answer;
+    }
+
+    /**
+     * @param rivalryData Rivalry data.
+     * 
+     * @return a new candidate with median ratings.
+     */
+    private Candidate createMedianCandidate(final RivalryData rivalryData)
+    {
+        Candidate answer = null;
+
+        if (_isMedianCandidateCreated)
+        {
+            answer = getCandidateProvider().newInstance();
+            answer.setName("*MEDIAN*");
+
+            final List<Candidate> candidates = new ArrayList<Candidate>(
+                    rivalryData.getCandidates());
+            final int midpoint = candidates.size() / 2;
+
+            for (final Criterion criterion : rivalryData.getCriteria())
+            {
+                final Comparator<Candidate> comparator = new CandidateValueComparator(
+                        criterion);
+                Collections.sort(candidates, comparator);
+                final Candidate candidate = candidates.get(midpoint);
+                final Object value = candidate.getValue(criterion);
+                answer.putValue(criterion, value);
+            }
+        }
 
         return answer;
     }
@@ -301,6 +397,14 @@ public class DefaultDataCollector implements DataCollector
         }
 
         return answer;
+    }
+
+    /**
+     * @return the candidateProvider
+     */
+    private Provider<Candidate> getCandidateProvider()
+    {
+        return _candidateProvider;
     }
 
     /**
