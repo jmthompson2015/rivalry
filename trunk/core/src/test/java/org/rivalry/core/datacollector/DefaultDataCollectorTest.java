@@ -19,6 +19,7 @@ import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Category;
 import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.DefaultCandidate;
+import org.rivalry.core.model.DefaultCandidateProvider;
 import org.rivalry.core.model.DefaultCategoryProvider;
 import org.rivalry.core.model.DefaultCriterionProvider;
 import org.rivalry.core.model.RivalryData;
@@ -93,6 +94,9 @@ public class DefaultDataCollectorTest
     private final ValueStringParser<?> _bestPlacesParser = new DefaultValueStringParser();
 
     /** Category provider. */
+    private final Provider<Candidate> _candidateProvider = new DefaultCandidateProvider();
+
+    /** Category provider. */
     private final Provider<Category> _categoryProvider = new DefaultCategoryProvider();
 
     /** Criterion provider. */
@@ -110,15 +114,26 @@ public class DefaultDataCollectorTest
     /** Yahoo! Finance value string processor. */
     private final ValueStringParser<Double> _yahooParser = new YahooFinanceParser();
 
+    /** Flag indicating whether to enable Javascript. */
+    private final boolean _isJavascriptEnabled = false;
+
+    /** Flag indicating whether to create an average candidate. */
+    private final boolean isAverageCandidateCreated = false;
+
+    /** Flag indicating whether to create a median candidate. */
+    private final boolean isMedianCandidateCreated = false;
+
     /**
      * Test the <code>fetchData()</code> method.
      */
     @Test
     public void fetchDataBestPlaces()
     {
-        final DataCollector dataCollector = new DefaultDataCollector(5,
-                _nameStringParser, _bestPlacesParser, _categoryProvider,
-                _criterionProvider, _dataPostProcessor);
+        final DataCollector dataCollector = new DefaultDataCollector(
+                _isJavascriptEnabled, 5, _nameStringParser, _bestPlacesParser,
+                _candidateProvider, _categoryProvider, _criterionProvider,
+                _dataPostProcessor, isAverageCandidateCreated,
+                isMedianCandidateCreated);
 
         final DCSpec dcSpec = createDCSpecBestPlaces();
         String username = null;
@@ -187,9 +202,11 @@ public class DefaultDataCollectorTest
     @Test
     public void fetchDataYahooFinance()
     {
-        final DataCollector dataCollector = new DefaultDataCollector(1,
-                _nameStringParser, _yahooParser, _categoryProvider,
-                _criterionProvider, _dataPostProcessor);
+        final DataCollector dataCollector = new DefaultDataCollector(
+                _isJavascriptEnabled, 1, _nameStringParser, _yahooParser,
+                _candidateProvider, _categoryProvider, _criterionProvider,
+                _dataPostProcessor, isAverageCandidateCreated,
+                isMedianCandidateCreated);
 
         final DCSpec dcSpec = createDCSpecYahooFinance();
         String username = null;
@@ -229,9 +246,11 @@ public class DefaultDataCollectorTest
     @Test
     public void fetchDataYahooFinanceHtmlUnitDriver()
     {
-        final DataCollector dataCollector = new DefaultDataCollector(1,
-                _nameStringParser, _yahooParser, _categoryProvider,
-                _criterionProvider, _dataPostProcessor);
+        final DataCollector dataCollector = new DefaultDataCollector(
+                _isJavascriptEnabled, 1, _nameStringParser, _yahooParser,
+                _candidateProvider, _categoryProvider, _criterionProvider,
+                _dataPostProcessor, isAverageCandidateCreated,
+                isMedianCandidateCreated);
 
         final DCSpec dcSpec = createDCSpecYahooFinance();
         String username = null;

@@ -8,8 +8,10 @@
 //*****************************************************************************
 package org.rivalry.core.datacollector;
 
+import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Category;
 import org.rivalry.core.model.Criterion;
+import org.rivalry.core.model.DefaultCandidateProvider;
 import org.rivalry.core.model.DefaultCategoryProvider;
 import org.rivalry.core.model.DefaultCriterionProvider;
 import org.rivalry.core.model.RivalryData;
@@ -20,6 +22,12 @@ import org.rivalry.core.util.Provider;
  */
 public class DefaultDataCollectorInjector implements DataCollectorInjector
 {
+    @Override
+    public Provider<Candidate> injectCandidateProvider()
+    {
+        return new DefaultCandidateProvider();
+    }
+
     @Override
     public Provider<Category> injectCategoryProvider()
     {
@@ -35,18 +43,22 @@ public class DefaultDataCollectorInjector implements DataCollectorInjector
     @Override
     public DataCollector injectDataCollector()
     {
+        final boolean isJavascriptEnabled = injectIsJavascriptEnabled();
         final Integer maxThreads = injectMaxThreads();
         final NameStringParser nameStringParser = injectNameStringParser();
         final ValueStringParser<?> valueStringParser = injectValueStringParser();
+        final Provider<Candidate> candidateProvider = injectCandidateProvider();
         final Provider<Category> categoryProvider = injectCategoryProvider();
         final Provider<Criterion> criterionProvider = injectCriterionProvider();
         final DataPostProcessor dataPostProcessor = injectDataPostProcessor();
+        final boolean isAverageCandidateCreated = injectIsAverageCandidateCreated();
+        final boolean isMedianCandidateCreated = injectIsMedianCandidateCreated();
 
-        final DataCollector answer = new DefaultDataCollector(maxThreads,
-                nameStringParser, valueStringParser, categoryProvider,
-                criterionProvider, dataPostProcessor);
-
-        answer.setJavascriptEnabled(injectJavascriptEnabled());
+        final DataCollector answer = new DefaultDataCollector(
+                isJavascriptEnabled, maxThreads, nameStringParser,
+                valueStringParser, candidateProvider, categoryProvider,
+                criterionProvider, dataPostProcessor,
+                isAverageCandidateCreated, isMedianCandidateCreated);
 
         return answer;
     }
@@ -58,7 +70,19 @@ public class DefaultDataCollectorInjector implements DataCollectorInjector
     }
 
     @Override
-    public boolean injectJavascriptEnabled()
+    public boolean injectIsAverageCandidateCreated()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean injectIsJavascriptEnabled()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean injectIsMedianCandidateCreated()
     {
         return false;
     }

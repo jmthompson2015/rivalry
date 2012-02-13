@@ -26,13 +26,11 @@ public class IllyriadInjector extends DefaultDataCollectorInjector
         final DataCollector answer = new IllyriadDataCollector(
                 valueStringParser);
 
-        answer.setJavascriptEnabled(injectJavascriptEnabled());
-
         return answer;
     }
 
     @Override
-    public boolean injectJavascriptEnabled()
+    public boolean injectIsJavascriptEnabled()
     {
         return true;
     }

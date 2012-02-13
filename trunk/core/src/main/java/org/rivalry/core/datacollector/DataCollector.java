@@ -25,14 +25,4 @@ public interface DataCollector
      */
     void fetchData(DCSpec dcSpec, String username, String password,
             RivalryData rivalryData);
-
-    /**
-     * @return the isJavascriptEnabled
-     */
-    boolean isJavascriptEnabled();
-
-    /**
-     * @param isJavascriptEnabled the isJavascriptEnabled to set
-     */
-    void setJavascriptEnabled(final boolean isJavascriptEnabled);
 }
