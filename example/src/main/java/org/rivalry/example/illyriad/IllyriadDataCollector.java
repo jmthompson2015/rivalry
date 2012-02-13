@@ -72,9 +72,6 @@ public class IllyriadDataCollector implements DataCollector
     /** Criterion provider. */
     private final Provider<Criterion> _criterionProvider = new DefaultCriterionProvider();
 
-    /** Flag indicating whether to enable Javascript. */
-    private boolean _isJavascriptEnabled;
-
     /** Value string parser. */
     private final ValueStringParser<Integer> _valueStringParser;
 
@@ -130,21 +127,6 @@ public class IllyriadDataCollector implements DataCollector
 
         final long end = System.currentTimeMillis();
         logTiming("0 fetchData()", start, end);
-    }
-
-    /**
-     * @return the isJavascriptEnabled
-     */
-    @Override
-    public boolean isJavascriptEnabled()
-    {
-        return _isJavascriptEnabled;
-    }
-
-    @Override
-    public void setJavascriptEnabled(final boolean isJavascriptEnabled)
-    {
-        _isJavascriptEnabled = isJavascriptEnabled;
     }
 
     /**
