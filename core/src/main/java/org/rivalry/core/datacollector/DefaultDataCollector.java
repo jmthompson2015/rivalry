@@ -52,13 +52,13 @@ public class DefaultDataCollector implements DataCollector
     private final DataPostProcessor _dataPostProcessor;
 
     /** Flag indicating whether to create an average candidate. */
-    private boolean _isAverageCandidateCreated;
+    private final boolean _isAverageCandidateCreated;
 
     /** Flag indicating whether to enable Javascript. */
-    private boolean _isJavascriptEnabled;
+    private final boolean _isJavascriptEnabled;
 
     /** Flag indicating whether to create a median candidate. */
-    private boolean _isMedianCandidateCreated;
+    private final boolean _isMedianCandidateCreated;
 
     /** Name string parser. */
     private final NameStringParser _nameStringParser;
@@ -95,6 +95,7 @@ public class DefaultDataCollector implements DataCollector
             final boolean isAverageCandidateCreated,
             final boolean isMedianCandidateCreated)
     {
+        _isJavascriptEnabled = isJavascriptEnabled;
         _maxThreads = maxThreads;
         _nameStringParser = nameStringParser;
         _valueStringParser = valueStringParser;
@@ -102,6 +103,8 @@ public class DefaultDataCollector implements DataCollector
         _categoryProvider = categoryProvider;
         _criterionProvider = criterionProvider;
         _dataPostProcessor = dataPostProcessor;
+        _isAverageCandidateCreated = isAverageCandidateCreated;
+        _isMedianCandidateCreated = isMedianCandidateCreated;
     }
 
     @Override
