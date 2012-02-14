@@ -7,6 +7,10 @@
         <modifiers>public</modifiers>
         <name>Entity</name>
         <packageName>org.rivalry.core.model</packageName>
+        <propertyExemplar getter="true" setter="true">
+            <name>placeholder</name>
+            <type>String</type>
+        </propertyExemplar>
         <property>
             <name>description</name>
             <type>String</type>
@@ -28,6 +32,11 @@
         <modifiers>public</modifiers>
         <name>Criterion</name>
         <packageName>org.rivalry.core.model</packageName>
+        <extendsType>org.rivalry.core.model.Entity</extendsType>
+        <propertyExemplar getter="true" setter="true">
+            <name>placeholder</name>
+            <type>String</type>
+        </propertyExemplar>
         <property usedInIdentity="false">
             <name>autoMinMax</name>
             <type>boolean</type>
@@ -44,13 +53,17 @@
             <name>minimumRating</name>
             <type>Double</type>
         </property>
-        <extendsType>org.rivalry.core.model.Entity</extendsType>
     </cgInterface>
     <cgInterface propertyChangeSupported="true">
         <commentLine>Defines methods required by a candidate for a decision making application.</commentLine>
         <modifiers>public</modifiers>
         <name>Candidate</name>
         <packageName>org.rivalry.core.model</packageName>
+        <extendsType>org.rivalry.core.model.Entity</extendsType>
+        <propertyExemplar getter="true" setter="true">
+            <name>placeholder</name>
+            <type>String</type>
+        </propertyExemplar>
         <property usedInIdentity="false">
             <name>page</name>
             <type>String</type>
@@ -60,7 +73,6 @@
             <type>Map&lt;org.rivalry.core.model.Criterion, java.lang.Object&gt;</type>
             <initialValue>new LinkedHashMap&lt;org.rivalry.core.model.Criterion, java.lang.Object&gt;()</initialValue>
         </property>
-        <extendsType>org.rivalry.core.model.Entity</extendsType>
         <method>
             <commentLine>@param   criterion  Criterion.</commentLine>
             <commentLine></commentLine>
@@ -206,34 +218,38 @@
         <modifiers>public</modifiers>
         <name>RivalryData</name>
         <packageName>org.rivalry.core.model</packageName>
-        <property>
+        <fieldExemplar getter="true" setter="true">
+            <name>placeholder</name>
+            <type>String</type>
+        </fieldExemplar>
+        <field>
             <name>candidates</name>
             <type>List&lt;org.rivalry.core.model.Candidate&gt;</type>
             <initialValue>new ArrayList&lt;org.rivalry.core.model.Candidate&gt;()</initialValue>
-        </property>
-        <property>
+        </field>
+        <field>
             <name>categories</name>
             <type>List&lt;org.rivalry.core.model.Category&gt;</type>
             <initialValue>new ArrayList&lt;org.rivalry.core.model.Category&gt;()</initialValue>
-        </property>
-        <property>
+        </field>
+        <field>
             <name>createDate</name>
             <type>Date</type>
             <initialValue>new Date()</initialValue>
-        </property>
-        <property>
+        </field>
+        <field>
             <name>criteria</name>
             <type>List&lt;org.rivalry.core.model.Criterion&gt;</type>
             <initialValue>new ArrayList&lt;org.rivalry.core.model.Criterion&gt;()</initialValue>
-        </property>
-        <property>
+        </field>
+        <field>
             <name>description</name>
             <type>String</type>
-        </property>
-        <property>
+        </field>
+        <field>
             <name>preferencePrefix</name>
             <type>String</type>
-        </property>
+        </field>
         <methodExemplar>
             <modifiers>public</modifiers>
             <name>placeholder</name>
