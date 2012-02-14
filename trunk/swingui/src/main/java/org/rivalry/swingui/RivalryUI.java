@@ -74,6 +74,11 @@ public class RivalryUI extends JPanel
      */
     public static final void main(final String[] args)
     {
+        final UIUserPreferences userPrefs = new DefaultUIUserPreferences();
+        System.out.println("Applying look and feel: "
+                + userPrefs.getLookAndFeel().getName());
+        userPrefs.getLookAndFeel().apply();
+
         final RivalryUI panel = new RivalryUI();
 
         _frame = new JFrame("Rivalry");
