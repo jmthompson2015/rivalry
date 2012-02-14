@@ -1,4 +1,4 @@
-package org.rivalry.example.bestplace;
+package org.rivalry.example.dogbreed;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.junit.Test;
 import org.rivalry.core.model.Candidate;
-import org.rivalry.example.dogbreed.BreedNameDataCollector;
 
 /**
  * Provides tests for the <code>BreedNameDataCollector</code> class.
@@ -25,7 +24,7 @@ public class BreedNameDataCollectorTest
         final List<Candidate> candidates = dataCollector.fetchCandidates();
 
         assertNotNull(candidates);
-        assertThat(candidates.size(), is(195));
+        assertThat(candidates.size(), is(196));
 
         {
             final Candidate candidate = candidates.get(0);
@@ -36,7 +35,7 @@ public class BreedNameDataCollectorTest
         }
 
         {
-            final Candidate candidate = candidates.get(194);
+            final Candidate candidate = candidates.get(195);
             assertNotNull(candidate);
             assertThat(candidate.getName(), is("Yorkshire Terrier"));
             assertThat(candidate.getPage(),
