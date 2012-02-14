@@ -24,6 +24,12 @@ public class BoardgameInjector extends DefaultDataCollectorInjector
     }
 
     @Override
+    public Integer injectMaxThreads()
+    {
+        return 10;
+    }
+
+    @Override
     public RivalryData injectRivalryData()
     {
         final RivalryData answer = super.injectRivalryData();
