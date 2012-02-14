@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang.StringUtils;
@@ -22,9 +24,25 @@ import org.rivalry.core.model.RivalryDataWriter;
  */
 public class BestPlaceNameDataCollectorMain
 {
+    /** Include states. */
+    private static final Set<String> INCLUDE_STATES = new TreeSet<String>();
+
+    static
+    {
+        INCLUDE_STATES.add("AZ");
+        // INCLUDE_STATES.add("CA");
+        INCLUDE_STATES.add("CO");
+        // INCLUDE_STATES.add("GA");
+        // INCLUDE_STATES.add("NC");
+        INCLUDE_STATES.add("NM");
+        INCLUDE_STATES.add("NV");
+        // INCLUDE_STATES.add("OR");
+        // INCLUDE_STATES.add("SC");
+        // INCLUDE_STATES.add("WA");
+    }
 
     /** Minimum population. */
-    private static final Integer MIN_POPULATION = 50000;
+    private static final Integer MIN_POPULATION = 0;
 
     /**
      * Application method.
@@ -98,19 +116,22 @@ public class BestPlaceNameDataCollectorMain
                     if (data0.length > 2)
                     {
                         final String name = data0[1];
-                        final String[] data1 = data0[2].split(",");
-                        final Integer population = Integer.valueOf(data1[13]);
+                        final Candidate candidate = _candidateCreator
+                                .create(name);
 
-                        if (population >= MIN_POPULATION)
+                        if (candidate != null)
                         {
-                            final Candidate candidate = _candidateCreator
-                                    .create(name);
-                            if (candidate != null)
+                            final String state = determineState(candidate
+                                    .getName());
+                            final String[] data1 = data0[2].split(",");
+                            final Integer population = Integer
+                                    .valueOf(data1[13]);
+
+                            if (INCLUDE_STATES.contains(state)
+                                    && population >= MIN_POPULATION)
                             {
                                 candidate.putValue(populationCriterion,
                                         population);
-                                final String state = determineState(candidate
-                                        .getName());
                                 candidate.putValue(stateCriterion, state);
                                 rivalryData.getCandidates().add(candidate);
                             }
@@ -121,7 +142,6 @@ public class BestPlaceNameDataCollectorMain
         }
         catch (final IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         finally
@@ -132,16 +152,15 @@ public class BestPlaceNameDataCollectorMain
             }
             catch (final IOException e)
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+
             try
             {
                 inputStream.close();
             }
             catch (final IOException e)
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -162,7 +181,7 @@ public class BestPlaceNameDataCollectorMain
             final int index = answer.lastIndexOf(' ');
             if (index >= 0)
             {
-                answer = answer.substring(index);
+                answer = answer.substring(index + 1);
             }
         }
         return answer;
