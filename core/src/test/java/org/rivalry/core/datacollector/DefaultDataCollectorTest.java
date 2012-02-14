@@ -237,7 +237,7 @@ public class DefaultDataCollectorTest
         assertNotNull(criterion);
         final Double rating = candidate.getRating(criterion);
         assertNotNull(rating);
-        assertThat(rating, is(0.2395));
+        assertThat(rating, is(0.258));
     }
 
     /**
@@ -273,7 +273,7 @@ public class DefaultDataCollectorTest
         assertNotNull(criterion);
         final Double rating = candidate.getRating(criterion);
         assertNotNull(rating);
-        assertThat(rating, is(0.2475));
+        assertThat(rating, is(0.2397));
     }
 
     /**
