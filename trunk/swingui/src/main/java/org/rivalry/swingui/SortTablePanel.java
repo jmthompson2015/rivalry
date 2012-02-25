@@ -81,7 +81,14 @@ public class SortTablePanel extends JPanel
 
         if (CollectionUtils.isNotEmpty(sortKeys))
         {
-            _table.getRowSorter().setSortKeys(sortKeys);
+            try
+            {
+                _table.getRowSorter().setSortKeys(sortKeys);
+            }
+            catch (final ClassCastException e)
+            {
+                // ???
+            }
         }
     }
 
