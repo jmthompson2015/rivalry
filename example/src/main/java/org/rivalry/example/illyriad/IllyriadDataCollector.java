@@ -57,6 +57,7 @@ public class IllyriadDataCollector implements DataCollector
         map.put(90395L, "Lockand Key");
         map.put(108163L, "Lock Steppe");
         map.put(139512L, "Locks Heath");
+        map.put(160795L, "Lockstar");
 
         map.put(109395L, "Frakshush");
         map.put(134891L, "Fraktull");
