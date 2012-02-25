@@ -8,6 +8,9 @@
 //*****************************************************************************
 package org.rivalry.swingui.table;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -23,8 +26,14 @@ public class VisibleColumnsTableModel extends DefaultTableModel
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
 
+    /** Cached column count. */
+    private Integer _columnCount = null;
+
     /** Inner table model. */
     private final TableModel _dataModel;
+
+    /** Cached visibility flags. */
+    private Map<String, Boolean> _isColumnVisible = new HashMap<String, Boolean>();
 
     /** User preferences. */
     private final TableUserPreferences _userPreferences;
@@ -66,19 +75,24 @@ public class VisibleColumnsTableModel extends DefaultTableModel
     @Override
     public int getColumnCount()
     {
-        final int size = _dataModel.getColumnCount();
-        int answer = size;
-
-        // Subtract one for each hidden column.
-        for (int i = 0; i < size; i++)
+        if (_columnCount == null)
         {
-            if (!isColumnVisible(i))
+            final int size = _dataModel.getColumnCount();
+            int answer = size;
+
+            // Subtract one for each hidden column.
+            for (int i = 0; i < size; i++)
             {
-                answer--;
+                if (!isColumnVisible(i))
+                {
+                    answer--;
+                }
             }
+            
+            _columnCount = answer;
         }
 
-        return answer;
+        return _columnCount;
     }
 
     @Override
@@ -152,7 +166,15 @@ public class VisibleColumnsTableModel extends DefaultTableModel
      */
     public Boolean isColumnVisible(final String columnName)
     {
-        return _userPreferences.isColumnVisible(columnName);
+        Boolean answer = _isColumnVisible.get(columnName);
+
+        if (answer == null)
+        {
+            answer = _userPreferences.isColumnVisible(columnName);
+            _isColumnVisible.put(columnName, answer);
+        }
+
+        return answer;
     }
 
     /**
@@ -162,10 +184,16 @@ public class VisibleColumnsTableModel extends DefaultTableModel
     public void setColumnVisible(final int absoluteColumnIndex,
             final boolean isVisible)
     {
-        final String columnName = _dataModel.getColumnName(absoluteColumnIndex);
-        _userPreferences.putColumnVisible(columnName, isVisible);
+        synchronized (_columnCount)
+        {
+            _columnCount = null;
+            _isColumnVisible.clear();
+            final String columnName = _dataModel
+                    .getColumnName(absoluteColumnIndex);
+            _userPreferences.putColumnVisible(columnName, isVisible);
 
-        fireTableStructureChanged();
+            fireTableStructureChanged();
+        }
     }
 
     @Override
