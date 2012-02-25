@@ -8,48 +8,16 @@
 //*****************************************************************************
 package org.rivalry.swingui.table;
 
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 /**
- * Provides a custom JTable which displays the column name as a tool tip.
+ * Provides a custom JTable which displays the column name as a tool tip, and
+ * enables the user to double-click a column separator to auto-size the column.
  */
 public class ColumnNameToolTipTable extends JTable
 {
-    /**
-     * Provides a custom JTableHeader which displays the column name as a tool
-     * tip.
-     */
-    private final class MyJTableHeader extends JTableHeader
-    {
-        /** Serial version UID. */
-        private static final long serialVersionUID = 1L;
-
-        /**
-         * Construct this object with the given parameter.
-         * 
-         * @param tableColumnModel Table column model.
-         */
-        public MyJTableHeader(final TableColumnModel tableColumnModel)
-        {
-            super(tableColumnModel);
-        }
-
-        @Override
-        public String getToolTipText(final MouseEvent event)
-        {
-            final Point point = event.getPoint();
-            final int index = columnModel.getColumnIndexAtX(point.x);
-            final int realIndex = columnModel.getColumn(index).getModelIndex();
-            return getColumnName(realIndex);
-        }
-    }
-
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
 
@@ -61,6 +29,8 @@ public class ColumnNameToolTipTable extends JTable
     public ColumnNameToolTipTable(final TableModel tableModel)
     {
         super(tableModel);
+
+        setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
     }
 
     /**
@@ -71,6 +41,6 @@ public class ColumnNameToolTipTable extends JTable
     @Override
     protected JTableHeader createDefaultTableHeader()
     {
-        return new MyJTableHeader(columnModel);
+        return new ColumnNameToolTipTableHeader(columnModel);
     }
 }
