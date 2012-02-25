@@ -27,7 +27,7 @@ public class VisibleColumnsTableModel extends DefaultTableModel
     private static final long serialVersionUID = 1L;
 
     /** Cached column count. */
-    private Integer _columnCount = null;
+    private Integer _columnCount = -1;
 
     /** Inner table model. */
     private final TableModel _dataModel;
@@ -75,7 +75,7 @@ public class VisibleColumnsTableModel extends DefaultTableModel
     @Override
     public int getColumnCount()
     {
-        if (_columnCount == null)
+        if (_columnCount == null || _columnCount < 0)
         {
             final int size = _dataModel.getColumnCount();
             int answer = size;
@@ -88,7 +88,7 @@ public class VisibleColumnsTableModel extends DefaultTableModel
                     answer--;
                 }
             }
-            
+
             _columnCount = answer;
         }
 
@@ -186,7 +186,7 @@ public class VisibleColumnsTableModel extends DefaultTableModel
     {
         synchronized (_columnCount)
         {
-            _columnCount = null;
+            _columnCount = -1;
             _isColumnVisible.clear();
             final String columnName = _dataModel
                     .getColumnName(absoluteColumnIndex);
