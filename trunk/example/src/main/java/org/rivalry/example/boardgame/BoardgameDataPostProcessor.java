@@ -1,9 +1,11 @@
 package org.rivalry.example.boardgame;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.rivalry.core.datacollector.DefaultDataPostProcessor;
 import org.rivalry.core.model.Candidate;
+import org.rivalry.core.model.Category;
 import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.DefaultCriterion;
 import org.rivalry.core.model.RivalryData;
@@ -13,6 +15,29 @@ import org.rivalry.core.model.RivalryData;
  */
 public class BoardgameDataPostProcessor extends DefaultDataPostProcessor
 {
+    /**
+     * Construct this object.
+     */
+    public BoardgameDataPostProcessor()
+    {
+        super();
+    }
+
+    /**
+     * Construct this object with the given parameters.
+     * 
+     * @param candidateComparator Candidate comparator.
+     * @param categoryComparator Category comparator.
+     * @param criterionComparator Criterion comparator.
+     */
+    public BoardgameDataPostProcessor(
+            final Comparator<Candidate> candidateComparator,
+            final Comparator<Category> categoryComparator,
+            final Comparator<Criterion> criterionComparator)
+    {
+        super(candidateComparator, categoryComparator, criterionComparator);
+    }
+
     @Override
     public void postProcess(final RivalryData rivalryData)
     {
