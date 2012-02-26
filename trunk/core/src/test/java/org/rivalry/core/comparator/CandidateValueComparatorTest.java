@@ -6,7 +6,7 @@
 // See the file "LICENSE.txt" for information on usage and redistribution of
 // this file, and for a DISCLAIMER OF ALL WARRANTIES.
 //*****************************************************************************
-package org.rivalry.core.model;
+package org.rivalry.core.comparator;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -16,6 +16,11 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
+import org.rivalry.core.comparator.CandidateValueComparator;
+import org.rivalry.core.model.Candidate;
+import org.rivalry.core.model.Criterion;
+import org.rivalry.core.model.RivalryData;
+import org.rivalry.core.model.TestData;
 
 /**
  * Provides tests for the <code>CandidateValueComparator</code> class.
