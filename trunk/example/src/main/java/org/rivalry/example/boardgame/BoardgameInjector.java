@@ -20,7 +20,8 @@ public class BoardgameInjector extends DefaultDataCollectorInjector
     @Override
     public DataPostProcessor injectDataPostProcessor()
     {
-        return new BoardgameDataPostProcessor();
+        return new BoardgameDataPostProcessor(injectCandidateComparator(),
+                injectCategoryComparator(), injectCriterionComparator());
     }
 
     @Override
