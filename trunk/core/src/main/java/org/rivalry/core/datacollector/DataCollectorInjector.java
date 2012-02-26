@@ -8,6 +8,8 @@
 //*****************************************************************************
 package org.rivalry.core.datacollector;
 
+import java.util.Comparator;
+
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Category;
 import org.rivalry.core.model.Criterion;
@@ -20,14 +22,29 @@ import org.rivalry.core.util.Provider;
 public interface DataCollectorInjector
 {
     /**
+     * @return a new candidate comparator.
+     */
+    Comparator<Candidate> injectCandidateComparator();
+
+    /**
      * @return a new candidate provider.
      */
     Provider<Candidate> injectCandidateProvider();
 
     /**
+     * @return a new category comparator.
+     */
+    Comparator<Category> injectCategoryComparator();
+
+    /**
      * @return a new category provider.
      */
     Provider<Category> injectCategoryProvider();
+
+    /**
+     * @return a new criterion comparator.
+     */
+    Comparator<Criterion> injectCriterionComparator();
 
     /**
      * @return a new criterion provider.
