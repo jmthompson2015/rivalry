@@ -17,8 +17,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.rivalry.core.comparator.CandidateRatingComparator;
 import org.rivalry.core.model.Candidate;
-import org.rivalry.core.model.CandidateRatingComparator;
 import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.RivalryData;
 
