@@ -6,9 +6,12 @@
 // See the file "LICENSE.txt" for information on usage and redistribution of
 // this file, and for a DISCLAIMER OF ALL WARRANTIES.
 //*****************************************************************************
-package org.rivalry.core.model;
+package org.rivalry.core.comparator;
 
 import java.util.Comparator;
+
+import org.rivalry.core.model.Candidate;
+import org.rivalry.core.model.Criterion;
 
 /**
  * Provides a comparator for candidate town ID.
