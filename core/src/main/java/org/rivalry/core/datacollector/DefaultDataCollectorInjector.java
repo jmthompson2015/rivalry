@@ -8,6 +8,11 @@
 //*****************************************************************************
 package org.rivalry.core.datacollector;
 
+import java.util.Comparator;
+
+import org.rivalry.core.comparator.DefaultCandidateComparator;
+import org.rivalry.core.comparator.DefaultCategoryComparator;
+import org.rivalry.core.comparator.DefaultCriterionComparator;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Category;
 import org.rivalry.core.model.Criterion;
@@ -23,15 +28,33 @@ import org.rivalry.core.util.Provider;
 public class DefaultDataCollectorInjector implements DataCollectorInjector
 {
     @Override
+    public Comparator<Candidate> injectCandidateComparator()
+    {
+        return new DefaultCandidateComparator();
+    }
+
+    @Override
     public Provider<Candidate> injectCandidateProvider()
     {
         return new DefaultCandidateProvider();
     }
 
     @Override
+    public Comparator<Category> injectCategoryComparator()
+    {
+        return new DefaultCategoryComparator();
+    }
+
+    @Override
     public Provider<Category> injectCategoryProvider()
     {
         return new DefaultCategoryProvider();
+    }
+
+    @Override
+    public Comparator<Criterion> injectCriterionComparator()
+    {
+        return new DefaultCriterionComparator();
     }
 
     @Override
@@ -66,7 +89,8 @@ public class DefaultDataCollectorInjector implements DataCollectorInjector
     @Override
     public DataPostProcessor injectDataPostProcessor()
     {
-        return new DefaultDataPostProcessor();
+        return new DefaultDataPostProcessor(injectCandidateComparator(),
+                injectCategoryComparator(), injectCriterionComparator());
     }
 
     @Override
