@@ -21,8 +21,8 @@ import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.rivalry.core.comparator.CandidateValueComparator;
 import org.rivalry.core.model.Candidate;
-import org.rivalry.core.model.CandidateValueComparator;
 import org.rivalry.core.model.Category;
 import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.RivalryData;
@@ -163,6 +163,8 @@ public class DefaultDataCollector implements DataCollector
             }
         }
 
+        _dataPostProcessor.postProcess(rivalryData);
+
         final Candidate averageCandidate = createAverageCandidate(rivalryData);
         final Candidate medianCandidate = createMedianCandidate(rivalryData);
 
@@ -247,8 +249,6 @@ public class DefaultDataCollector implements DataCollector
                 }
             }
         }
-
-        _dataPostProcessor.postProcess(rivalryData);
 
         final long end = System.currentTimeMillis();
         logTiming(candidate.getName() + " 2 fetchData()", start, end);
