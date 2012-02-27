@@ -8,6 +8,8 @@
 //*****************************************************************************
 package org.rivalry.example.illyriad;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Provides an enumeration of resources.
  */
@@ -53,6 +55,34 @@ public enum Resource
     PLATE_ARMOUR("Plate Armour", true),
     /** Siege block. */
     SIEGE_BLOCK("Siege Block", true);
+
+    /**
+     * @param displayName Display name.
+     * 
+     * @return resource.
+     */
+    public static Resource valueOfDisplayName(final String displayName)
+    {
+        Resource answer = null;
+
+        if (StringUtils.isNotEmpty(displayName))
+        {
+            final Resource[] resources = values();
+            final int size = resources.length;
+
+            for (int i = 0; answer == null && i < size; i++)
+            {
+                final Resource resource = resources[i];
+
+                if (displayName.equals(resource.getDisplayName()))
+                {
+                    answer = resource;
+                }
+            }
+        }
+
+        return answer;
+    }
 
     /** Display name. */
     private final String _displayName;
