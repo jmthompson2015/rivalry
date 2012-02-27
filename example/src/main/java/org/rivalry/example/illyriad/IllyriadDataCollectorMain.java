@@ -23,11 +23,12 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.commons.lang.StringUtils;
 import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataCollector;
+import org.rivalry.core.datacollector.DataPostProcessor;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.RivalryDataWriter;
 
 /**
- * Provides a data collector for dog breeds.
+ * Provides a data collector for Illyriad.
  */
 public class IllyriadDataCollectorMain
 {
@@ -81,6 +82,10 @@ public class IllyriadDataCollectorMain
                             rivalryData1.getCandidates());
                 }
             }
+
+            final DataPostProcessor dataPostProcessor = injector
+                    .injectDataPostProcessor();
+            dataPostProcessor.postProcess(rivalryData);
 
             final String outputFile = determineOutputFile(commandLine);
             System.out.println("outputFile = [" + outputFile + "]");
