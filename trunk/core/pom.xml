@@ -63,7 +63,7 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <tasks>
-                                <exec dir="${basedir}" executable="${basedir}/jfabber.sh"
+                                <exec dir="${basedir}" executable="${basedir}/src/main/bin/jfabber.sh"
                                     failonerror="true">
                                 </exec>
                             </tasks>
