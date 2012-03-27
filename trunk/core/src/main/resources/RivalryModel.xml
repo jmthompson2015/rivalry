@@ -2,86 +2,139 @@
 <tns:CGSpec xmlns:tns="http://core.jfab.org/model"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://core.jfab.org/model http://jfab.googlecode.com/svn/trunk/trunk/core/src/main/resources/CodeGenerator.xsd">
-    <cgInterface propertyChangeSupported="true">
+
+    <!-- Entity -->
+    <interface propertyChangeSupported="true">
         <commentLine>Defines methods required by an entity for a decision making application.</commentLine>
-        <modifiers>public</modifiers>
+        <modifier>public</modifier>
         <name>Entity</name>
         <packageName>org.rivalry.core.model</packageName>
         <propertyExemplar getter="true" setter="true">
             <name>placeholder</name>
-            <type>String</type>
+            <type>
+                <name>String</name>
+            </type>
         </propertyExemplar>
         <property>
             <name>description</name>
-            <type>String</type>
+            <type>
+                <name>String</name>
+            </type>
         </property>
         <property>
             <name>name</name>
-            <type>String</type>
+            <type>
+                <name>String</name>
+            </type>
         </property>
-    </cgInterface>
-    <cgInterface propertyChangeSupported="true">
+    </interface>
+
+    <!-- Category -->
+    <interface propertyChangeSupported="true">
         <commentLine>Defines methods required by a category for a decision making application.</commentLine>
-        <modifiers>public</modifiers>
+        <modifier>public</modifier>
         <name>Category</name>
         <packageName>org.rivalry.core.model</packageName>
-        <extendsType>org.rivalry.core.model.Entity</extendsType>
-    </cgInterface>
-    <cgInterface propertyChangeSupported="true">
+        <extendsType>
+            <packageName>org.rivalry.core.model</packageName>
+            <name>Entity</name>
+        </extendsType>
+    </interface>
+
+    <!-- Criterion -->
+    <interface propertyChangeSupported="true">
         <commentLine>Defines methods required by a criterion for a decision making application.</commentLine>
-        <modifiers>public</modifiers>
+        <modifier>public</modifier>
         <name>Criterion</name>
         <packageName>org.rivalry.core.model</packageName>
-        <extendsType>org.rivalry.core.model.Entity</extendsType>
+        <extendsType>
+            <packageName>org.rivalry.core.model</packageName>
+            <name>Entity</name>
+        </extendsType>
         <propertyExemplar getter="true" setter="true">
             <name>placeholder</name>
-            <type>String</type>
+            <type>
+                <name>String</name>
+            </type>
         </propertyExemplar>
         <property usedInIdentity="false">
             <name>autoMinMax</name>
-            <type>boolean</type>
+            <type>
+                <name>boolean</name>
+            </type>
         </property>
         <property usedInIdentity="false">
             <name>category</name>
-            <type>org.rivalry.core.model.Category</type>
+            <type>
+                <packageName>org.rivalry.core.model</packageName>
+                <name>Category</name>
+            </type>
         </property>
         <property usedInIdentity="false">
             <name>maximumRating</name>
-            <type>Double</type>
+            <type>
+                <name>Double</name>
+            </type>
         </property>
         <property usedInIdentity="false">
             <name>minimumRating</name>
-            <type>Double</type>
+            <type>
+                <name>Double</name>
+            </type>
         </property>
-    </cgInterface>
-    <cgInterface propertyChangeSupported="true">
+    </interface>
+
+    <!-- Candidate -->
+    <interface propertyChangeSupported="true">
         <commentLine>Defines methods required by a candidate for a decision making application.</commentLine>
-        <modifiers>public</modifiers>
+        <modifier>public</modifier>
         <name>Candidate</name>
         <packageName>org.rivalry.core.model</packageName>
-        <extendsType>org.rivalry.core.model.Entity</extendsType>
+        <extendsType>
+            <packageName>org.rivalry.core.model</packageName>
+            <name>Entity</name>
+        </extendsType>
         <propertyExemplar getter="true" setter="true">
             <name>placeholder</name>
-            <type>String</type>
+            <type>
+                <name>String</name>
+            </type>
         </propertyExemplar>
         <property usedInIdentity="false">
             <name>page</name>
-            <type>String</type>
+            <type>
+                <name>String</name>
+            </type>
         </property>
         <property usedInIdentity="false">
             <name>values</name>
-            <type>Map&lt;org.rivalry.core.model.Criterion, java.lang.Object&gt;</type>
-            <initialValue>new LinkedHashMap&lt;org.rivalry.core.model.Criterion, java.lang.Object&gt;()</initialValue>
+            <type>
+                <packageName>java.util</packageName>
+                <name>Map</name>
+                <typeParameter>
+                    <packageName>org.rivalry.core.model</packageName>
+                    <name>Criterion</name>
+                </typeParameter>
+                <typeParameter>
+                    <name>Object</name>
+                </typeParameter>
+            </type>
+            <initialValue>new LinkedHashMap&lt;Criterion, Object&gt;()</initialValue>
         </property>
         <method>
             <commentLine>@param   criterion  Criterion.</commentLine>
             <commentLine></commentLine>
             <commentLine>@return  the rating for the given parameter.</commentLine>
             <name>getRating</name>
-            <returnType>Double</returnType>
+            <returnType>
+                <name>Double</name>
+            </returnType>
             <parameter>
                 <name>criterion</name>
-                <type>org.rivalry.core.model.Criterion</type>
+                <type>
+                    <packageName>org.rivalry.core.model</packageName>
+                    <name>Criterion</name>
+                </type>
             </parameter>
         </method>
         <method>
@@ -89,10 +142,15 @@
             <commentLine></commentLine>
             <commentLine>@return  the value for the given parameter.</commentLine>
             <name>getValue</name>
-            <returnType>Object</returnType>
+            <returnType>
+                <name>Object</name>
+            </returnType>
             <parameter>
                 <name>criterion</name>
-                <type>org.rivalry.core.model.Criterion</type>
+                <type>
+                    <packageName>org.rivalry.core.model</packageName>
+                    <name>Criterion</name>
+                </type>
             </parameter>
         </method>
         <method>
@@ -103,39 +161,67 @@
             <name>putValue</name>
             <parameter>
                 <name>criterion</name>
-                <type>org.rivalry.core.model.Criterion</type>
+                <type>
+                    <packageName>org.rivalry.core.model</packageName>
+                    <name>Criterion</name>
+                </type>
             </parameter>
             <parameter>
                 <name>value</name>
-                <type>Object</type>
+                <type>
+                    <name>Object</name>
+                </type>
             </parameter>
         </method>
-    </cgInterface>
-    <cgClass propertyChangeSupported="true">
+    </interface>
+
+    <!-- DefaultEntity -->
+    <class propertyChangeSupported="true">
         <commentLine>Provides a default entity for a decision making application.</commentLine>
-        <modifiers>abstract</modifiers>
+        <modifier>abstract</modifier>
         <name>DefaultEntity</name>
         <packageName>org.rivalry.core.model</packageName>
-        <implementsInterface>org.rivalry.core.model.Entity</implementsInterface>
-    </cgClass>
-    <cgClass propertyChangeSupported="true">
+        <implementsInterface>
+            <packageName>org.rivalry.core.model</packageName>
+            <name>Entity</name>
+        </implementsInterface>
+    </class>
+
+    <!-- DefaultCandidate -->
+    <class propertyChangeSupported="true">
         <commentLine>Provides a default candidate for a decision making application.</commentLine>
-        <modifiers>public</modifiers>
+        <modifier>public</modifier>
         <name>DefaultCandidate</name>
         <packageName>org.rivalry.core.model</packageName>
-        <extendsType>org.rivalry.core.model.DefaultEntity</extendsType>
-        <implementsInterface>org.rivalry.core.model.Candidate</implementsInterface>
+        <extendsType>
+            <packageName>org.rivalry.core.model</packageName>
+            <name>DefaultEntity</name>
+        </extendsType>
+        <implementsInterface>
+            <packageName>org.rivalry.core.model</packageName>
+            <name>Candidate</name>
+        </implementsInterface>
         <method>
-            <referencedType>LinkedHashMap</referencedType>
+            <referencedType>
+                <packageName>java.util</packageName>
+                <name>LinkedHashMap</name>
+            </referencedType>
             <annotation>
-                <type>Override</type>
+                <type>
+                    <name>Override</name>
+                </type>
             </annotation>
-            <modifiers>public</modifiers>
+            <modifier>public</modifier>
             <name>getRating</name>
-            <returnType>Double</returnType>
+            <returnType>
+                <name>Double</name>
+            </returnType>
             <parameter>
                 <name>criterion</name>
-                <type>org.rivalry.core.model.Criterion</type>
+                <type>
+                    <packageName>org.rivalry.core.model</packageName>
+                    <name>Criterion</name>
+                </type>
             </parameter>
             <methodBodyLine>Double answer = null;</methodBodyLine>
             <methodBodyLine>Object value = getValue(criterion);</methodBodyLine>
@@ -162,109 +248,182 @@
             <methodBodyLine>return answer;</methodBodyLine>
         </method>
         <method>
-            <referencedType>LinkedHashMap</referencedType>
+            <referencedType>
+                <packageName>java.util</packageName>
+                <name>LinkedHashMap</name>
+            </referencedType>
             <annotation>
-                <type>Override</type>
+                <type>
+                    <name>Override</name>
+                </type>
             </annotation>
-            <modifiers>public</modifiers>
+            <modifier>public</modifier>
             <name>getValue</name>
-            <returnType>Object</returnType>
+            <returnType>
+                <name>Object</name>
+            </returnType>
             <parameter>
                 <name>criterion</name>
-                <type>org.rivalry.core.model.Criterion</type>
+                <type>
+                    <packageName>org.rivalry.core.model</packageName>
+                    <name>Criterion</name>
+                </type>
             </parameter>
             <methodBodyLine>if (_values == null)</methodBodyLine>
             <methodBodyLine>{</methodBodyLine>
-            <methodBodyLine>_values = new LinkedHashMap&lt;org.rivalry.core.model.Criterion, java.lang.Object&gt;();</methodBodyLine>
+            <methodBodyLine>_values = new LinkedHashMap&lt;Criterion, Object&gt;();</methodBodyLine>
             <methodBodyLine>}</methodBodyLine>
             <methodBodyLine>return _values.get(criterion);</methodBodyLine>
         </method>
         <method>
             <annotation>
-                <type>Override</type>
+                <type>
+                    <name>Override</name>
+                </type>
             </annotation>
-            <modifiers>public</modifiers>
+            <modifier>public</modifier>
             <name>putValue</name>
             <parameter>
                 <name>criterion</name>
-                <type>org.rivalry.core.model.Criterion</type>
+                <type>
+                    <packageName>org.rivalry.core.model</packageName>
+                    <name>Criterion</name>
+                </type>
             </parameter>
             <parameter>
                 <name>value</name>
-                <type>Object</type>
+                <type>
+                    <name>Object</name>
+                </type>
             </parameter>
             <methodBodyLine>_values.put(criterion, value);</methodBodyLine>
         </method>
-    </cgClass>
-    <cgClass>
+    </class>
+
+    <!-- DefaultCategory -->
+    <class>
         <commentLine>Provides a default category for a decision making application.</commentLine>
-        <modifiers>public</modifiers>
+        <modifier>public</modifier>
         <name>DefaultCategory</name>
         <packageName>org.rivalry.core.model</packageName>
-        <extendsType>org.rivalry.core.model.DefaultEntity</extendsType>
-        <implementsInterface>org.rivalry.core.model.Category</implementsInterface>
-    </cgClass>
-    <cgClass propertyChangeSupported="true">
+        <extendsType>
+            <packageName>org.rivalry.core.model</packageName>
+            <name>DefaultEntity</name>
+        </extendsType>
+        <implementsInterface>
+            <packageName>org.rivalry.core.model</packageName>
+            <name>Category</name>
+        </implementsInterface>
+    </class>
+
+    <!-- DefaultCriterion -->
+    <class propertyChangeSupported="true">
         <commentLine>Provides a default criterion for a decision making application.</commentLine>
-        <modifiers>public</modifiers>
+        <modifier>public</modifier>
         <name>DefaultCriterion</name>
         <packageName>org.rivalry.core.model</packageName>
-        <extendsType>org.rivalry.core.model.DefaultEntity</extendsType>
-        <implementsInterface>org.rivalry.core.model.Criterion</implementsInterface>
-    </cgClass>
-    <cgClass>
-        <referencedType>ArrayList</referencedType>
+        <extendsType>
+            <packageName>org.rivalry.core.model</packageName>
+            <name>DefaultEntity</name>
+        </extendsType>
+        <implementsInterface>
+            <packageName>org.rivalry.core.model</packageName>
+            <name>Criterion</name>
+        </implementsInterface>
+    </class>
+
+    <!-- RivalryData -->
+    <class>
+        <referencedType>
+            <packageName>java.util</packageName>
+            <name>ArrayList</name>
+        </referencedType>
         <commentLine>Provides a data bean for a decision making application.</commentLine>
-        <modifiers>public</modifiers>
+        <modifier>public</modifier>
         <name>RivalryData</name>
         <packageName>org.rivalry.core.model</packageName>
         <fieldExemplar getter="true" setter="true">
+            <modifier>private</modifier>
             <name>placeholder</name>
-            <type>String</type>
+            <type>
+                <name>String</name>
+            </type>
         </fieldExemplar>
         <field>
-            <name>candidates</name>
-            <type>List&lt;org.rivalry.core.model.Candidate&gt;</type>
+            <name>_candidates</name>
+            <type>
+                <packageName>java.util</packageName>
+                <name>List</name>
+                <typeParameter>
+                    <packageName>org.rivalry.core.model</packageName>
+                    <name>Candidate</name>
+                </typeParameter>
+            </type>
             <initialValue>new ArrayList&lt;org.rivalry.core.model.Candidate&gt;()</initialValue>
         </field>
         <field>
-            <name>categories</name>
-            <type>List&lt;org.rivalry.core.model.Category&gt;</type>
-            <initialValue>new ArrayList&lt;org.rivalry.core.model.Category&gt;()</initialValue>
+            <name>_categories</name>
+            <type>
+                <packageName>java.util</packageName>
+                <name>List</name>
+                <typeParameter>
+                    <packageName>org.rivalry.core.model</packageName>
+                    <name>Category</name>
+                </typeParameter>
+            </type>
+            <initialValue>new ArrayList&lt;Category&gt;()</initialValue>
         </field>
         <field>
-            <name>createDate</name>
-            <type>Date</type>
+            <name>_createDate</name>
+            <type>
+                <packageName>java.util</packageName>
+                <name>Date</name>
+            </type>
             <initialValue>new Date()</initialValue>
         </field>
         <field>
-            <name>criteria</name>
-            <type>List&lt;org.rivalry.core.model.Criterion&gt;</type>
-            <initialValue>new ArrayList&lt;org.rivalry.core.model.Criterion&gt;()</initialValue>
+            <name>_criteria</name>
+            <type>
+                <packageName>java.util</packageName>
+                <name>List</name>
+                <typeParameter>
+                    <packageName>org.rivalry.core.model</packageName>
+                    <name>Criterion</name>
+                </typeParameter>
+            </type>
+            <initialValue>new ArrayList&lt;Criterion&gt;()</initialValue>
         </field>
         <field>
-            <name>description</name>
-            <type>String</type>
+            <name>_description</name>
+            <type>
+                <name>String</name>
+            </type>
         </field>
         <field>
-            <name>preferencePrefix</name>
-            <type>String</type>
+            <name>_preferencePrefix</name>
+            <type>
+                <name>String</name>
+            </type>
         </field>
-        <methodExemplar>
-            <modifiers>public</modifiers>
-            <name>placeholder</name>
-        </methodExemplar>
         <method>
-            <referencedType>org.apache.commons.lang.StringUtils</referencedType>
+            <referencedType>
+                <packageName>org.apache.commons.lang</packageName>
+                <name>StringUtils</name>
+            </referencedType>
             <commentLine>@param name Name.</commentLine>
             <commentLine></commentLine>
             <commentLine>@return the candidate of the given name, if any.</commentLine>
-            <modifiers>public</modifiers>
+            <modifier>public</modifier>
             <name>findCandidateByName</name>
-            <returnType>org.rivalry.core.model.Candidate</returnType>
+            <returnType>
+                <packageName>org.rivalry.core.model</packageName>
+                <name>Candidate</name>
+            </returnType>
             <parameter>
                 <name>name</name>
-                <type>String</type>
+                <type>
+                    <name>String</name>
+                </type>
             </parameter>
             <methodBodyLine>Candidate answer = null;</methodBodyLine>
             <methodBodyLine>if (StringUtils.isNotEmpty(name))</methodBodyLine>
@@ -284,16 +443,24 @@
             <methodBodyLine>return answer;</methodBodyLine>
         </method>
         <method>
-            <referencedType>org.apache.commons.lang.StringUtils</referencedType>
+            <referencedType>
+                <packageName>org.apache.commons.lang</packageName>
+                <name>StringUtils</name>
+            </referencedType>
             <commentLine>@param name Name.</commentLine>
             <commentLine></commentLine>
             <commentLine>@return the category of the given name, if any.</commentLine>
-            <modifiers>public</modifiers>
+            <modifier>public</modifier>
             <name>findCategoryByName</name>
-            <returnType>org.rivalry.core.model.Category</returnType>
+            <returnType>
+                <packageName>org.rivalry.core.model</packageName>
+                <name>Category</name>
+            </returnType>
             <parameter>
                 <name>name</name>
-                <type>String</type>
+                <type>
+                    <name>String</name>
+                </type>
             </parameter>
             <methodBodyLine>Category answer = null;</methodBodyLine>
             <methodBodyLine>if (StringUtils.isNotEmpty(name))</methodBodyLine>
@@ -316,12 +483,22 @@
             <commentLine>@param category Category.</commentLine>
             <commentLine></commentLine>
             <commentLine>@return the criteria of the given category, if any.</commentLine>
-            <modifiers>public</modifiers>
+            <modifier>public</modifier>
             <name>findCriteriaByCategory</name>
-            <returnType>List&lt;org.rivalry.core.model.Criterion&gt;</returnType>
+            <returnType>
+                <packageName>java.util</packageName>
+                <name>List</name>
+                <typeParameter>
+                    <packageName>org.rivalry.core.model</packageName>
+                    <name>Criterion</name>
+                </typeParameter>
+            </returnType>
             <parameter>
                 <name>category</name>
-                <type>org.rivalry.core.model.Category</type>
+                <type>
+                    <packageName>org.rivalry.core.model</packageName>
+                    <name>Category</name>
+                </type>
             </parameter>
             <methodBodyLine>List&lt;Criterion&gt; answer = new ArrayList&lt;Criterion&gt;();</methodBodyLine>
             <methodBodyLine>if (category != null)</methodBodyLine>
@@ -341,16 +518,24 @@
             <methodBodyLine>return answer;</methodBodyLine>
         </method>
         <method>
-            <referencedType>org.apache.commons.lang.StringUtils</referencedType>
+            <referencedType>
+                <packageName>org.apache.commons.lang</packageName>
+                <name>StringUtils</name>
+            </referencedType>
             <commentLine>@param name Name.</commentLine>
             <commentLine></commentLine>
             <commentLine>@return the criterion of the given name, if any.</commentLine>
-            <modifiers>public</modifiers>
+            <modifier>public</modifier>
             <name>findCriterionByName</name>
-            <returnType>org.rivalry.core.model.Criterion</returnType>
+            <returnType>
+                <packageName>org.rivalry.core.model</packageName>
+                <name>Criterion</name>
+            </returnType>
             <parameter>
                 <name>name</name>
-                <type>String</type>
+                <type>
+                    <name>String</name>
+                </type>
             </parameter>
             <methodBodyLine>Criterion answer = null;</methodBodyLine>
             <methodBodyLine>if (StringUtils.isNotEmpty(name))</methodBodyLine>
@@ -369,5 +554,5 @@
             <methodBodyLine></methodBodyLine>
             <methodBodyLine>return answer;</methodBodyLine>
         </method>
-    </cgClass>
+    </class>
 </tns:CGSpec>
