@@ -40,7 +40,7 @@ import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.RivalryDataWriter;
 
 /**
- * Provides a data collector for Illyriad.
+ * Provides a data collector for skill demand.
  */
 public class SkillDemandDataCollectorMain
 {
