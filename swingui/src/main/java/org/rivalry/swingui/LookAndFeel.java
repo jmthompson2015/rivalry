@@ -51,7 +51,7 @@ public class LookAndFeel implements Comparable<LookAndFeel>
         {
             final Iterator<LookAndFeel> iter = LOOK_AND_FEELS.iterator();
 
-            while (answer == null && iter.hasNext())
+            while ((answer == null) && iter.hasNext())
             {
                 final LookAndFeel laf = iter.next();
 
@@ -78,11 +78,11 @@ public class LookAndFeel implements Comparable<LookAndFeel>
      */
     public static final LookAndFeel getDefaultLookAndFeel()
     {
-        LookAndFeel answer = findByName("Nimbus");
+        LookAndFeel answer = findByName("Metal");
 
         if (answer == null)
         {
-            answer = findByName("Metal");
+            answer = findByName("Nimbus");
         }
 
         return answer;
