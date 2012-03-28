@@ -26,7 +26,7 @@ public class DefaultUIUserPreferencesTest
         _userPreferences.putLookAndFeel(laf);
         final LookAndFeel result = _userPreferences.getLookAndFeel();
         assertNotNull(result);
-        assertThat(result.getName(), is("Nimbus"));
+        assertThat(result.getName(), is("Metal"));
     }
 
     /**
