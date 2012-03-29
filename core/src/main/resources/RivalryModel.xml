@@ -9,20 +9,15 @@
         <modifier>public</modifier>
         <name>Entity</name>
         <packageName>org.rivalry.core.model</packageName>
-        <propertyExemplar getter="true" setter="true">
+        <property getter="true" setter="true">
             <modifier>private</modifier>
-            <name>placeholder</name>
-            <type>
-                <name>String</name>
-            </type>
-        </propertyExemplar>
-        <property>
             <name>description</name>
             <type>
                 <name>String</name>
             </type>
         </property>
-        <property>
+        <property getter="true" setter="true">
+            <modifier>private</modifier>
             <name>name</name>
             <type>
                 <name>String</name>
@@ -52,33 +47,30 @@
             <packageName>org.rivalry.core.model</packageName>
             <name>Entity</name>
         </extendsType>
-        <propertyExemplar getter="true" setter="true">
+        <property getter="true" setter="true" usedInIdentity="false">
             <modifier>private</modifier>
-            <name>placeholder</name>
-            <type>
-                <name>String</name>
-            </type>
-        </propertyExemplar>
-        <property usedInIdentity="false">
             <name>autoMinMax</name>
             <type>
                 <name>boolean</name>
             </type>
         </property>
-        <property usedInIdentity="false">
+        <property getter="true" setter="true" usedInIdentity="false">
+            <modifier>private</modifier>
             <name>category</name>
             <type>
                 <packageName>org.rivalry.core.model</packageName>
                 <name>Category</name>
             </type>
         </property>
-        <property usedInIdentity="false">
+        <property getter="true" setter="true" usedInIdentity="false">
+            <modifier>private</modifier>
             <name>maximumRating</name>
             <type>
                 <name>Double</name>
             </type>
         </property>
-        <property usedInIdentity="false">
+        <property getter="true" setter="true" usedInIdentity="false">
+            <modifier>private</modifier>
             <name>minimumRating</name>
             <type>
                 <name>Double</name>
@@ -96,20 +88,15 @@
             <packageName>org.rivalry.core.model</packageName>
             <name>Entity</name>
         </extendsType>
-        <propertyExemplar getter="true" setter="true">
+        <property getter="true" setter="true" usedInIdentity="false">
             <modifier>private</modifier>
-            <name>placeholder</name>
-            <type>
-                <name>String</name>
-            </type>
-        </propertyExemplar>
-        <property usedInIdentity="false">
             <name>page</name>
             <type>
                 <name>String</name>
             </type>
         </property>
-        <property usedInIdentity="false">
+        <property getter="true" setter="true" usedInIdentity="false">
+            <modifier>private</modifier>
             <name>values</name>
             <type>
                 <packageName>java.util</packageName>
@@ -333,14 +320,8 @@
         <modifier>public</modifier>
         <name>RivalryData</name>
         <packageName>org.rivalry.core.model</packageName>
-        <fieldExemplar getter="true" setter="true">
+        <field getter="true" setter="true">
             <modifier>private</modifier>
-            <name>placeholder</name>
-            <type>
-                <name>String</name>
-            </type>
-        </fieldExemplar>
-        <field>
             <name>_candidates</name>
             <type>
                 <packageName>java.util</packageName>
@@ -352,7 +333,8 @@
             </type>
             <initialValue>new ArrayList&lt;org.rivalry.core.model.Candidate&gt;()</initialValue>
         </field>
-        <field>
+        <field getter="true" setter="true">
+            <modifier>private</modifier>
             <name>_categories</name>
             <type>
                 <packageName>java.util</packageName>
@@ -364,7 +346,8 @@
             </type>
             <initialValue>new ArrayList&lt;Category&gt;()</initialValue>
         </field>
-        <field>
+        <field getter="true" setter="true">
+            <modifier>private</modifier>
             <name>_createDate</name>
             <type>
                 <packageName>java.util</packageName>
@@ -372,7 +355,8 @@
             </type>
             <initialValue>new Date()</initialValue>
         </field>
-        <field>
+        <field getter="true" setter="true">
+            <modifier>private</modifier>
             <name>_criteria</name>
             <type>
                 <packageName>java.util</packageName>
@@ -384,13 +368,15 @@
             </type>
             <initialValue>new ArrayList&lt;Criterion&gt;()</initialValue>
         </field>
-        <field>
+        <field getter="true" setter="true">
+            <modifier>private</modifier>
             <name>_description</name>
             <type>
                 <name>String</name>
             </type>
         </field>
-        <field>
+        <field getter="true" setter="true">
+            <modifier>private</modifier>
             <name>_preferencePrefix</name>
             <type>
                 <name>String</name>
