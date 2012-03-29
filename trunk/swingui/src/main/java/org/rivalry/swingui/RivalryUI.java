@@ -1,6 +1,6 @@
 //*****************************************************************************
 // Rivalry (http://code.google.com/p/rivalry)
-// Copyright (c) 2011 Rivalry.org
+// Copyright (c) 2011-2012 Rivalry.org
 // Admin rivalry@jeffreythompson.net
 //
 // See the file "LICENSE.txt" for information on usage and redistribution of
@@ -9,6 +9,7 @@
 package org.rivalry.swingui;
 
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -38,16 +40,18 @@ import org.apache.commons.lang.StringUtils;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.RivalryDataReader;
 import org.rivalry.swingui.table.CandidateTableModel;
+import org.rivalry.swingui.util.OSXApp;
+import org.rivalry.swingui.util.SystemUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Provides a Rivalry user interface.
  */
-public class RivalryUI extends JPanel
+public class RivalryUI extends JPanel implements OSXApp
 {
     /** Frame. */
-    private static JFrame _frame;
+    static JFrame _frame;
 
     /** Base location of data files. */
     private final static String FILE_LOCATION = "http://dl.dropbox.com/u/1267954/rivalry/";
@@ -74,18 +78,30 @@ public class RivalryUI extends JPanel
      */
     public static final void main(final String[] args)
     {
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name",
+                "Rivalry UI");
+
         final UIUserPreferences userPrefs = new DefaultUIUserPreferences();
         System.out.println("Applying look and feel: "
                 + userPrefs.getLookAndFeel().getName());
         userPrefs.getLookAndFeel().apply();
 
-        final RivalryUI panel = new RivalryUI();
+        EventQueue.invokeLater(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                final RivalryUI panel = new RivalryUI();
 
-        _frame = new JFrame("Rivalry");
-        _frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        _frame.getContentPane().add(panel, BorderLayout.CENTER);
-        _frame.setSize(1900, 600);
-        _frame.setVisible(true);
+                _frame = new JFrame("Rivalry UI");
+                _frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                _frame.getContentPane().add(panel, BorderLayout.CENTER);
+                _frame.setSize(1900, 600);
+                _frame.setLocationByPlatform(true);
+                _frame.setVisible(true);
+            }
+        });
     }
 
     /** File chooser. */
@@ -102,6 +118,9 @@ public class RivalryUI extends JPanel
      */
     public RivalryUI()
     {
+        // Set up our application to respond to the Mac OS X application menu
+        macOSXRegistration();
+
         setLayout(new BorderLayout());
 
         final String preferencePrefix = "empty";
@@ -113,6 +132,58 @@ public class RivalryUI extends JPanel
         _toolBarPanel.add(_rivalryMainPanel, BorderLayout.CENTER);
 
         add(_toolBarPanel, BorderLayout.CENTER);
+    }
+
+    /**
+     * Perform the about action.
+     */
+    @Override
+    public void aboutActionPerformed(final ActionEvent event)
+    {
+        final String description0 = "Rivalry is a comparison tool.";
+
+        final String description1 = "\n\nFor more information or to contribute, please see the open source"
+                + "\nproject site at http://code.google.com/p/rivalry/"
+                + "\n\nCopyright \u00A9 2011-2012 Rivalry.org. All rights reserved.\n\n";
+
+        final RivalryData rivalryData = _rivalryMainPanel.getRivalryData();
+        String description2 = rivalryData.getDescription();
+        if (StringUtils.isEmpty(description2))
+        {
+            description2 = "";
+        }
+
+        final String description = description0 + description1 + description2;
+
+        final String title = "About Rivalry";
+        final Icon icon = createImageIcon("images/crossedSabres64.png",
+                "Rivalry.org");
+
+        JOptionPane.showMessageDialog(getFrame(), description, title,
+                JOptionPane.INFORMATION_MESSAGE, icon);
+    }
+
+    /**
+     * Display the preferences dialog. The OSXAdapter calls this method when
+     * "Preferences..." is selected from the application menu.
+     * 
+     * @param event Event.
+     */
+    @Override
+    public void preferencesActionPerformed(final ActionEvent event)
+    {
+        // Nothing to do.
+    }
+
+    /**
+     * Callback for the quit button.
+     * 
+     * @param event Event.
+     */
+    @Override
+    public void quitActionPerformed(final ActionEvent event)
+    {
+        System.exit(0);
     }
 
     /**
@@ -236,30 +307,9 @@ public class RivalryUI extends JPanel
         return new ActionListener()
         {
             @Override
-            public void actionPerformed(final ActionEvent e)
+            public void actionPerformed(final ActionEvent event)
             {
-                final String description0 = "Rivalry is a comparison tool.";
-
-                final String description1 = "\n\nFor more information or to contribute, please see the open source project site at http://code.google.com/p/rivalry/"
-                        + "\n\nCopyright \u00A9 2011 Rivalry.org. All rights reserved.\n\n";
-
-                final RivalryData rivalryData = _rivalryMainPanel
-                        .getRivalryData();
-                String description2 = rivalryData.getDescription();
-                if (StringUtils.isEmpty(description2))
-                {
-                    description2 = "";
-                }
-
-                final String description = description0 + description1
-                        + description2;
-
-                final String title = "About Rivalry";
-                final Icon icon = createImageIcon("images/crossedSabres64.png",
-                        "Rivalry.org");
-
-                JOptionPane.showMessageDialog(getFrame(), description, title,
-                        JOptionPane.INFORMATION_MESSAGE, icon);
+                aboutActionPerformed(event);
             }
         };
     }
@@ -369,8 +419,8 @@ public class RivalryUI extends JPanel
 
                 final Object value = filterDialog.getValue();
 
-                if (value instanceof Integer
-                        && (Integer)value == JOptionPane.OK_OPTION)
+                if ((value instanceof Integer)
+                        && ((Integer)value == JOptionPane.OK_OPTION))
                 {
                     final RowFilter<CandidateTableModel, Integer> rowFilter = filterDialog
                             .getCandidateTableRowFilter();
@@ -391,6 +441,22 @@ public class RivalryUI extends JPanel
             public void actionPerformed(final ActionEvent e)
             {
                 final RivalryData rivalryData = readRivalryData("IllyriadRivalryData.xml");
+                loadDataActionPerformed(rivalryData);
+            }
+        };
+    }
+
+    /**
+     * @return a new mystery book award action listener.
+     */
+    private ActionListener createMysteryAwardActionListener()
+    {
+        return new ActionListener()
+        {
+            @Override
+            public void actionPerformed(final ActionEvent e)
+            {
+                final RivalryData rivalryData = readRivalryData("MysteryAwardRivalryData.xml");
                 loadDataActionPerformed(rivalryData);
             }
         };
@@ -480,6 +546,9 @@ public class RivalryUI extends JPanel
         final JButton illyriadButton = createButton("Illyriad24.png",
                 "Load Illyriad data", "Illyriad",
                 createIllyriadActionListener());
+        final JButton mysteryAwardButton = createButton("MysteryBook24.png",
+                "Load mystery book award data", "Mystery Book Awards",
+                createMysteryAwardActionListener());
         final JButton skillDemandButton = createButton("Brain24.png",
                 "Load skill demand data", "Skill Demand",
                 createSkillDemandActionListener());
@@ -499,6 +568,7 @@ public class RivalryUI extends JPanel
         answer.add(boardgameButton);
         answer.add(dogButton);
         answer.add(illyriadButton);
+        answer.add(mysteryAwardButton);
         answer.add(skillDemandButton);
         answer.add(stockButton);
         answer.addSeparator();
@@ -532,5 +602,62 @@ public class RivalryUI extends JPanel
         JOptionPane.showMessageDialog(getFrame(),
                 prefixMessage + e.getMessage(), "Error",
                 JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Generic registration with the Mac OS X application menu. Checks the
+     * platform, then attempts to register with the Apple EAWT. This method
+     * calls OSXAdapter.registerMacOSXApplication() and
+     * OSXAdapter.enablePrefs(). See OSXAdapter.java for the signatures of these
+     * methods.
+     */
+    private void macOSXRegistration()
+    {
+        final SystemUtilities systemUtils = new SystemUtilities();
+
+        if (systemUtils.isMacPlatform() && !systemUtils.isApplet())
+        {
+            try
+            {
+                final Class<?> osxAdapter = Class
+                        .forName("org.rivalry.swingui.util.OSXAdapter");
+
+                final Class<?>[] defArgs = { OSXApp.class };
+                final Method registerMethod = osxAdapter.getDeclaredMethod(
+                        "registerMacOSXApplication", defArgs);
+
+                if (registerMethod != null)
+                {
+                    final Object[] args = { this };
+                    registerMethod.invoke(osxAdapter, args);
+                }
+            }
+            catch (final NoClassDefFoundError e)
+            {
+                /*
+                 * This will be thrown first if the OSXAdapter is loaded on a
+                 * system without the EAWT because OSXAdapter extends
+                 * ApplicationAdapter in its def
+                 */
+                LOGGER.error(
+                        "This version of Mac OS X does not support the Apple EAWT.  Application Menu handling has been disabled.",
+                        e);
+            }
+            catch (final ClassNotFoundException e)
+            {
+                /*
+                 * This shouldn't be reached; if there's a problem with the
+                 * OSXAdapter we should get the above NoClassDefFoundError
+                 * first.
+                 */
+                LOGGER.error(
+                        "This version of Mac OS X does not support the Apple EAWT.  Application Menu handling has been disabled.",
+                        e);
+            }
+            catch (final Exception e)
+            {
+                LOGGER.error(e.getMessage(), e);
+            }
+        }
     }
 }
