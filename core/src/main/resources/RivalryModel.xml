@@ -10,6 +10,7 @@
         <name>Entity</name>
         <packageName>org.rivalry.core.model</packageName>
         <propertyExemplar getter="true" setter="true">
+            <modifier>private</modifier>
             <name>placeholder</name>
             <type>
                 <name>String</name>
@@ -52,6 +53,7 @@
             <name>Entity</name>
         </extendsType>
         <propertyExemplar getter="true" setter="true">
+            <modifier>private</modifier>
             <name>placeholder</name>
             <type>
                 <name>String</name>
@@ -95,6 +97,7 @@
             <name>Entity</name>
         </extendsType>
         <propertyExemplar getter="true" setter="true">
+            <modifier>private</modifier>
             <name>placeholder</name>
             <type>
                 <name>String</name>
@@ -193,10 +196,6 @@
         <modifier>public</modifier>
         <name>DefaultCandidate</name>
         <packageName>org.rivalry.core.model</packageName>
-        <extendsType>
-            <packageName>org.rivalry.core.model</packageName>
-            <name>DefaultEntity</name>
-        </extendsType>
         <implementsInterface>
             <packageName>org.rivalry.core.model</packageName>
             <name>Candidate</name>
@@ -301,15 +300,11 @@
     </class>
 
     <!-- DefaultCategory -->
-    <class>
+    <class propertyChangeSupported="true">
         <commentLine>Provides a default category for a decision making application.</commentLine>
         <modifier>public</modifier>
         <name>DefaultCategory</name>
         <packageName>org.rivalry.core.model</packageName>
-        <extendsType>
-            <packageName>org.rivalry.core.model</packageName>
-            <name>DefaultEntity</name>
-        </extendsType>
         <implementsInterface>
             <packageName>org.rivalry.core.model</packageName>
             <name>Category</name>
@@ -322,10 +317,6 @@
         <modifier>public</modifier>
         <name>DefaultCriterion</name>
         <packageName>org.rivalry.core.model</packageName>
-        <extendsType>
-            <packageName>org.rivalry.core.model</packageName>
-            <name>DefaultEntity</name>
-        </extendsType>
         <implementsInterface>
             <packageName>org.rivalry.core.model</packageName>
             <name>Criterion</name>
