@@ -183,10 +183,6 @@
         <modifier>public</modifier>
         <name>DefaultCandidate</name>
         <packageName>org.rivalry.core.model</packageName>
-        <implementsInterface>
-            <packageName>org.rivalry.core.model</packageName>
-            <name>Candidate</name>
-        </implementsInterface>
         <method>
             <referencedType>
                 <packageName>java.util</packageName>
@@ -284,6 +280,10 @@
             </parameter>
             <methodBodyLine>_values.put(criterion, value);</methodBodyLine>
         </method>
+        <implementsInterface>
+            <packageName>org.rivalry.core.model</packageName>
+            <name>Candidate</name>
+        </implementsInterface>
     </class>
 
     <!-- DefaultCategory -->
