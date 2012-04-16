@@ -32,7 +32,8 @@ public class MyTestRivalryMainPanel
     {
         final TestData testData = new TestData();
         final RivalryData rivalryData = testData.createRivalryData();
-        final RivalryMainPanel panel = new RivalryMainPanel(rivalryData);
+        final UIUserPreferences uiUserPreferences = new DefaultUIUserPreferences();
+        final RivalryMainPanel panel = new RivalryMainPanel(rivalryData, uiUserPreferences);
 
         showFrame("RivalryMainPanel Test", panel);
     }
@@ -44,8 +45,7 @@ public class MyTestRivalryMainPanel
      * 
      * @throws InterruptedException if there is an interruption.
      */
-    private void showFrame(final String title, final RivalryMainPanel panel)
-            throws InterruptedException
+    private void showFrame(final String title, final RivalryMainPanel panel) throws InterruptedException
     {
         final JFrame frame = new JFrame(title);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

@@ -27,9 +27,8 @@ import org.rivalry.swingui.table.TableUserPreferences;
 /**
  * Provides tests for the <code>SortTablePanel</code> class.
  * <p>
- * The first column (columnIndex 0) is the score, the second column (columnIndex
- * 1) is the candidate name, and the rest of the columns correspond to the
- * visible criteria.
+ * The first column (columnIndex 0) is the score, the second column (columnIndex 1) is the candidate name, and the rest
+ * of the columns correspond to the visible criteria.
  * </p>
  */
 public class MyTestSortTablePanel
@@ -38,8 +37,7 @@ public class MyTestSortTablePanel
     private static final String PREF_PREFIX = "test";
 
     /** User preferences. */
-    private static final TableUserPreferences USER_PREFS = new DefaultTableUserPreferences(
-            PREF_PREFIX);
+    private static final TableUserPreferences USER_PREFS = new DefaultTableUserPreferences(PREF_PREFIX);
 
     /**
      * Test the user interface.
@@ -52,13 +50,10 @@ public class MyTestSortTablePanel
         final TestData testData = new TestData();
         final RivalryData rivalryData = testData.createRivalryData();
         final String preferencePrefix = "test";
-        final FitnessFunction fitnessFunction = testData
-                .createWeightedSumFitnessFunction(preferencePrefix,
-                        rivalryData.getCriteria());
-        final TableModel tableModel = new CandidateTableModel(rivalryData,
-                fitnessFunction);
-        final SortTablePanel panel = new SortTablePanel(tableModel, null,
-                USER_PREFS);
+        final FitnessFunction fitnessFunction = testData.createWeightedSumFitnessFunction(preferencePrefix,
+                rivalryData.getCriteria());
+        final TableModel tableModel = new CandidateTableModel(rivalryData, fitnessFunction);
+        final SortTablePanel panel = new SortTablePanel(tableModel, null, USER_PREFS, null);
 
         showFrame("CandidateSortTablePanel Test", panel);
     }
@@ -75,8 +70,7 @@ public class MyTestSortTablePanel
         final TestData testData = new TestData();
         final RivalryData rivalryData = testData.createRivalryData();
         final TableModel tableModel = new CriterionTableModel(rivalryData);
-        final SortTablePanel panel = new SortTablePanel(tableModel, null,
-                USER_PREFS);
+        final SortTablePanel panel = new SortTablePanel(tableModel, null, USER_PREFS, null);
 
         showFrame("CriterionSortTablePanel Test", panel);
     }
@@ -90,8 +84,7 @@ public class MyTestSortTablePanel
     @Test
     public void testUI0() throws InterruptedException
     {
-        final SortTablePanel panel = new SortTablePanel(new MyTestTableModel(),
-                null, USER_PREFS);
+        final SortTablePanel panel = new SortTablePanel(new MyTestTableModel(), null, USER_PREFS, null);
 
         showFrame("TestSortTablePanel", panel);
     }
@@ -102,8 +95,7 @@ public class MyTestSortTablePanel
      * 
      * @throws InterruptedException if there is an interruption.
      */
-    private void showFrame(final String title, final SortTablePanel panel)
-            throws InterruptedException
+    private void showFrame(final String title, final SortTablePanel panel) throws InterruptedException
     {
         final JFrame frame = new JFrame(title);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

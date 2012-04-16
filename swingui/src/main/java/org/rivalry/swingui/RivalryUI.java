@@ -23,23 +23,19 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.swing.DefaultRowSorter;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
-import javax.swing.RowFilter;
 import javax.swing.WindowConstants;
 
 import org.apache.commons.lang.StringUtils;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.RivalryDataReader;
-import org.rivalry.swingui.table.CandidateTableModel;
 import org.rivalry.swingui.util.OSXApp;
 import org.rivalry.swingui.util.SystemUtilities;
 import org.slf4j.Logger;
@@ -57,11 +53,13 @@ public class RivalryUI extends JPanel implements OSXApp
     private final static String FILE_LOCATION = "http://dl.dropbox.com/u/1267954/rivalry/";
 
     /** Logger. */
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(RivalryUI.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RivalryUI.class);
 
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
+
+    /** User interface user preferences. */
+    private static UIUserPreferences _uiUserPreferences = new DefaultUIUserPreferences();
 
     /**
      * @return the frame
@@ -79,13 +77,9 @@ public class RivalryUI extends JPanel implements OSXApp
     public static final void main(final String[] args)
     {
         System.setProperty("apple.laf.useScreenMenuBar", "true");
-        System.setProperty("com.apple.mrj.application.apple.menu.about.name",
-                "Rivalry UI");
-
-        final UIUserPreferences userPrefs = new DefaultUIUserPreferences();
-        System.out.println("Applying look and feel: "
-                + userPrefs.getLookAndFeel().getName());
-        userPrefs.getLookAndFeel().apply();
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Rivalry UI");
+        System.out.println("Applying look and feel: " + _uiUserPreferences.getLookAndFeel().getName());
+        _uiUserPreferences.getLookAndFeel().apply();
 
         EventQueue.invokeLater(new Runnable()
         {
@@ -156,16 +150,14 @@ public class RivalryUI extends JPanel implements OSXApp
         final String description = description0 + description1 + description2;
 
         final String title = "About Rivalry";
-        final Icon icon = createImageIcon("images/crossedSabres64.png",
-                "Rivalry.org");
+        final Icon icon = createImageIcon("images/crossedSabres64.png", "Rivalry.org");
 
-        JOptionPane.showMessageDialog(getFrame(), description, title,
-                JOptionPane.INFORMATION_MESSAGE, icon);
+        JOptionPane.showMessageDialog(getFrame(), description, title, JOptionPane.INFORMATION_MESSAGE, icon);
     }
 
     /**
-     * Display the preferences dialog. The OSXAdapter calls this method when
-     * "Preferences..." is selected from the application menu.
+     * Display the preferences dialog. The OSXAdapter calls this method when "Preferences..." is selected from the
+     * application menu.
      * 
      * @param event Event.
      */
@@ -196,8 +188,7 @@ public class RivalryUI extends JPanel implements OSXApp
     {
         ImageIcon answer = null;
 
-        final URL imageUrl = getClass().getClassLoader().getResource(
-                imageLocation);
+        final URL imageUrl = getClass().getClassLoader().getResource(imageLocation);
 
         if (imageUrl != null)
         {
@@ -214,19 +205,7 @@ public class RivalryUI extends JPanel implements OSXApp
      */
     RivalryMainPanel createRivalryMainPanel(final RivalryData rivalryData)
     {
-        return new RivalryMainPanel(rivalryData);
-    }
-
-    /**
-     * @return the candidate table row sorter.
-     */
-    DefaultRowSorter<CandidateTableModel, Integer> getCandidateTableRowSorter()
-    {
-        @SuppressWarnings("unchecked")
-        final DefaultRowSorter<CandidateTableModel, Integer> answer = (DefaultRowSorter<CandidateTableModel, Integer>)_rivalryMainPanel
-                .getCandidateSortTablePanel().getTableRowSorter();
-
-        return answer;
+        return new RivalryMainPanel(rivalryData, _uiUserPreferences);
     }
 
     /**
@@ -354,14 +333,12 @@ public class RivalryUI extends JPanel implements OSXApp
      * 
      * @return a new button.
      */
-    private JButton createButton(final String imageName,
-            final String toolTipText, final String altText,
+    private JButton createButton(final String imageName, final String toolTipText, final String altText,
             final ActionListener actionListener)
     {
         // Look for the image.
         final String imgLocation = "images/" + imageName;
-        final URL imageURL = getClass().getClassLoader().getResource(
-                imgLocation);
+        final URL imageURL = getClass().getClassLoader().getResource(imgLocation);
 
         // Create and initialize the button.
         final JButton button = new JButton();
@@ -395,37 +372,6 @@ public class RivalryUI extends JPanel implements OSXApp
             {
                 final RivalryData rivalryData = readRivalryData("DogBreedRivalryData.xml");
                 loadDataActionPerformed(rivalryData);
-            }
-        };
-    }
-
-    /**
-     * @return a new filter action listener.
-     */
-    private ActionListener createFilterActionListener()
-    {
-        return new ActionListener()
-        {
-            @Override
-            public void actionPerformed(final ActionEvent e)
-            {
-                final FilterDialog filterDialog = new FilterDialog(
-                        _rivalryMainPanel.getCandidateTableModel());
-                final JDialog dialog = filterDialog.createDialog(getFrame(),
-                        "Candidate Table Filter");
-                dialog.setVisible(true);
-
-                // Modal dialog blocks here until done.
-
-                final Object value = filterDialog.getValue();
-
-                if ((value instanceof Integer)
-                        && ((Integer)value == JOptionPane.OK_OPTION))
-                {
-                    final RowFilter<CandidateTableModel, Integer> rowFilter = filterDialog
-                            .getCandidateTableRowFilter();
-                    getCandidateTableRowSorter().setRowFilter(rowFilter);
-                }
             }
         };
     }
@@ -482,8 +428,7 @@ public class RivalryUI extends JPanel implements OSXApp
                 if (returnVal == JFileChooser.APPROVE_OPTION)
                 {
                     final File file = _fileChooser.getSelectedFile();
-                    final RivalryData rivalryData = readRivalryData(file
-                            .getAbsolutePath());
+                    final RivalryData rivalryData = readRivalryData(file.getAbsolutePath());
                     loadDataActionPerformed(rivalryData);
                 }
             }
@@ -527,42 +472,30 @@ public class RivalryUI extends JPanel implements OSXApp
      */
     private JToolBar createToolBar()
     {
-        final JButton openButton = createButton("Open24.gif",
-                "Open a rivalry data file", "Open...",
+        final JButton openButton = createButton("Open24.gif", "Open a rivalry data file", "Open...",
                 createOpenActionListener());
-        final JButton filterButton = createButton("Filter24.gif",
-                "Filter candidate data", "Filter...",
-                createFilterActionListener());
 
-        final JButton bestPlaceButton = createButton("PalmTree24.png",
-                "Load best place data", "Best Places",
+        final JButton bestPlaceButton = createButton("PalmTree24.png", "Load best place data", "Best Places",
                 createBestPlaceActionListener());
-        final JButton boardgameButton = createButton("Boardgame24.png",
-                "Load board game data", "Boardgames",
+        final JButton boardgameButton = createButton("Boardgame24.png", "Load board game data", "Boardgames",
                 createBoardgameActionListener());
-        final JButton dogButton = createButton("Dog24.png",
-                "Load dog breed data", "Dog Breeds",
+        final JButton dogButton = createButton("Dog24.png", "Load dog breed data", "Dog Breeds",
                 createDogBreedActionListener());
-        final JButton illyriadButton = createButton("Illyriad24.png",
-                "Load Illyriad data", "Illyriad",
+        final JButton illyriadButton = createButton("Illyriad24.png", "Load Illyriad data", "Illyriad",
                 createIllyriadActionListener());
-        final JButton mysteryAwardButton = createButton("MysteryBook24.png",
-                "Load mystery book award data", "Mystery Book Awards",
-                createMysteryAwardActionListener());
-        final JButton skillDemandButton = createButton("Brain24.png",
-                "Load skill demand data", "Skill Demand",
+        final JButton mysteryAwardButton = createButton("MysteryBook24.png", "Load mystery book award data",
+                "Mystery Book Awards", createMysteryAwardActionListener());
+        final JButton skillDemandButton = createButton("Brain24.png", "Load skill demand data", "Skill Demand",
                 createSkillDemandActionListener());
-        final JButton stockButton = createButton("Money24.png",
-                "Load stock data", "Stocks", createStockActionListener());
+        final JButton stockButton = createButton("Money24.png", "Load stock data", "Stocks",
+                createStockActionListener());
 
-        final JButton aboutButton = createButton("About24.gif",
-                "View information about this application.", "About",
+        final JButton aboutButton = createButton("About24.gif", "View information about this application.", "About",
                 createAboutActionListener());
 
         final JToolBar answer = new JToolBar("Rivalry Tool Bar");
 
         answer.add(openButton);
-        answer.add(filterButton);
         answer.addSeparator();
         answer.add(bestPlaceButton);
         answer.add(boardgameButton);
@@ -599,17 +532,13 @@ public class RivalryUI extends JPanel implements OSXApp
         LOGGER.error(e.getMessage(), e);
 
         final String prefixMessage = "Exception thrown:";
-        JOptionPane.showMessageDialog(getFrame(),
-                prefixMessage + e.getMessage(), "Error",
-                JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(getFrame(), prefixMessage + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     /**
-     * Generic registration with the Mac OS X application menu. Checks the
-     * platform, then attempts to register with the Apple EAWT. This method
-     * calls OSXAdapter.registerMacOSXApplication() and
-     * OSXAdapter.enablePrefs(). See OSXAdapter.java for the signatures of these
-     * methods.
+     * Generic registration with the Mac OS X application menu. Checks the platform, then attempts to register with the
+     * Apple EAWT. This method calls OSXAdapter.registerMacOSXApplication() and OSXAdapter.enablePrefs(). See
+     * OSXAdapter.java for the signatures of these methods.
      */
     private void macOSXRegistration()
     {
@@ -619,12 +548,10 @@ public class RivalryUI extends JPanel implements OSXApp
         {
             try
             {
-                final Class<?> osxAdapter = Class
-                        .forName("org.rivalry.swingui.util.OSXAdapter");
+                final Class<?> osxAdapter = Class.forName("org.rivalry.swingui.util.OSXAdapter");
 
                 final Class<?>[] defArgs = { OSXApp.class };
-                final Method registerMethod = osxAdapter.getDeclaredMethod(
-                        "registerMacOSXApplication", defArgs);
+                final Method registerMethod = osxAdapter.getDeclaredMethod("registerMacOSXApplication", defArgs);
 
                 if (registerMethod != null)
                 {
@@ -635,9 +562,8 @@ public class RivalryUI extends JPanel implements OSXApp
             catch (final NoClassDefFoundError e)
             {
                 /*
-                 * This will be thrown first if the OSXAdapter is loaded on a
-                 * system without the EAWT because OSXAdapter extends
-                 * ApplicationAdapter in its def
+                 * This will be thrown first if the OSXAdapter is loaded on a system without the EAWT because OSXAdapter
+                 * extends ApplicationAdapter in its def
                  */
                 LOGGER.error(
                         "This version of Mac OS X does not support the Apple EAWT.  Application Menu handling has been disabled.",
@@ -646,9 +572,8 @@ public class RivalryUI extends JPanel implements OSXApp
             catch (final ClassNotFoundException e)
             {
                 /*
-                 * This shouldn't be reached; if there's a problem with the
-                 * OSXAdapter we should get the above NoClassDefFoundError
-                 * first.
+                 * This shouldn't be reached; if there's a problem with the OSXAdapter we should get the above
+                 * NoClassDefFoundError first.
                  */
                 LOGGER.error(
                         "This version of Mac OS X does not support the Apple EAWT.  Application Menu handling has been disabled.",
