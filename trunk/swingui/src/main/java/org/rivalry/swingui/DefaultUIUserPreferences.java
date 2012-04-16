@@ -23,6 +23,7 @@ public class DefaultUIUserPreferences implements UIUserPreferences
         try
         {
             prefs.clear();
+            prefs.removeNode();
         }
         catch (final BackingStoreException e)
         {
@@ -89,6 +90,8 @@ public class DefaultUIUserPreferences implements UIUserPreferences
     {
         if (candidateFilter != null)
         {
+            clearCandidateFilter(rivalryData);
+
             final int size = candidateFilter.getFilterClauses().size();
 
             for (int i = 0; i < size; i++)
