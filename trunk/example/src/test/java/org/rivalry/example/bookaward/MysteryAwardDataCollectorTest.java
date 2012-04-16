@@ -41,11 +41,10 @@ public class MysteryAwardDataCollectorTest
 
         for (final Candidate candidate : rivalryData.getCandidates())
         {
-            System.out.println("candidate = " + candidate.getName() + " "
-                    + candidate.getPage());
+            System.out.println("candidate = " + candidate.getName() + " " + candidate.getPage());
         }
 
-        assertThat(rivalryData.getCandidates().size(), is(15));
+        assertThat(rivalryData.getCandidates().size(), is(14));
         assertThat(rivalryData.getCategories().size(), is(0));
         assertThat(rivalryData.getCriteria().size(), is(2));
 
@@ -55,24 +54,21 @@ public class MysteryAwardDataCollectorTest
         assertNotNull(criterion1);
 
         {
-            final Candidate candidate = rivalryData
-                    .findCandidateByName("The Agatha Awards");
+            final Candidate candidate = rivalryData.findCandidateByName("The Agatha Awards");
             assertNotNull(candidate);
             assertThat(candidate.getRating(criterion0), is(1.0));
             assertNull(candidate.getRating(criterion1));
         }
 
         {
-            final Candidate candidate = rivalryData
-                    .findCandidateByName("The Edgar Awards");
+            final Candidate candidate = rivalryData.findCandidateByName("The Edgar Awards");
             assertNotNull(candidate);
             assertThat(candidate.getRating(criterion0), is(1.0));
-            assertNull(candidate.getRating(criterion1));
+            assertThat(candidate.getRating(criterion1), is(1.0));
         }
 
         {
-            final Candidate candidate = rivalryData
-                    .findCandidateByName("The Macavity Awards");
+            final Candidate candidate = rivalryData.findCandidateByName("The Macavity Awards");
             assertNotNull(candidate);
             assertThat(candidate.getRating(criterion0), is(1.0));
             assertThat(candidate.getRating(criterion1), is(1.0));
