@@ -17,10 +17,13 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultRowSorter;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.RowSorter;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.event.RowSorterEvent;
@@ -30,6 +33,7 @@ import javax.swing.table.TableModel;
 import org.apache.commons.collections.CollectionUtils;
 import org.rivalry.swingui.table.ColumnNameToolTipTable;
 import org.rivalry.swingui.table.TableUserPreferences;
+import org.rivalry.swingui.table.VisibleColumnsTableModel;
 
 /**
  * Provides a sort table panel.
@@ -62,9 +66,10 @@ public class SortTablePanel extends JPanel
      * @param tableModel Table model.
      * @param createDate Create date.
      * @param tableUserPreferences User preferences.
+     * @param centerComponent Center component. (optional)
      */
     public SortTablePanel(final TableModel tableModel, final Date createDate,
-            final TableUserPreferences tableUserPreferences)
+            final TableUserPreferences tableUserPreferences, final JComponent centerComponent)
     {
         _userPreferences = tableUserPreferences;
 
@@ -75,7 +80,7 @@ public class SortTablePanel extends JPanel
         setLayout(new BorderLayout());
 
         add(createCenterPanel(_table), BorderLayout.CENTER);
-        add(createSouthPanel(tableModel), BorderLayout.SOUTH);
+        add(createSouthPanel(tableModel, centerComponent), BorderLayout.SOUTH);
 
         final List<SortKey> sortKeys = createTableSortKeys();
 
@@ -109,6 +114,19 @@ public class SortTablePanel extends JPanel
     }
 
     /**
+     * @param rowFilter to set
+     */
+    public void setRowFilter(final RowFilter<VisibleColumnsTableModel, Object> rowFilter)
+    {
+        @SuppressWarnings("unchecked")
+        final DefaultRowSorter<VisibleColumnsTableModel, Object> tableRowSorter = (DefaultRowSorter<VisibleColumnsTableModel, Object>)getTableRowSorter();
+
+        tableRowSorter.setRowFilter(rowFilter);
+
+        updateRowCount();
+    }
+
+    /**
      * @param table Table.
      * 
      * @return a new main panel.
@@ -132,8 +150,7 @@ public class SortTablePanel extends JPanel
         if (createDate != null)
         {
             final Format formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-            final String createDateString = "Data collected: "
-                    + formatter.format(createDate);
+            final String createDateString = "Data collected: " + formatter.format(createDate);
 
             answer = new JLabel(createDateString);
         }
@@ -148,8 +165,7 @@ public class SortTablePanel extends JPanel
      */
     private JLabel createRowCountUI(final TableModel tableModel)
     {
-        final String rowCountString = String.valueOf(tableModel.getRowCount())
-                + " rows";
+        final String rowCountString = String.valueOf(tableModel.getRowCount()) + " rows";
 
         final JLabel answer = new JLabel(rowCountString);
 
@@ -158,10 +174,11 @@ public class SortTablePanel extends JPanel
 
     /**
      * @param tableModel Table model.
+     * @param centerComponent Center component. (optional)
      * 
      * @return a new bottom panel.
      */
-    private JPanel createSouthPanel(final TableModel tableModel)
+    private JPanel createSouthPanel(final TableModel tableModel, final JComponent centerComponent)
     {
         final int hgap = 20;
         final int vgap = 0;
@@ -171,10 +188,14 @@ public class SortTablePanel extends JPanel
         final int left = top;
         final int bottom = top;
         final int right = top;
-        answer.setBorder(BorderFactory.createEmptyBorder(top, left, bottom,
-                right));
+        answer.setBorder(BorderFactory.createEmptyBorder(top, left, bottom, right));
 
         answer.add(_rowCountUI, BorderLayout.WEST);
+
+        if (centerComponent != null)
+        {
+            answer.add(centerComponent, BorderLayout.CENTER);
+        }
 
         if (_createDateUI != null)
         {
@@ -202,8 +223,7 @@ public class SortTablePanel extends JPanel
             @Override
             public void sorterChanged(final RowSorterEvent event)
             {
-                final List<? extends SortKey> sortKeys = rowSorter
-                        .getSortKeys();
+                final List<? extends SortKey> sortKeys = rowSorter.getSortKeys();
 
                 if (CollectionUtils.isNotEmpty(sortKeys))
                 {
@@ -231,5 +251,13 @@ public class SortTablePanel extends JPanel
         }
 
         return answer;
+    }
+
+    /**
+     * Update the row count widget.
+     */
+    private void updateRowCount()
+    {
+        _rowCountUI.setText(getTable().getRowCount() + " rows");
     }
 }

@@ -52,13 +52,22 @@ public class CandidateTableModel extends AbstractTableModel
      * @param rivalryData Rivalry data.
      * @param fitnessFunction Fitness function.
      */
-    public CandidateTableModel(final RivalryData rivalryData,
-            final FitnessFunction fitnessFunction)
+    public CandidateTableModel(final RivalryData rivalryData, final FitnessFunction fitnessFunction)
     {
         _rivalryData = rivalryData;
         _fitnessProcessor = new FitnessProcessor(fitnessFunction);
 
         recomputeCandidateScores();
+    }
+
+    /**
+     * @param rowIndex Row index.
+     * 
+     * @return the candidate.
+     */
+    public Candidate getCandidate(final int rowIndex)
+    {
+        return _rivalryData.getCandidates().get(rowIndex);
     }
 
     @Override
@@ -164,8 +173,7 @@ public class CandidateTableModel extends AbstractTableModel
     public void recomputeCandidateScores()
     {
         final List<Candidate> candidates = _rivalryData.getCandidates();
-        _candidateScores = _fitnessProcessor
-                .computeCandidateFitness(candidates);
+        _candidateScores = _fitnessProcessor.computeCandidateFitness(candidates);
         fireTableDataChanged();
     }
 
@@ -242,16 +250,6 @@ public class CandidateTableModel extends AbstractTableModel
         _columnToClass.put(columnIndex, answer);
 
         return answer;
-    }
-
-    /**
-     * @param rowIndex Row index.
-     * 
-     * @return the candidate.
-     */
-    private Candidate getCandidate(final int rowIndex)
-    {
-        return _rivalryData.getCandidates().get(rowIndex);
     }
 
     /**
