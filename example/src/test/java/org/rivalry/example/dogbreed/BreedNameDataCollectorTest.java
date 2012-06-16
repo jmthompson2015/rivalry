@@ -30,16 +30,14 @@ public class BreedNameDataCollectorTest
             final Candidate candidate = candidates.get(0);
             assertNotNull(candidate);
             assertThat(candidate.getName(), is("Affenpinscher"));
-            assertThat(candidate.getPage(),
-                    is("http://www.dogtime.com/dog-breeds/affenpinscher"));
+            assertThat(candidate.getPage(), is("http://dogtime.com/dog-breeds/affenpinscher"));
         }
 
         {
             final Candidate candidate = candidates.get(195);
             assertNotNull(candidate);
             assertThat(candidate.getName(), is("Yorkshire Terrier"));
-            assertThat(candidate.getPage(),
-                    is("http://www.dogtime.com/dog-breeds/yorkshire-terrier"));
+            assertThat(candidate.getPage(), is("http://dogtime.com/dog-breeds/yorkshire-terrier"));
         }
     }
 }
