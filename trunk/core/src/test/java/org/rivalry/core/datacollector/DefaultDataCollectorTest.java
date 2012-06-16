@@ -50,13 +50,11 @@ public class DefaultDataCollectorTest
 
                     if (myString.endsWith("%"))
                     {
-                        answer = parseDoubleOnly(myString.substring(0,
-                                myString.length() - 1)) / 100.0;
+                        answer = parseDoubleOnly(myString.substring(0, myString.length() - 1)) / 100.0;
                     }
                     else if (myString.endsWith("B"))
                     {
-                        answer = parseDoubleOnly(myString.substring(0,
-                                myString.length() - 1)) * 1000000000;
+                        answer = parseDoubleOnly(myString.substring(0, myString.length() - 1)) * 1000000000;
                     }
                     else
                     {
@@ -129,11 +127,9 @@ public class DefaultDataCollectorTest
     @Test
     public void fetchDataBestPlaces()
     {
-        final DataCollector dataCollector = new DefaultDataCollector(
-                _isJavascriptEnabled, 5, _nameStringParser, _bestPlacesParser,
-                _candidateProvider, _categoryProvider, _criterionProvider,
-                _dataPostProcessor, isAverageCandidateCreated,
-                isMedianCandidateCreated);
+        final DataCollector dataCollector = new DefaultDataCollector(_isJavascriptEnabled, 5, _nameStringParser,
+                _bestPlacesParser, _candidateProvider, _categoryProvider, _criterionProvider, _dataPostProcessor,
+                isAverageCandidateCreated, isMedianCandidateCreated);
 
         final DCSpec dcSpec = createDCSpecBestPlaces();
         String username = null;
@@ -179,8 +175,7 @@ public class DefaultDataCollectorTest
         assertThat(rivalryData.getCategories().size(), is(0));
         assertThat(rivalryData.getCriteria().size(), is(9));
 
-        final Criterion criterion = rivalryData
-                .findCriterionByName("Snowfall (in.)");
+        final Criterion criterion = rivalryData.findCriterionByName("Snowfall (in.)");
         assertNotNull(criterion);
         {
             Candidate candidate = rivalryData.getCandidates().get(0);
@@ -202,11 +197,9 @@ public class DefaultDataCollectorTest
     @Test
     public void fetchDataYahooFinance()
     {
-        final DataCollector dataCollector = new DefaultDataCollector(
-                _isJavascriptEnabled, 1, _nameStringParser, _yahooParser,
-                _candidateProvider, _categoryProvider, _criterionProvider,
-                _dataPostProcessor, isAverageCandidateCreated,
-                isMedianCandidateCreated);
+        final DataCollector dataCollector = new DefaultDataCollector(_isJavascriptEnabled, 1, _nameStringParser,
+                _yahooParser, _candidateProvider, _categoryProvider, _criterionProvider, _dataPostProcessor,
+                isAverageCandidateCreated, isMedianCandidateCreated);
 
         final DCSpec dcSpec = createDCSpecYahooFinance();
         String username = null;
@@ -232,12 +225,11 @@ public class DefaultDataCollectorTest
             }
         }
 
-        final Criterion criterion = rivalryData
-                .findCriterionByName("Profit Margin (ttm):");
+        final Criterion criterion = rivalryData.findCriterionByName("Profit Margin (ttm):");
         assertNotNull(criterion);
         final Double rating = candidate.getRating(criterion);
         assertNotNull(rating);
-        assertThat(rating, is(0.258));
+        assertThat(rating, is(0.2713));
     }
 
     /**
@@ -246,11 +238,9 @@ public class DefaultDataCollectorTest
     @Test
     public void fetchDataYahooFinanceHtmlUnitDriver()
     {
-        final DataCollector dataCollector = new DefaultDataCollector(
-                _isJavascriptEnabled, 1, _nameStringParser, _yahooParser,
-                _candidateProvider, _categoryProvider, _criterionProvider,
-                _dataPostProcessor, isAverageCandidateCreated,
-                isMedianCandidateCreated);
+        final DataCollector dataCollector = new DefaultDataCollector(_isJavascriptEnabled, 1, _nameStringParser,
+                _yahooParser, _candidateProvider, _categoryProvider, _criterionProvider, _dataPostProcessor,
+                isAverageCandidateCreated, isMedianCandidateCreated);
 
         final DCSpec dcSpec = createDCSpecYahooFinance();
         String username = null;
@@ -268,12 +258,11 @@ public class DefaultDataCollectorTest
         assertThat(rivalryData.getCategories().size(), is(0));
         assertThat(rivalryData.getCriteria().size(), is(57));
 
-        final Criterion criterion = rivalryData
-                .findCriterionByName("Profit Margin (ttm):");
+        final Criterion criterion = rivalryData.findCriterionByName("Profit Margin (ttm):");
         assertNotNull(criterion);
         final Double rating = candidate.getRating(criterion);
         assertNotNull(rating);
-        assertThat(rating, is(0.2397));
+        assertThat(rating, is(0.2316));
     }
 
     /**
@@ -283,8 +272,7 @@ public class DefaultDataCollectorTest
      * 
      * @return a new candidate.
      */
-    private Candidate createCandidate(final String candidateName,
-            final String url)
+    private Candidate createCandidate(final String candidateName, final String url)
     {
         String page = url;
 
