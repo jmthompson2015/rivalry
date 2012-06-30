@@ -17,7 +17,7 @@ This page shows how to select board games using Rivalry.
 
 ==3. Configure GUI==
  * sort a column by clicking on the header
- * right-click to show or hide a column
+ * right-click a header to show or hide a column
 
 ==4. Adjust weights==
  * weights are use to compute values in the Score column
