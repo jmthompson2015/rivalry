@@ -32,4 +32,4 @@ This page shows how to select board games using Rivalry.
    [https://dl.dropbox.com/u/1267954/rivalry/doc/EditCandidateFilter.png]
 ----
 
-Now you can see the games which pass the filter and their ratings. The pictures show my weights and filter for an example.
+Now you can see the games which pass the filter and their ratings. The pictures show my weights and filter as an example.
