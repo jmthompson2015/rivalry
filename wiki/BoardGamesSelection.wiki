@@ -7,7 +7,7 @@ This page shows how to select board games using Rivalry.
  * https://dl.dropbox.com/u/1267954/rivalry/rivalryui.jnlp
 
 ==2. Load data==
- * click the knight tool bar button [https://dl.dropbox.com/u/1267954/rivalry/doc/Boardgame24.png]
+ * click the board game tool bar button [https://dl.dropbox.com/u/1267954/rivalry/doc/Boardgame24.png]
  * rivalry data loads from server
  * data is collected once a week early Sunday
  * right pane contains the criteria
