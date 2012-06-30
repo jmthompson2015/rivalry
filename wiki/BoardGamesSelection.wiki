@@ -1,0 +1,26 @@
+#summary Shows how to select board games
+
+= Introduction =
+
+This page shows how to select board games using Rivalry.
+
+= Details =
+
+==1. Start RivalryUI==
+ * https://dl.dropbox.com/u/1267954/rivalry/rivalryui.jnlp
+
+==2. Select the knight tool bar button==
+ * data loads from remote location
+ * right pane contains the criteria
+ * left pane contains the candidates
+
+==3. Configure GUI==
+ * sort a column by clicking on the header
+ * right-click to show or hide a column
+
+==4. Adjust weights==
+ * double-click a weight cell to edit
+
+==5. Filter candidates==
+ * click on the filter button
+ * add filter clauses
