@@ -10,8 +10,8 @@ This page shows how to select board games using Rivalry.
  * click the board game tool bar button [https://dl.dropbox.com/u/1267954/rivalry/doc/Boardgame24.png]
  * rivalry data loads from server
  * data is collected once a week early Sunday
- * right pane contains the criteria
- * left pane contains the candidates
+ * right pane contains the [Criterion criteria]
+ * left pane contains the [Candidate candidates]
 
  [https://dl.dropbox.com/u/1267954/rivalry/doc/CriteriaCandidatePanels.png]
 
