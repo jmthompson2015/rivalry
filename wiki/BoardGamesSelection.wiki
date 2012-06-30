@@ -1,26 +1,35 @@
-#summary Shows how to select board games
-
-= Introduction =
+#summary Shows how to select board games using Rivalry.
 
 This page shows how to select board games using Rivalry.
 
-= Details =
-
-==1. Start RivalryUI==
+----
+==1. Start the Rivalry GUI==
  * https://dl.dropbox.com/u/1267954/rivalry/rivalryui.jnlp
 
-==2. Select the knight tool bar button==
- * data loads from remote location
+==2. Load data==
+ * click the knight tool bar button [https://dl.dropbox.com/u/1267954/rivalry/doc/Boardgame24.png]
+ * rivalry data loads from server
+ * data is collected once a week early Sunday
  * right pane contains the criteria
  * left pane contains the candidates
+
+ [https://dl.dropbox.com/u/1267954/rivalry/doc/CriteriaCandidatePanels.png]
 
 ==3. Configure GUI==
  * sort a column by clicking on the header
  * right-click to show or hide a column
 
 ==4. Adjust weights==
+ * weights are use to compute values in the Score column
  * double-click a weight cell to edit
+ * your weights are saved to your computer automatically
 
 ==5. Filter candidates==
- * click on the filter button
- * add filter clauses
+ * click the filter button [https://dl.dropbox.com/u/1267954/rivalry/doc/Filter24.gif]
+ * add new filter clauses and edit or delete existing ones
+ * your filter is saved to your computer automatically
+
+   [https://dl.dropbox.com/u/1267954/rivalry/doc/EditCandidateFilter.png]
+----
+
+Now you can see the games which pass the filter and their ratings. The pictures show my weights and filter for an example.
