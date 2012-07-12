@@ -8,7 +8,7 @@
 //*****************************************************************************
 package org.rivalry.example.skilldemand;
 
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.WebElement;
 import org.rivalry.core.datacollector.ValueStringParser;
 
