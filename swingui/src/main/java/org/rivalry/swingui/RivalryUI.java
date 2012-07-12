@@ -377,22 +377,6 @@ public class RivalryUI extends JPanel implements OSXApp
     }
 
     /**
-     * @return a new Illyriad action listener.
-     */
-    private ActionListener createIllyriadActionListener()
-    {
-        return new ActionListener()
-        {
-            @Override
-            public void actionPerformed(final ActionEvent e)
-            {
-                final RivalryData rivalryData = readRivalryData("IllyriadRivalryData.xml");
-                loadDataActionPerformed(rivalryData);
-            }
-        };
-    }
-
-    /**
      * @return a new mystery book award action listener.
      */
     private ActionListener createMysteryAwardActionListener()
@@ -481,8 +465,6 @@ public class RivalryUI extends JPanel implements OSXApp
                 createBoardgameActionListener());
         final JButton dogButton = createButton("Dog24.png", "Load dog breed data", "Dog Breeds",
                 createDogBreedActionListener());
-        final JButton illyriadButton = createButton("Illyriad24.png", "Load Illyriad data", "Illyriad",
-                createIllyriadActionListener());
         final JButton mysteryAwardButton = createButton("MysteryBook24.png", "Load mystery book award data",
                 "Mystery Book Awards", createMysteryAwardActionListener());
         final JButton skillDemandButton = createButton("Brain24.png", "Load skill demand data", "Skill Demand",
@@ -500,7 +482,6 @@ public class RivalryUI extends JPanel implements OSXApp
         answer.add(bestPlaceButton);
         answer.add(boardgameButton);
         answer.add(dogButton);
-        answer.add(illyriadButton);
         answer.add(mysteryAwardButton);
         answer.add(skillDemandButton);
         answer.add(stockButton);
