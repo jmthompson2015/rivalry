@@ -26,6 +26,44 @@ import org.rivalry.core.datacollector.ValueStringParser;
 public class YahooFinanceParser implements ValueStringParser<Object>
 {
     @Override
+    public Object parse(final String valueString)
+    {
+        Object answer = null;
+
+        if (StringUtils.isNotEmpty(valueString))
+        {
+            final String myString = valueString.trim();
+
+            if (!"N/A".equalsIgnoreCase(myString))
+            {
+                if (myString.endsWith("%"))
+                {
+                    answer = parseDoubleOnly(myString.substring(0, myString.length() - 1)) / 100.0;
+                }
+                else if (myString.endsWith("M"))
+                {
+                    answer = parseDoubleOnly(myString.substring(0, myString.length() - 1)) * 1000000;
+                }
+                else if (myString.endsWith("B"))
+                {
+                    answer = parseDoubleOnly(myString.substring(0, myString.length() - 1)) * 1000000000;
+                }
+                else
+                {
+                    answer = parseDoubleOnly(myString);
+                }
+            }
+
+            if (answer == null)
+            {
+                answer = myString;
+            }
+        }
+
+        return answer;
+    }
+
+    @Override
     public Object parse(final WebElement webElement)
     {
         Object answer = null;
@@ -33,39 +71,7 @@ public class YahooFinanceParser implements ValueStringParser<Object>
         if (webElement != null)
         {
             final String valueString = webElement.getText();
-
-            if (StringUtils.isNotEmpty(valueString))
-            {
-                final String myString = valueString.trim();
-
-                if (!"N/A".equalsIgnoreCase(myString))
-                {
-                    if (myString.endsWith("%"))
-                    {
-                        answer = parseDoubleOnly(myString.substring(0,
-                                myString.length() - 1)) / 100.0;
-                    }
-                    else if (myString.endsWith("M"))
-                    {
-                        answer = parseDoubleOnly(myString.substring(0,
-                                myString.length() - 1)) * 1000000;
-                    }
-                    else if (myString.endsWith("B"))
-                    {
-                        answer = parseDoubleOnly(myString.substring(0,
-                                myString.length() - 1)) * 1000000000;
-                    }
-                    else
-                    {
-                        answer = parseDoubleOnly(myString);
-                    }
-                }
-
-                if (answer == null)
-                {
-                    answer = myString;
-                }
-            }
+            answer = parse(valueString);
         }
 
         return answer;
