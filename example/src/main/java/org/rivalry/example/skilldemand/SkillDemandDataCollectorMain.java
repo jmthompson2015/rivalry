@@ -52,8 +52,7 @@ public class SkillDemandDataCollectorMain
      * @throws IOException if there is an I/O problem.
      * @throws ParseException if there is a parsing problem.
      */
-    public static final void main(final String[] args) throws IOException,
-            ParseException
+    public static final void main(final String[] args) throws IOException, ParseException
     {
         final Options options = createOptions();
         final CommandLineParser parser = new PosixParser();
@@ -90,8 +89,7 @@ public class SkillDemandDataCollectorMain
                 main.createCandidates(tools, rivalryData);
             }
 
-            System.out.println("candidates.size() = "
-                    + rivalryData.getCandidates().size());
+            System.out.println("candidates.size() = " + rivalryData.getCandidates().size());
             dataCollector.fetchData(dcSpec, username, password, rivalryData);
 
             final String outputFile = determineOutputFile(commandLine);
@@ -127,8 +125,7 @@ public class SkillDemandDataCollectorMain
      * 
      * @return output file.
      */
-    private static final String determineOutputFile(
-            final CommandLine commandLine)
+    private static final String determineOutputFile(final CommandLine commandLine)
     {
         String answer = "SkillDemandRivalryData.xml";
 
@@ -151,10 +148,8 @@ public class SkillDemandDataCollectorMain
     {
         // Automatically generate the help statement.
         final HelpFormatter formatter = new HelpFormatter();
-        formatter
-                .printHelp(
-                        "java [-cp <classpath>] org.rivalry.example.skilldemand.SkillDemandDataCollectorMain",
-                        options);
+        formatter.printHelp("java [-cp <classpath>] org.rivalry.example.skilldemand.SkillDemandDataCollectorMain",
+                options);
     }
 
     /**
@@ -177,8 +172,7 @@ public class SkillDemandDataCollectorMain
      * @param keywords Keywords.
      * @param rivalryData Rivalry data.
      */
-    private void createCandidates(final List<String> keywords,
-            final RivalryData rivalryData)
+    private void createCandidates(final List<String> keywords, final RivalryData rivalryData)
     {
         final List<Candidate> candidates = rivalryData.getCandidates();
 
@@ -195,8 +189,7 @@ public class SkillDemandDataCollectorMain
     private DCSpec createDCSpec()
     {
         final DCSpecReader dcReader = new DCSpecReader();
-        final InputStream inputStream = getClass().getResourceAsStream(
-                "DataCollectorDice.xml");
+        final InputStream inputStream = getClass().getResourceAsStream("DataCollectorDice.xml");
         final Reader reader = new InputStreamReader(inputStream);
         final DCSpec answer = dcReader.read(reader);
 
@@ -224,11 +217,10 @@ public class SkillDemandDataCollectorMain
                 // Nothing to do.
             }
 
-            answer = "http://seeker.dice.com/jobsearch/servlet/JobSearch"
-                    + "?op=300" + "&QUICK=1" + "&FREE_TEXT=" + myKeyword;
+            answer = "http://seeker.dice.com/jobsearch/servlet/JobSearch" + "?op=300" + "&QUICK=1" + "&FREE_TEXT="
+                    + myKeyword;
 
-            if (keyword.toLowerCase().contains(" and ")
-                    || keyword.toLowerCase().contains(" or "))
+            if (keyword.toLowerCase().contains(" and ") || keyword.toLowerCase().contains(" or "))
             {
                 // Construct a boolean search URL.
                 answer += "&Ntx=mode+matchboolean";
@@ -283,14 +275,12 @@ public class SkillDemandDataCollectorMain
     {
         final List<String> answer = new ArrayList<String>();
 
-        final InputStream inputStream = getClass()
-                .getResourceAsStream(filename);
+        final InputStream inputStream = getClass().getResourceAsStream(filename);
         if (inputStream != null)
         {
             try
             {
-                final BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(inputStream));
+                final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                 String line = null;
 
                 while ((line = reader.readLine()) != null)
@@ -318,8 +308,7 @@ public class SkillDemandDataCollectorMain
      * @param outputFile Output file.
      * @param rivalryData Rivalry data.
      */
-    private void writeToFile(final String outputFile,
-            final RivalryData rivalryData)
+    private void writeToFile(final String outputFile, final RivalryData rivalryData)
     {
         try
         {
