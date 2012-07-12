@@ -8,15 +8,34 @@
 //*****************************************************************************
 package org.rivalry.example.dogbreed;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.WebElement;
 import org.rivalry.core.datacollector.ValueStringParser;
 
 /**
- * Provides a value string parser implementation to handle dog breed
- * information.
+ * Provides a value string parser implementation to handle dog breed information.
  */
 public class DogBreedsParser implements ValueStringParser<Double>
 {
+    @Override
+    public Double parse(final String valueString)
+    {
+        Double answer = null;
+
+        if (StringUtils.isNotEmpty(valueString))
+        {
+            final int index = valueString.lastIndexOf('-');
+
+            if (index >= 0)
+            {
+                final String value = valueString.substring(index + 1);
+                answer = Double.parseDouble(value);
+            }
+        }
+
+        return answer;
+    }
+
     @Override
     public Double parse(final WebElement webElement)
     {
@@ -25,13 +44,7 @@ public class DogBreedsParser implements ValueStringParser<Double>
         if (webElement != null)
         {
             final String valueString = webElement.getAttribute("class");
-
-            final int index = valueString.lastIndexOf('-');
-            if (index >= 0)
-            {
-                final String value = valueString.substring(index + 1);
-                answer = Double.parseDouble(value);
-            }
+            answer = parse(valueString);
         }
 
         return answer;

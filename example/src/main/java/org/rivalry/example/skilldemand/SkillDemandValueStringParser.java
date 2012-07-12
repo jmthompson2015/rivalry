@@ -8,6 +8,7 @@
 //*****************************************************************************
 package org.rivalry.example.skilldemand;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.WebElement;
 import org.rivalry.core.datacollector.ValueStringParser;
 
@@ -17,21 +18,36 @@ import org.rivalry.core.datacollector.ValueStringParser;
 public class SkillDemandValueStringParser implements ValueStringParser<Integer>
 {
     @Override
-    public Integer parse(final WebElement webElement)
+    public Integer parse(final String valueString)
     {
         Integer answer = null;
 
-        if (webElement != null)
+        if (StringUtils.isNotEmpty(valueString))
         {
-            String totalString = webElement.getText();
+            String totalString = valueString;
             final String key = " of ";
             final int index = totalString.indexOf(key);
+            System.out.println("valueStringParser index = " + index);
             if (index >= 0)
             {
                 totalString = totalString.substring(index + key.length());
             }
 
             answer = Integer.parseInt(totalString);
+        }
+
+        return answer;
+    }
+
+    @Override
+    public Integer parse(final WebElement webElement)
+    {
+        Integer answer = null;
+
+        if (webElement != null)
+        {
+            final String totalString = webElement.getText();
+            answer = parse(totalString);
         }
 
         return answer;
