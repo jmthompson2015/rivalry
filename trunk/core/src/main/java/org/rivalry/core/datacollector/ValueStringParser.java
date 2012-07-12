@@ -18,6 +18,13 @@ import org.openqa.selenium.WebElement;
 public interface ValueStringParser<T>
 {
     /**
+     * @param valueString Value string.
+     * 
+     * @return a new object which represents the given parameter.
+     */
+    T parse(String valueString);
+
+    /**
      * @param webElement Web element.
      * 
      * @return a new object which represents the given parameter.

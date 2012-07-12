@@ -22,6 +22,24 @@ public class DefaultValueStringParser implements ValueStringParser<Object>
     private final StringParser _stringParser = new DefaultStringParser();
 
     @Override
+    public Object parse(final String valueString)
+    {
+        Object answer = null;
+
+        if (StringUtils.isNotEmpty(valueString))
+        {
+            answer = _stringParser.parseDouble(valueString);
+
+            if (answer == null)
+            {
+                answer = valueString;
+            }
+        }
+
+        return answer;
+    }
+
+    @Override
     public Object parse(final WebElement webElement)
     {
         Object answer = null;
@@ -29,16 +47,7 @@ public class DefaultValueStringParser implements ValueStringParser<Object>
         if (webElement != null)
         {
             final String valueString = webElement.getText();
-
-            if (StringUtils.isNotEmpty(valueString))
-            {
-                answer = _stringParser.parseDouble(valueString);
-
-                if (answer == null)
-                {
-                    answer = valueString;
-                }
-            }
+            answer = parse(valueString);
         }
 
         return answer;
