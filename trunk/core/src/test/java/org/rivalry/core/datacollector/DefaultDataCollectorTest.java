@@ -36,6 +36,32 @@ public class DefaultDataCollectorTest
     static class YahooFinanceParser implements ValueStringParser<Double>
     {
         @Override
+        public Double parse(String valueString)
+        {
+            Double answer = null;
+
+            if (StringUtils.isNotEmpty(valueString))
+            {
+                final String myString = valueString.trim();
+
+                if (myString.endsWith("%"))
+                {
+                    answer = parseDoubleOnly(myString.substring(0, myString.length() - 1)) / 100.0;
+                }
+                else if (myString.endsWith("B"))
+                {
+                    answer = parseDoubleOnly(myString.substring(0, myString.length() - 1)) * 1000000000;
+                }
+                else
+                {
+                    answer = parseDoubleOnly(myString);
+                }
+            }
+
+            return answer;
+        }
+
+        @Override
         public Double parse(final WebElement webElement)
         {
             Double answer = null;
@@ -43,24 +69,7 @@ public class DefaultDataCollectorTest
             if (webElement != null)
             {
                 final String valueString = webElement.getText();
-
-                if (StringUtils.isNotEmpty(valueString))
-                {
-                    final String myString = valueString.trim();
-
-                    if (myString.endsWith("%"))
-                    {
-                        answer = parseDoubleOnly(myString.substring(0, myString.length() - 1)) / 100.0;
-                    }
-                    else if (myString.endsWith("B"))
-                    {
-                        answer = parseDoubleOnly(myString.substring(0, myString.length() - 1)) * 1000000000;
-                    }
-                    else
-                    {
-                        answer = parseDoubleOnly(myString);
-                    }
-                }
+                answer = parse(valueString);
             }
 
             return answer;
@@ -103,6 +112,9 @@ public class DefaultDataCollectorTest
     /** Rivalry data post processor. */
     private final DataPostProcessor _dataPostProcessor = new DefaultDataPostProcessor();
 
+    /** Flag indicating whether to enable Javascript. */
+    private final boolean _isJavascriptEnabled = false;
+
     /** Flag indicating whether to provide verbose output. */
     private final boolean _isVerbose = false;
 
@@ -111,9 +123,6 @@ public class DefaultDataCollectorTest
 
     /** Yahoo! Finance value string processor. */
     private final ValueStringParser<Double> _yahooParser = new YahooFinanceParser();
-
-    /** Flag indicating whether to enable Javascript. */
-    private final boolean _isJavascriptEnabled = false;
 
     /** Flag indicating whether to create an average candidate. */
     private final boolean isAverageCandidateCreated = false;
