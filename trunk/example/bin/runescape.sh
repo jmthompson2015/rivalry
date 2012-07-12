@@ -36,7 +36,7 @@ echo "line count: " `cat ${OUTPUT_FILE} | wc -l`
 LINE_COUNT=`cat ${OUTPUT_FILE} | wc -l`
 echo "LINE_COUNT = " ${LINE_COUNT}
 
-if [ ${LINE_COUNT} -eq 79 ];
+if [ ${LINE_COUNT} -eq 161 ];
 then
 	cp -f RuneScapeRivalryData.xml ${USER_DIR}/Dropbox/Public/rivalry 
 fi
