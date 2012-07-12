@@ -18,6 +18,13 @@ import org.rivalry.core.datacollector.ValueStringParser;
 public class IllyriadValueStringParser implements ValueStringParser<Integer>
 {
     @Override
+    public Integer parse(final String valueString)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public Integer parse(final WebElement webElement)
     {
         Integer answer = null;
@@ -37,9 +44,7 @@ public class IllyriadValueStringParser implements ValueStringParser<Integer>
                     {
                         final int length = myValueString.length();
                         myValueString = myValueString.substring(0, length - 1);
-                        answer = Double.valueOf(
-                                parseDoubleOnly(myValueString) * 1000000)
-                                .intValue();
+                        answer = Double.valueOf(parseDoubleOnly(myValueString) * 1000000).intValue();
                     }
                     else
                     {
