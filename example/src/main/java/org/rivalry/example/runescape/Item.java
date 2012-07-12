@@ -153,6 +153,10 @@ public enum Item implements Visitable
 
     FLAX("Flax"), BOW_STRING("Bow string", FLAX),
 
+    SEAWEED("Seaweed"), SODA_ASH("Soda ash", SEAWEED), BUCKET_OF_SAND("Bucket of sand"), MOLTEN_GLASS("Molten glass",
+            BUCKET_OF_SAND, SODA_ASH), FISHBOWL("Fishbowl", MOLTEN_GLASS), LANTERN_LENS("Lantern lens", MOLTEN_GLASS), UNPOWERED_ORB(
+            "Unpowered orb", MOLTEN_GLASS), VIAL("Vial", MOLTEN_GLASS),
+
     UNSTRUNG_SHORTBOW("Shortbow (u)", LOGS), SHORTBOW("Shortbow", UNSTRUNG_SHORTBOW, BOW_STRING), UNSTRUNG_OAK_SHORTBOW(
             "Oak shortbow (u)", OAK_LOGS), OAK_SHORTBOW("Oak shortbow", UNSTRUNG_OAK_SHORTBOW, BOW_STRING), UNSTRUNG_WILLOW_SHORTBOW(
             "Willow shortbow (u)", WILLOW_LOGS), WILLOW_SHORTBOW("Willow shortbow", UNSTRUNG_WILLOW_SHORTBOW,
