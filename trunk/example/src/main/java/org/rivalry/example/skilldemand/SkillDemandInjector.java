@@ -20,7 +20,7 @@ public class SkillDemandInjector extends DefaultDataCollectorInjector
     {
         final RivalryData answer = super.injectRivalryData();
 
-        answer.setDescription("Jobs data \u00A9 1990-2011 Dice. All rights reserved. Used without permission.");
+        answer.setDescription("Jobs data \u00A9 1990-2012 Dice. All rights reserved. Used without permission.");
         answer.setPreferencePrefix("skillDemand");
 
         return answer;
