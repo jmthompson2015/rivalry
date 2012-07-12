@@ -1,5 +1,5 @@
 JAXB
-JEE
+JEE or J2EE
 Log4j
 Spring
 XML
