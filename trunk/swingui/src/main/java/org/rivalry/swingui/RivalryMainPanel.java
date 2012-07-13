@@ -1,6 +1,6 @@
 //*****************************************************************************
 // Rivalry (http://code.google.com/p/rivalry)
-// Copyright (c) 2011 Rivalry.org
+// Copyright (c) 2011-2012 Rivalry.org
 // Admin rivalry@jeffreythompson.net
 //
 // See the file "LICENSE.txt" for information on usage and redistribution of
@@ -22,9 +22,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.TableColumn;
 
 import org.rivalry.core.fitness.FitnessFunction;
 import org.rivalry.core.model.RivalryData;
@@ -33,6 +35,8 @@ import org.rivalry.swingui.filter.CandidateFilterEditor;
 import org.rivalry.swingui.table.CandidateTableModel;
 import org.rivalry.swingui.table.CriterionTableModel;
 import org.rivalry.swingui.table.DefaultTableUserPreferences;
+import org.rivalry.swingui.table.HyperlinkCellRenderer;
+import org.rivalry.swingui.table.HyperlinkMouseListener;
 import org.rivalry.swingui.table.TableUserPreferences;
 import org.rivalry.swingui.table.VisibleColumnsPopupMenu;
 import org.rivalry.swingui.table.VisibleColumnsTableModel;
@@ -202,6 +206,16 @@ public class RivalryMainPanel extends JSplitPane
         final JPanel centerComponent = createCandidateFilterPanel();
         _candidateSortTablePanel = new SortTablePanel(vcTableModel, rivalryData.getCreateDate(), tableUserPreferences,
                 centerComponent);
+
+        // Set a URL renderer on the candidate column.
+        final JTable table = _candidateSortTablePanel.getTable();
+        final TableColumn tableColumn = table.getColumnModel().getColumn(CandidateTableModel.CANDIDATE_COLUMN);
+        final HyperlinkCellRenderer cellRenderer = new HyperlinkCellRenderer();
+        tableColumn.setCellRenderer(cellRenderer);
+
+        // Set a mouse listener on the candidate column.
+        final HyperlinkMouseListener mouseListener = new HyperlinkMouseListener(CandidateTableModel.CANDIDATE_COLUMN);
+        table.addMouseListener(mouseListener);
 
         final VisibleColumnsPopupMenu popupMenu = new VisibleColumnsPopupMenu(rivalryData, vcTableModel);
         _candidateSortTablePanel.getTable().getTableHeader().addMouseListener(new PopupListener(popupMenu));
