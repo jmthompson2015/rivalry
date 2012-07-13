@@ -36,9 +36,9 @@ public class BestPlaceNameDataCollectorMain
         // INCLUDE_STATES.add("NC");
         INCLUDE_STATES.add("NM");
         INCLUDE_STATES.add("NV");
-        // INCLUDE_STATES.add("OR");
+        INCLUDE_STATES.add("OR");
         // INCLUDE_STATES.add("SC");
-        // INCLUDE_STATES.add("WA");
+        INCLUDE_STATES.add("WA");
     }
 
     /** Minimum population. */
@@ -52,8 +52,7 @@ public class BestPlaceNameDataCollectorMain
      * @throws IOException if there is an I/O problem.
      * @throws ParseException if there is a parsing problem.
      */
-    public static final void main(final String[] args) throws IOException,
-            ParseException
+    public static final void main(final String[] args) throws IOException, ParseException
     {
         System.out.println("start");
         final BestPlaceNameDataCollectorMain dataCollector = new BestPlaceNameDataCollectorMain();
@@ -62,21 +61,16 @@ public class BestPlaceNameDataCollectorMain
         dataCollector.fetchCandidates(rivalryData);
 
         final String categoryName = "Basic";
-        final Criterion stateCriterion = dataCollector.getCriterion(
-                rivalryData, "State", categoryName);
-        final Criterion populationCriterion = dataCollector.getCriterion(
-                rivalryData, "Population", categoryName);
+        final Criterion stateCriterion = dataCollector.getCriterion(rivalryData, "State", categoryName);
+        final Criterion populationCriterion = dataCollector.getCriterion(rivalryData, "Population", categoryName);
 
         for (final Candidate candidate : rivalryData.getCandidates())
         {
-            System.out.println(String.format("%30s %-55s %10d %3s",
-                    candidate.getName(), candidate.getPage(),
-                    candidate.getValue(populationCriterion),
-                    candidate.getValue(stateCriterion)));
+            System.out.println(String.format("%30s %-55s %10d %3s", candidate.getName(), candidate.getPage(),
+                    candidate.getValue(populationCriterion), candidate.getValue(stateCriterion)));
         }
 
-        System.out.println("Candidate count = "
-                + rivalryData.getCandidates().size());
+        System.out.println("Candidate count = " + rivalryData.getCandidates().size());
 
         final RivalryDataWriter rdWriter = new RivalryDataWriter();
         final Writer writer = new FileWriter("BestPlaceCandidates.xml");
@@ -91,16 +85,12 @@ public class BestPlaceNameDataCollectorMain
      */
     public void fetchCandidates(final RivalryData rivalryData)
     {
-        final InputStream inputStream = getClass().getResourceAsStream(
-                "CBSA-EST2009-alldata.csv");
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(
-                inputStream));
+        final InputStream inputStream = getClass().getResourceAsStream("CBSA-EST2009-alldata.csv");
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
         final String categoryName = "Basic";
-        final Criterion stateCriterion = getCriterion(rivalryData, "State",
-                categoryName);
-        final Criterion populationCriterion = getCriterion(rivalryData,
-                "Population", categoryName);
+        final Criterion stateCriterion = getCriterion(rivalryData, "State", categoryName);
+        final Criterion populationCriterion = getCriterion(rivalryData, "Population", categoryName);
 
         try
         {
@@ -116,22 +106,17 @@ public class BestPlaceNameDataCollectorMain
                     if (data0.length > 2)
                     {
                         final String name = data0[1];
-                        final Candidate candidate = _candidateCreator
-                                .create(name);
+                        final Candidate candidate = _candidateCreator.create(name);
 
                         if (candidate != null)
                         {
-                            final String state = determineState(candidate
-                                    .getName());
+                            final String state = determineState(candidate.getName());
                             final String[] data1 = data0[2].split(",");
-                            final Integer population = Integer
-                                    .valueOf(data1[13]);
+                            final Integer population = Integer.valueOf(data1[13]);
 
-                            if (INCLUDE_STATES.contains(state)
-                                    && population >= MIN_POPULATION)
+                            if (INCLUDE_STATES.contains(state) && (population >= MIN_POPULATION))
                             {
-                                candidate.putValue(populationCriterion,
-                                        population);
+                                candidate.putValue(populationCriterion, population);
                                 candidate.putValue(stateCriterion, state);
                                 rivalryData.getCandidates().add(candidate);
                             }
@@ -193,8 +178,7 @@ public class BestPlaceNameDataCollectorMain
      * 
      * @return the criterion of the given name, creating it if necessary.
      */
-    private Category getCategory(final RivalryData rivalryData,
-            final String categoryName)
+    private Category getCategory(final RivalryData rivalryData, final String categoryName)
     {
         Category answer = rivalryData.findCategoryByName(categoryName);
 
@@ -216,8 +200,7 @@ public class BestPlaceNameDataCollectorMain
      * 
      * @return the criterion of the given name, creating it if necessary.
      */
-    private Criterion getCriterion(final RivalryData rivalryData,
-            final String criterionName, final String categoryName)
+    private Criterion getCriterion(final RivalryData rivalryData, final String criterionName, final String categoryName)
     {
         Criterion answer = rivalryData.findCriterionByName(criterionName);
 
