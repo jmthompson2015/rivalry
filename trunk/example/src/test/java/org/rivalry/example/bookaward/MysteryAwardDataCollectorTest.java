@@ -44,7 +44,7 @@ public class MysteryAwardDataCollectorTest
             System.out.println("candidate = " + candidate.getName() + " " + candidate.getPage());
         }
 
-        assertThat(rivalryData.getCandidates().size(), is(14));
+        assertThat(rivalryData.getCandidates().size(), is(16));
         assertThat(rivalryData.getCategories().size(), is(0));
         assertThat(rivalryData.getCriteria().size(), is(2));
 
