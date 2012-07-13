@@ -35,14 +35,14 @@ import org.rivalry.core.model.RivalryData;
 public class MysteryAwardDataCollector implements DataCollector
 {
     /** Base URL. */
-    public static final String BASE_URL0 = "http://www.google.com/#hl=en&q=site:awards.omnimystery.com+%22";
+    public static final String BASE_URL0 = "http://www.google.com/#hl=en&num=100&q=site:awards.omnimystery.com+%22";
 
     /** Base URL. */
     public static final String BASE_URL1 = "%22";
 
     @Override
-    public void fetchData(final DCSpec dcSpec, final String username,
-            final String password, final RivalryData rivalryData)
+    public void fetchData(final DCSpec dcSpec, final String username, final String password,
+            final RivalryData rivalryData)
     {
         final long start = System.currentTimeMillis();
 
@@ -52,8 +52,7 @@ public class MysteryAwardDataCollector implements DataCollector
         final WebDriver webDriver = createWebDriver();
         webDriver.get(dcSpec.getUrl());
 
-        final List<WebElement> webElements = webDriver.findElements(By
-                .className("r"));
+        final List<WebElement> webElements = webDriver.findElements(By.className("r"));
 
         for (final WebElement webElement : webElements)
         {
@@ -73,8 +72,7 @@ public class MysteryAwardDataCollector implements DataCollector
      * @param authors Authors.
      * @param rivalryData Rivalry data.
      */
-    public void fetchData(final List<String> authors,
-            final RivalryData rivalryData)
+    public void fetchData(final List<String> authors, final RivalryData rivalryData)
     {
         final long start = System.currentTimeMillis();
 
@@ -89,8 +87,7 @@ public class MysteryAwardDataCollector implements DataCollector
             {
                 searchString = URLEncoder.encode(author, "UTF-8");
                 final String url = BASE_URL0 + searchString + BASE_URL1;
-                System.out
-                        .println("searching for author " + author + " " + url);
+                System.out.println("searching for author " + author + " " + url);
                 dcSpec.setUrl(url);
                 username = author;
                 fetchData(dcSpec, username, password, rivalryData);
@@ -101,10 +98,8 @@ public class MysteryAwardDataCollector implements DataCollector
             }
         }
 
-        Collections.sort(rivalryData.getCandidates(),
-                new DefaultCandidateComparator());
-        Collections.sort(rivalryData.getCriteria(),
-                new DefaultCriterionComparator());
+        Collections.sort(rivalryData.getCandidates(), new DefaultCandidateComparator());
+        Collections.sort(rivalryData.getCriteria(), new DefaultCriterionComparator());
 
         final long end = System.currentTimeMillis();
         logTiming("fetchData()", start, end);
@@ -135,8 +130,7 @@ public class MysteryAwardDataCollector implements DataCollector
      * 
      * @return a candidate with the given name, creating it if necessary.
      */
-    private Candidate getCandidate(final RivalryData rivalryData,
-            final String name, final String page)
+    private Candidate getCandidate(final RivalryData rivalryData, final String name, final String page)
     {
         Candidate answer = rivalryData.findCandidateByName(name);
 
@@ -158,8 +152,7 @@ public class MysteryAwardDataCollector implements DataCollector
      * 
      * @return a criterion with the given name, creating it if necessary.
      */
-    private Criterion getCriterion(final RivalryData rivalryData,
-            final String name)
+    private Criterion getCriterion(final RivalryData rivalryData, final String name)
     {
         Criterion answer = rivalryData.findCriterionByName(name);
 
