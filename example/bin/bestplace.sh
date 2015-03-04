@@ -37,7 +37,7 @@ echo "line count: " `cat ${OUTPUT_FILE} | wc -l`
 LINE_COUNT=`cat ${OUTPUT_FILE} | wc -l`
 echo "LINE_COUNT = " ${LINE_COUNT}
 
-if [ ${LINE_COUNT} -eq 164 ];
+if [ ${LINE_COUNT} -eq 278 ];
 then
 	cp -f BestPlaceRivalryData.xml ${USER_DIR}/Dropbox/Public/rivalry 
 fi
