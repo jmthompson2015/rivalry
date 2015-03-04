@@ -71,7 +71,7 @@ public class MysteryAwardDataCollectorTest
             final Candidate candidate = rivalryData.findCandidateByName("The Macavity Awards");
             assertNotNull(candidate);
             assertThat(candidate.getRating(criterion0), is(1.0));
-            assertThat(candidate.getRating(criterion1), is(1.0));
+            assertNull(candidate.getRating(criterion1));
         }
     }
 }

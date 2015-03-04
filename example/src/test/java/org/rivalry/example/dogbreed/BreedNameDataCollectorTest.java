@@ -24,7 +24,7 @@ public class BreedNameDataCollectorTest
         final List<Candidate> candidates = dataCollector.fetchCandidates();
 
         assertNotNull(candidates);
-        assertThat(candidates.size(), is(196));
+        assertThat(candidates.size(), is(198));
 
         {
             final Candidate candidate = candidates.get(0);
@@ -34,7 +34,7 @@ public class BreedNameDataCollectorTest
         }
 
         {
-            final Candidate candidate = candidates.get(195);
+            final Candidate candidate = candidates.get(197);
             assertNotNull(candidate);
             assertThat(candidate.getName(), is("Yorkshire Terrier"));
             assertThat(candidate.getPage(), is("http://dogtime.com/dog-breeds/yorkshire-terrier"));
