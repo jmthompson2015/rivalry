@@ -51,8 +51,9 @@
             <modifier>private</modifier>
             <name>autoMinMax</name>
             <type>
-                <name>boolean</name>
+                <name>Boolean</name>
             </type>
+            <initialValue>false</initialValue>
         </property>
         <property getter="true" setter="true" usedInIdentity="false">
             <modifier>private</modifier>
@@ -99,17 +100,10 @@
             <modifier>private</modifier>
             <name>values</name>
             <type>
-                <packageName>java.util</packageName>
-                <name>Map</name>
-                <typeParameter>
-                    <packageName>org.rivalry.core.model</packageName>
-                    <name>Criterion</name>
-                </typeParameter>
-                <typeParameter>
-                    <name>Object</name>
-                </typeParameter>
+                <packageName>org.rivalry.core.model</packageName>
+                <name>CriterionMap</name>
             </type>
-            <initialValue>new LinkedHashMap&lt;Criterion, Object&gt;()</initialValue>
+            <initialValue>new CriterionMap();</initialValue>
         </property>
         <method>
             <commentLine>@param   criterion  Criterion.</commentLine>
@@ -231,8 +225,8 @@
         </method>
         <method>
             <referencedType>
-                <packageName>java.util</packageName>
-                <name>LinkedHashMap</name>
+                <packageName>org.rivalry.core.model</packageName>
+                <name>CriterionMap</name>
             </referencedType>
             <annotation>
                 <type>
@@ -253,7 +247,7 @@
             </parameter>
             <methodBodyLine>if (_values == null)</methodBodyLine>
             <methodBodyLine>{</methodBodyLine>
-            <methodBodyLine>_values = new LinkedHashMap&lt;Criterion, Object&gt;();</methodBodyLine>
+            <methodBodyLine>_values = new CriterionMap();</methodBodyLine>
             <methodBodyLine>}</methodBodyLine>
             <methodBodyLine>return _values.get(criterion);</methodBodyLine>
         </method>
