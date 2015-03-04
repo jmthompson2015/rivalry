@@ -35,7 +35,7 @@ import org.rivalry.core.model.RivalryData;
 public class MysteryAwardDataCollector implements DataCollector
 {
     /** Base URL. */
-    public static final String BASE_URL0 = "http://www.google.com/#hl=en&num=100&q=site:awards.omnimystery.com+%22";
+    public static final String BASE_URL0 = "https://www.google.com/?gws_rd=ssl#q=site:awards.omnimystery.com+%22";
 
     /** Base URL. */
     public static final String BASE_URL1 = "%22";
@@ -127,7 +127,7 @@ public class MysteryAwardDataCollector implements DataCollector
      * @param rivalryData Rivalry data.
      * @param name Candidate name.
      * @param page Candidate page.
-     * 
+     *
      * @return a candidate with the given name, creating it if necessary.
      */
     private Candidate getCandidate(final RivalryData rivalryData, final String name, final String page)
@@ -149,7 +149,7 @@ public class MysteryAwardDataCollector implements DataCollector
     /**
      * @param rivalryData Rivalry data.
      * @param name Criterion name.
-     * 
+     *
      * @return a criterion with the given name, creating it if necessary.
      */
     private Criterion getCriterion(final RivalryData rivalryData, final String name)
@@ -169,7 +169,7 @@ public class MysteryAwardDataCollector implements DataCollector
 
     /**
      * Log the given timing parameters.
-     * 
+     *
      * @param title Title.
      * @param start Start time.
      * @param end End time.
@@ -181,7 +181,7 @@ public class MysteryAwardDataCollector implements DataCollector
 
     /**
      * @param text Text.
-     * 
+     *
      * @return the candidate name parsed from the given parameter.
      */
     private String parseName(final String text)
