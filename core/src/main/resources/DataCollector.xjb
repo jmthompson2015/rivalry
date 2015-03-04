@@ -1,14 +1,14 @@
 <jxb:bindings version="2.0" xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://core.rivalry.org/datacollector">
 
     <jxb:globalBindings xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
         xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
         <jxb:javaType name="org.rivalry.core.datacollector.SelectorType"
-            xmlType="tns:SelectorType" parseMethod="org.rivalry.core.datacollector.SelectorTypeAdapter.unmarshal"
+            xmlType="tns:SelectorType"
+            parseMethod="org.rivalry.core.datacollector.SelectorTypeAdapter.unmarshal"
             printMethod="org.rivalry.core.datacollector.SelectorTypeAdapter.marshal" />
     </jxb:globalBindings>
-
 
     <jxb:bindings schemaLocation="DataCollector.xsd">
 
