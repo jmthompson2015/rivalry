@@ -36,7 +36,7 @@ public class DefaultDataCollectorTest
     static class YahooFinanceParser implements ValueStringParser<Double>
     {
         @Override
-        public Double parse(String valueString)
+        public Double parse(final String valueString)
         {
             Double answer = null;
 
@@ -77,7 +77,7 @@ public class DefaultDataCollectorTest
 
         /**
          * @param valueString Value string.
-         * 
+         *
          * @return a double parsed from the given parameter, if possible.
          */
         private Double parseDoubleOnly(final String valueString)
@@ -141,8 +141,8 @@ public class DefaultDataCollectorTest
                 isAverageCandidateCreated, isMedianCandidateCreated);
 
         final DCSpec dcSpec = createDCSpecBestPlaces();
-        String username = null;
-        String password = null;
+        final String username = null;
+        final String password = null;
         final RivalryData rivalryData = new RivalryData();
 
         {
@@ -187,13 +187,13 @@ public class DefaultDataCollectorTest
         final Criterion criterion = rivalryData.findCriterionByName("Snowfall (in.)");
         assertNotNull(criterion);
         {
-            Candidate candidate = rivalryData.getCandidates().get(0);
+            final Candidate candidate = rivalryData.getCandidates().get(0);
             final Double rating = candidate.getRating(criterion);
             assertNotNull(rating);
             assertThat(rating, is(53.8));
         }
         {
-            Candidate candidate = rivalryData.getCandidates().get(1);
+            final Candidate candidate = rivalryData.getCandidates().get(1);
             final Double rating = candidate.getRating(criterion);
             assertNotNull(rating);
             assertThat(rating, is(0.0));
@@ -211,8 +211,8 @@ public class DefaultDataCollectorTest
                 isAverageCandidateCreated, isMedianCandidateCreated);
 
         final DCSpec dcSpec = createDCSpecYahooFinance();
-        String username = null;
-        String password = null;
+        final String username = null;
+        final String password = null;
         final RivalryData rivalryData = new RivalryData();
         final Candidate candidate = createCandidate("AAPL", dcSpec.getUrl());
         rivalryData.getCandidates().add(candidate);
@@ -238,7 +238,7 @@ public class DefaultDataCollectorTest
         assertNotNull(criterion);
         final Double rating = candidate.getRating(criterion);
         assertNotNull(rating);
-        assertThat(rating, is(0.2713));
+        assertThat(rating, is(0.2225));
     }
 
     /**
@@ -252,8 +252,8 @@ public class DefaultDataCollectorTest
                 isAverageCandidateCreated, isMedianCandidateCreated);
 
         final DCSpec dcSpec = createDCSpecYahooFinance();
-        String username = null;
-        String password = null;
+        final String username = null;
+        final String password = null;
         final RivalryData rivalryData = new RivalryData();
         final Candidate candidate = createCandidate("INTC", dcSpec.getUrl());
         rivalryData.getCandidates().add(candidate);
@@ -271,14 +271,14 @@ public class DefaultDataCollectorTest
         assertNotNull(criterion);
         final Double rating = candidate.getRating(criterion);
         assertNotNull(rating);
-        assertThat(rating, is(0.2316));
+        assertThat(rating, is(0.2095));
     }
 
     /**
-     * 
+     *
      * @param candidateName Candidate name.
      * @param url URL.
-     * 
+     *
      * @return a new candidate.
      */
     private Candidate createCandidate(final String candidateName, final String url)
