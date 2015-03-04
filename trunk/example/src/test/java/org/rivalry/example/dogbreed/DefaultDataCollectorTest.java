@@ -73,22 +73,18 @@ public class DefaultDataCollectorTest
         final WebDriver webDriver = createWebDriver();
         webDriver.get("http://dogtime.com/dog-breeds/boston-terrier");
 
-        final List<WebElement> groups = webDriver.findElements(By
-                .className("breed-characteristic-group"));
+        final List<WebElement> groups = webDriver.findElements(By.className("breed-characteristic-group"));
         final WebElement seeAllCharacteristics = groups.get(groups.size() - 1);
         System.out.println("seeAllCharacteristics = " + seeAllCharacteristics);
-        System.out.println("seeAllCharacteristics.getText() = ["
-                + seeAllCharacteristics.getText() + "]");
+        System.out.println("seeAllCharacteristics.getText() = [" + seeAllCharacteristics.getText() + "]");
         groups.get(groups.size() - 1).click();
 
-        final WebElement parent = webDriver.findElement(By
-                .className("characteristics"));
+        final WebElement parent = webDriver.findElement(By.className("characteristics"));
         assertNotNull(parent);
         assertTrue(parent.isDisplayed());
         assertTrue(parent.isEnabled());
 
-        final List<WebElement> ratings = parent.findElements(By
-                .className("five-star-ratings"));
+        final List<WebElement> ratings = parent.findElements(By.className("five-star-ratings"));
         assertNotNull(ratings);
         assertThat(ratings.size(), is(25));
 
@@ -96,15 +92,13 @@ public class DefaultDataCollectorTest
             final WebElement element = ratings.get(0);
             System.out.println("element = " + element);
             assertNotNull(element);
-            assertThat(element.getAttribute("class"),
-                    is("five-star-ratings five-star-ratings-5"));
+            assertThat(element.getAttribute("class"), is("five-star-ratings five-star-ratings-5"));
         }
 
         {
             final WebElement element = ratings.get(1);
             assertNotNull(element);
-            assertThat(element.getAttribute("class"),
-                    is("five-star-ratings five-star-ratings-4"));
+            assertThat(element.getAttribute("class"), is("five-star-ratings five-star-ratings-4"));
         }
 
         final List<WebElement> h3s = parent.findElements(By.tagName("h3"));
@@ -113,16 +107,14 @@ public class DefaultDataCollectorTest
 
         {
             final WebElement element = h3s.get(0);
-            System.out.println("element.getText() = [" + element.getText()
-                    + "]");
+            System.out.println("element.getText() = [" + element.getText() + "]");
             assertNotNull(element);
             assertThat(element.getText(), is("Adapt well to apartment living"));
         }
 
         {
             final WebElement element = h3s.get(1);
-            System.out.println("element.getText() = [" + element.getText()
-                    + "]");
+            System.out.println("element.getText() = [" + element.getText() + "]");
             assertNotNull(element);
             assertThat(element.getText(), is("Affectionate with family"));
         }
@@ -139,8 +131,7 @@ public class DefaultDataCollectorTest
         final String username = null;
         final String password = null;
         final RivalryData rivalryData = new RivalryData();
-        final Candidate candidate = createCandidate("boston-terrier",
-                _dcSpec.getUrl());
+        final Candidate candidate = createCandidate("boston-terrier", _dcSpec.getUrl());
         rivalryData.getCandidates().add(candidate);
 
         _dataCollector.fetchData(_dcSpec, username, password, rivalryData);
@@ -150,7 +141,7 @@ public class DefaultDataCollectorTest
         assertNotNull(rivalryData.getCriteria());
         assertThat(rivalryData.getCandidates().size(), is(1));
         assertThat(rivalryData.getCategories().size(), is(0));
-        assertThat(rivalryData.getCriteria().size(), is(25));
+        assertThat(rivalryData.getCriteria().size(), is(26));
 
         if (_isVerbose)
         {
@@ -161,8 +152,7 @@ public class DefaultDataCollectorTest
         }
 
         {
-            final Criterion criterion = rivalryData
-                    .findCriterionByName("Adapt well to apartment living");
+            final Criterion criterion = rivalryData.findCriterionByName("Adapt well to apartment living");
             assertNotNull(criterion);
             final Double rating = candidate.getRating(criterion);
             assertNotNull(rating);
@@ -170,12 +160,11 @@ public class DefaultDataCollectorTest
         }
 
         {
-            final Criterion criterion = rivalryData
-                    .findCriterionByName("Wanderlust potential");
+            final Criterion criterion = rivalryData.findCriterionByName("Wanderlust potential");
             assertNotNull(criterion);
             final Double rating = candidate.getRating(criterion);
             assertNotNull(rating);
-            assertThat(rating, is(1.0));
+            assertThat(rating, is(5.0));
         }
     }
 
@@ -193,7 +182,7 @@ public class DefaultDataCollectorTest
 
     /**
      * Test the <code>fetchData()</code> method.
-     * 
+     *
      * @throws IOException if there is a problem.
      * @throws ParserConfigurationException if there is a problem.
      * @throws SAXException if there is a problem.
@@ -201,15 +190,12 @@ public class DefaultDataCollectorTest
      */
     @Ignore
     @Test
-    public void testXPath() throws IOException, ParserConfigurationException,
-            SAXException, XPathExpressionException
+    public void testXPath() throws IOException, ParserConfigurationException, SAXException, XPathExpressionException
     {
-        final InputStream inputStream = getClass().getClassLoader()
-                .getResourceAsStream("SampleDogTime.xml");
+        final InputStream inputStream = getClass().getClassLoader().getResourceAsStream("SampleDogTime.xml");
         assertNotNull(inputStream);
 
-        final DocumentBuilderFactory factory = DocumentBuilderFactory
-                .newInstance();
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(false);
         factory.setValidating(false);
 
@@ -219,21 +205,19 @@ public class DefaultDataCollectorTest
 
         final XPath xpath = XPathFactory.newInstance().newXPath();
         final String expression = "//*[contains(text(), 'See All Characteristic Ratings')]";
-        final Node widgetNode = (Node)xpath.evaluate(expression, document,
-                XPathConstants.NODE);
+        final Node widgetNode = (Node)xpath.evaluate(expression, document, XPathConstants.NODE);
         assertNotNull(widgetNode);
         System.out.println("widgetNode = " + widgetNode.getTextContent());
     }
 
     /**
-     * 
+     *
      * @param candidateName Candidate name.
      * @param url URL.
-     * 
+     *
      * @return a new candidate.
      */
-    private Candidate createCandidate(final String candidateName,
-            final String url)
+    private Candidate createCandidate(final String candidateName, final String url)
     {
         String page = url;
 
@@ -257,8 +241,7 @@ public class DefaultDataCollectorTest
     {
         final WebDriver answer = new HtmlUnitDriver();
 
-        final java.util.logging.Logger logger = java.util.logging.Logger
-                .getLogger("");
+        final java.util.logging.Logger logger = java.util.logging.Logger.getLogger("");
         logger.setLevel(Level.OFF);
 
         if (answer instanceof HtmlUnitDriver)
@@ -270,13 +253,11 @@ public class DefaultDataCollectorTest
     }
 
     /**
-     * @return a new data collector specification read from a file of the given
-     *         name.
+     * @return a new data collector specification read from a file of the given name.
      */
     private DCSpec readDcSpec()
     {
-        final InputStream inputStream = getClass().getResourceAsStream(
-                "DataCollectorDogTime.xml");
+        final InputStream inputStream = getClass().getResourceAsStream("DataCollectorDogTime.xml");
         assertNotNull(inputStream);
         final Reader reader = new InputStreamReader(inputStream);
         final DCSpecReader dcReader = new DCSpecReader();
