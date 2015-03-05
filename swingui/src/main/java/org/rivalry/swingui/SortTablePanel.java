@@ -13,7 +13,7 @@ import java.awt.Color;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -62,13 +62,13 @@ public class SortTablePanel extends JPanel
 
     /**
      * Construct this object with the given parameter.
-     * 
+     *
      * @param tableModel Table model.
      * @param createDate Create date.
      * @param tableUserPreferences User preferences.
      * @param centerComponent Center component. (optional)
      */
-    public SortTablePanel(final TableModel tableModel, final Date createDate,
+    public SortTablePanel(final TableModel tableModel, final Calendar createDate,
             final TableUserPreferences tableUserPreferences, final JComponent centerComponent)
     {
         _userPreferences = tableUserPreferences;
@@ -128,7 +128,7 @@ public class SortTablePanel extends JPanel
 
     /**
      * @param table Table.
-     * 
+     *
      * @return a new main panel.
      */
     private JScrollPane createCenterPanel(final JTable table)
@@ -140,10 +140,10 @@ public class SortTablePanel extends JPanel
 
     /**
      * @param createDate Create date.
-     * 
+     *
      * @return a new create date widget.
      */
-    private JLabel createCreateDateUI(final Date createDate)
+    private JLabel createCreateDateUI(final Calendar createDate)
     {
         JLabel answer = null;
 
@@ -160,7 +160,7 @@ public class SortTablePanel extends JPanel
 
     /**
      * @param tableModel Table model.
-     * 
+     *
      * @return a new row count widget.
      */
     private JLabel createRowCountUI(final TableModel tableModel)
@@ -175,7 +175,7 @@ public class SortTablePanel extends JPanel
     /**
      * @param tableModel Table model.
      * @param centerComponent Center component. (optional)
-     * 
+     *
      * @return a new bottom panel.
      */
     private JPanel createSouthPanel(final TableModel tableModel, final JComponent centerComponent)
@@ -207,7 +207,7 @@ public class SortTablePanel extends JPanel
 
     /**
      * @param tableModel Table model.
-     * 
+     *
      * @return a new table.
      */
     private JTable createTable(final TableModel tableModel)
