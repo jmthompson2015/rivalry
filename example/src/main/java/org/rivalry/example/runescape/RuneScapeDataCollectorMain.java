@@ -16,7 +16,7 @@ import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataCollector;
 import org.rivalry.core.datacollector.DataCollectorInjector;
 import org.rivalry.core.model.RivalryData;
-import org.rivalry.core.model.RivalryDataWriter;
+import org.rivalry.core.model.io.RivalryDataWriter;
 
 /**
  * Provides a data collector application for RuneScape.
@@ -25,9 +25,9 @@ public class RuneScapeDataCollectorMain
 {
     /**
      * Application method.
-     * 
+     *
      * @param args Application arguments.
-     * 
+     *
      * @throws IOException if there is an I/O problem.
      * @throws ParseException if there is a parsing problem.
      */
@@ -83,7 +83,7 @@ public class RuneScapeDataCollectorMain
 
     /**
      * @param commandLine Command line.
-     * 
+     *
      * @return output file.
      */
     private static final String determineOutputFile(final CommandLine commandLine)
@@ -102,7 +102,7 @@ public class RuneScapeDataCollectorMain
 
     /**
      * Print the help text.
-     * 
+     *
      * @param options Command line options.
      */
     private static final void printHelp(final Options options)
@@ -123,7 +123,7 @@ public class RuneScapeDataCollectorMain
             final RivalryDataWriter rivalryDataWriter = new RivalryDataWriter();
             final File myOutputFile = new File(outputFile);
             final FileWriter writer = new FileWriter(myOutputFile);
-            rivalryDataWriter.write(rivalryData, writer);
+            rivalryDataWriter.write(writer, rivalryData);
         }
         catch (final IOException e)
         {

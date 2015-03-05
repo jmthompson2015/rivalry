@@ -37,7 +37,7 @@ import org.rivalry.core.datacollector.io.DCSpecReader;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.DefaultCandidate;
 import org.rivalry.core.model.RivalryData;
-import org.rivalry.core.model.RivalryDataWriter;
+import org.rivalry.core.model.io.RivalryDataWriter;
 
 /**
  * Provides a data collector for skill demand.
@@ -46,9 +46,9 @@ public class SkillDemandDataCollectorMain
 {
     /**
      * Application method.
-     * 
+     *
      * @param args Application arguments.
-     * 
+     *
      * @throws IOException if there is an I/O problem.
      * @throws ParseException if there is a parsing problem.
      */
@@ -122,7 +122,7 @@ public class SkillDemandDataCollectorMain
 
     /**
      * @param commandLine Command line.
-     * 
+     *
      * @return output file.
      */
     private static final String determineOutputFile(final CommandLine commandLine)
@@ -141,7 +141,7 @@ public class SkillDemandDataCollectorMain
 
     /**
      * Print the help text.
-     * 
+     *
      * @param options Command line options.
      */
     private static final void printHelp(final Options options)
@@ -155,7 +155,7 @@ public class SkillDemandDataCollectorMain
     /**
      * @param name Name.
      * @param url URL.
-     * 
+     *
      * @return a new candidate.
      */
     private Candidate createCandidate(final String name, final String url)
@@ -198,7 +198,7 @@ public class SkillDemandDataCollectorMain
 
     /**
      * @param keyword Search keyword.
-     * 
+     *
      * @return URL.
      */
     private String createUrl(final String keyword)
@@ -268,7 +268,7 @@ public class SkillDemandDataCollectorMain
 
     /**
      * @param filename Filename.
-     * 
+     *
      * @return keywords.
      */
     private List<String> readKeywords(final String filename)
@@ -315,7 +315,7 @@ public class SkillDemandDataCollectorMain
             final RivalryDataWriter rivalryDataWriter = new RivalryDataWriter();
             final File myOutputFile = new File(outputFile);
             final FileWriter writer = new FileWriter(myOutputFile);
-            rivalryDataWriter.write(rivalryData, writer);
+            rivalryDataWriter.write(writer, rivalryData);
         }
         catch (final IOException e)
         {
