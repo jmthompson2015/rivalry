@@ -1,6 +1,6 @@
 //*****************************************************************************
 // Rivalry (http://code.google.com/p/rivalry)
-// Copyright (c) 2011 Rivalry.org
+// Copyright (c) 2011-2015 Rivalry.org
 // Admin rivalry@jeffreythompson.net
 //
 // See the file "LICENSE.txt" for information on usage and redistribution of
@@ -22,6 +22,7 @@ import org.rivalry.core.model.DefaultCandidate;
 import org.rivalry.core.model.DefaultCandidateProvider;
 import org.rivalry.core.model.DefaultCategoryProvider;
 import org.rivalry.core.model.DefaultCriterionProvider;
+import org.rivalry.core.model.DefaultRivalryData;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.util.Provider;
 
@@ -143,7 +144,7 @@ public class DefaultDataCollectorTest
         final DCSpec dcSpec = createDCSpecBestPlaces();
         final String username = null;
         final String password = null;
-        final RivalryData rivalryData = new RivalryData();
+        final RivalryData rivalryData = new DefaultRivalryData();
 
         {
             final Candidate candidate = createCandidate("Denver CO",
@@ -213,7 +214,7 @@ public class DefaultDataCollectorTest
         final DCSpec dcSpec = createDCSpecYahooFinance();
         final String username = null;
         final String password = null;
-        final RivalryData rivalryData = new RivalryData();
+        final RivalryData rivalryData = new DefaultRivalryData();
         final Candidate candidate = createCandidate("AAPL", dcSpec.getUrl());
         rivalryData.getCandidates().add(candidate);
 
@@ -254,7 +255,7 @@ public class DefaultDataCollectorTest
         final DCSpec dcSpec = createDCSpecYahooFinance();
         final String username = null;
         final String password = null;
-        final RivalryData rivalryData = new RivalryData();
+        final RivalryData rivalryData = new DefaultRivalryData();
         final Candidate candidate = createCandidate("INTC", dcSpec.getUrl());
         rivalryData.getCandidates().add(candidate);
 
