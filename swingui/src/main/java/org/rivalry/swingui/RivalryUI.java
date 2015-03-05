@@ -34,8 +34,9 @@ import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
 import org.apache.commons.lang.StringUtils;
+import org.rivalry.core.model.DefaultRivalryData;
 import org.rivalry.core.model.RivalryData;
-import org.rivalry.core.model.RivalryDataReader;
+import org.rivalry.core.model.io.RivalryDataReader;
 import org.rivalry.swingui.util.OSXApp;
 import org.rivalry.swingui.util.SystemUtilities;
 import org.slf4j.Logger;
@@ -46,21 +47,6 @@ import org.slf4j.LoggerFactory;
  */
 public class RivalryUI extends JPanel implements OSXApp
 {
-    /** Frame. */
-    static JFrame _frame;
-
-    /** Base location of data files. */
-    private final static String FILE_LOCATION = "http://dl.dropbox.com/u/1267954/rivalry/";
-
-    /** Logger. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(RivalryUI.class);
-
-    /** Serial version UID. */
-    private static final long serialVersionUID = 1L;
-
-    /** User interface user preferences. */
-    private static UIUserPreferences _uiUserPreferences = new DefaultUIUserPreferences();
-
     /**
      * @return the frame
      */
@@ -71,7 +57,7 @@ public class RivalryUI extends JPanel implements OSXApp
 
     /**
      * Application method.
-     * 
+     *
      * @param args Application arguments.
      */
     public static final void main(final String[] args)
@@ -98,6 +84,21 @@ public class RivalryUI extends JPanel implements OSXApp
         });
     }
 
+    /** Frame. */
+    static JFrame _frame;
+
+    /** Base location of data files. */
+    private final static String FILE_LOCATION = "http://dl.dropbox.com/u/1267954/rivalry/";
+
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(RivalryUI.class);
+
+    /** Serial version UID. */
+    private static final long serialVersionUID = 1L;
+
+    /** User interface user preferences. */
+    private static UIUserPreferences _uiUserPreferences = new DefaultUIUserPreferences();
+
     /** File chooser. */
     JFileChooser _fileChooser;
 
@@ -118,7 +119,7 @@ public class RivalryUI extends JPanel implements OSXApp
         setLayout(new BorderLayout());
 
         final String preferencePrefix = "empty";
-        final RivalryData rivalryData = new RivalryData();
+        final RivalryData rivalryData = new DefaultRivalryData();
         rivalryData.setPreferencePrefix(preferencePrefix);
         _rivalryMainPanel = createRivalryMainPanel(rivalryData);
 
@@ -158,7 +159,7 @@ public class RivalryUI extends JPanel implements OSXApp
     /**
      * Display the preferences dialog. The OSXAdapter calls this method when "Preferences..." is selected from the
      * application menu.
-     * 
+     *
      * @param event Event.
      */
     @Override
@@ -169,7 +170,7 @@ public class RivalryUI extends JPanel implements OSXApp
 
     /**
      * Callback for the quit button.
-     * 
+     *
      * @param event Event.
      */
     @Override
@@ -181,7 +182,7 @@ public class RivalryUI extends JPanel implements OSXApp
     /**
      * @param imageLocation Image location.
      * @param altText Alternate text.
-     * 
+     *
      * @return a new image icon.
      */
     ImageIcon createImageIcon(final String imageLocation, final String altText)
@@ -200,7 +201,7 @@ public class RivalryUI extends JPanel implements OSXApp
 
     /**
      * @param rivalryData Rivalry data.
-     * 
+     *
      * @return a new Rivalry main panel.
      */
     RivalryMainPanel createRivalryMainPanel(final RivalryData rivalryData)
@@ -209,7 +210,7 @@ public class RivalryUI extends JPanel implements OSXApp
     }
 
     /**
-     * 
+     *
      * @param rivalryData Rivalry data.
      */
     void loadDataActionPerformed(final RivalryData rivalryData)
@@ -223,7 +224,7 @@ public class RivalryUI extends JPanel implements OSXApp
 
     /**
      * @param inputFilename Input filename.
-     * 
+     *
      * @return rivalry data.
      */
     RivalryData readRivalryData(final String inputFilename)
@@ -330,7 +331,7 @@ public class RivalryUI extends JPanel implements OSXApp
      * @param toolTipText Tool tip text.
      * @param altText Alternate text.
      * @param actionListener Action listener.
-     * 
+     *
      * @return a new button.
      */
     private JButton createButton(final String imageName, final String toolTipText, final String altText,
@@ -505,7 +506,7 @@ public class RivalryUI extends JPanel implements OSXApp
 
     /**
      * Handle the given exception.
-     * 
+     *
      * @param e Exception.
      */
     private void handleException(final Exception e)
