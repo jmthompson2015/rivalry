@@ -11,6 +11,7 @@ import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataPostProcessor;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Criterion;
+import org.rivalry.core.model.DefaultRivalryData;
 import org.rivalry.core.model.RivalryData;
 
 /**
@@ -34,7 +35,7 @@ public class RuneScapeDataCollectorTest
         final DCSpec dcSpec = null;
         final String username = "SalsRealm";
         final String password = null;
-        final RivalryData rivalryData = new RivalryData();
+        final RivalryData rivalryData = new DefaultRivalryData();
 
         _dataCollector.fetchData(dcSpec, username, password, rivalryData);
 

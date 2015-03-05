@@ -42,6 +42,7 @@ import org.rivalry.core.datacollector.io.DCSpecReader;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.DefaultCandidate;
+import org.rivalry.core.model.DefaultRivalryData;
 import org.rivalry.core.model.RivalryData;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -130,7 +131,7 @@ public class DefaultDataCollectorTest
     {
         final String username = null;
         final String password = null;
-        final RivalryData rivalryData = new RivalryData();
+        final RivalryData rivalryData = new DefaultRivalryData();
         final Candidate candidate = createCandidate("boston-terrier", _dcSpec.getUrl());
         rivalryData.getCandidates().add(candidate);
 
