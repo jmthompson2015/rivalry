@@ -24,7 +24,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.rivalry.core.model.RivalryData;
-import org.rivalry.core.model.RivalryDataReader;
+import org.rivalry.core.model.io.RivalryDataReader;
 import org.rivalry.core.reporter.DefaultReporter;
 import org.rivalry.core.reporter.Reporter;
 
@@ -35,14 +35,13 @@ public class SkillDemandReporterMain
 {
     /**
      * Application method.
-     * 
+     *
      * @param args Application arguments.
-     * 
+     *
      * @throws IOException if there is an I/O problem.
      * @throws ParseException if there is a parsing problem.
      */
-    public static final void main(final String[] args) throws IOException,
-            ParseException
+    public static final void main(final String[] args) throws IOException, ParseException
     {
         final Options options = createOptions();
         final CommandLineParser parser = new PosixParser();
@@ -61,9 +60,8 @@ public class SkillDemandReporterMain
             final RivalryData rivalryData = main.readRivalryData(inputFile);
 
             final Writer writer = new StringWriter();
-            final Reporter reporter = new DefaultReporter(
-                    DefaultReporter.ReportStyle.CRITERION_CANDIDATE,
-                    rivalryData, writer);
+            final Reporter reporter = new DefaultReporter(DefaultReporter.ReportStyle.CRITERION_CANDIDATE, rivalryData,
+                    writer);
             reporter.writeReport();
 
             System.out.println(writer.toString());
@@ -102,7 +100,7 @@ public class SkillDemandReporterMain
 
     /**
      * @param commandLine Command line.
-     * 
+     *
      * @return input file.
      */
     private static final String determineInputFile(final CommandLine commandLine)
@@ -121,22 +119,19 @@ public class SkillDemandReporterMain
 
     /**
      * Print the help text.
-     * 
+     *
      * @param options Command line options.
      */
     private static final void printHelp(final Options options)
     {
         // Automatically generate the help statement.
         final HelpFormatter formatter = new HelpFormatter();
-        formatter
-                .printHelp(
-                        "java [-cp <classpath>] org.rivalry.example.skilldemand.SkillDemandReporterMain",
-                        options);
+        formatter.printHelp("java [-cp <classpath>] org.rivalry.example.skilldemand.SkillDemandReporterMain", options);
     }
 
     /**
      * @param inputFile Input file.
-     * 
+     *
      * @return rivalry data.
      */
     private RivalryData readRivalryData(final String inputFile)

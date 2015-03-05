@@ -35,7 +35,7 @@ import org.rivalry.core.fitness.WeightedSumFitnessFunction;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.DefaultCandidate;
 import org.rivalry.core.model.RivalryData;
-import org.rivalry.core.model.RivalryDataWriter;
+import org.rivalry.core.model.io.RivalryDataWriter;
 
 /**
  * Provides a data collector for stock.
@@ -44,14 +44,13 @@ public class StockDataCollectorMain
 {
     /**
      * Application method.
-     * 
+     *
      * @param args Application arguments.
-     * 
+     *
      * @throws IOException if there is an I/O problem.
      * @throws ParseException if there is a parsing problem.
      */
-    public static final void main(final String[] args) throws IOException,
-            ParseException
+    public static final void main(final String[] args) throws IOException, ParseException
     {
         final Options options = createOptions();
         final CommandLineParser parser = new PosixParser();
@@ -76,8 +75,7 @@ public class StockDataCollectorMain
             final List<String> symbols = main.getSymbols();
             main.createCandidates(symbols, rivalryData);
 
-            System.out.println("candidates.size() = "
-                    + rivalryData.getCandidates().size());
+            System.out.println("candidates.size() = " + rivalryData.getCandidates().size());
             dataCollector.fetchData(dcSpec, username, password, rivalryData);
 
             final WeightedSumFitnessFunction fitnessFunction = new WeightedSumFitnessFunction(
@@ -117,11 +115,10 @@ public class StockDataCollectorMain
 
     /**
      * @param commandLine Command line.
-     * 
+     *
      * @return output file.
      */
-    private static final String determineOutputFile(
-            final CommandLine commandLine)
+    private static final String determineOutputFile(final CommandLine commandLine)
     {
         String answer = "StockRivalryData.xml";
 
@@ -137,28 +134,24 @@ public class StockDataCollectorMain
 
     /**
      * Print the help text.
-     * 
+     *
      * @param options Command line options.
      */
     private static final void printHelp(final Options options)
     {
         // Automatically generate the help statement.
         final HelpFormatter formatter = new HelpFormatter();
-        formatter
-                .printHelp(
-                        "java [-cp <classpath>] org.rivalry.example.dogbreed.StockDataCollectorMain",
-                        options);
+        formatter.printHelp("java [-cp <classpath>] org.rivalry.example.dogbreed.StockDataCollectorMain", options);
     }
 
     /**
      * @param symbol Stock symbol.
-     * 
+     *
      * @return a new candidate.
      */
     private Candidate createCandidate(final String symbol)
     {
-        final String url = "http://finance.yahoo.com/q/ks?s=" + symbol
-                + "+Key+Statistics";
+        final String url = "http://finance.yahoo.com/q/ks?s=" + symbol + "+Key+Statistics";
 
         final Candidate answer = new DefaultCandidate();
 
@@ -172,8 +165,7 @@ public class StockDataCollectorMain
      * @param symbols Symbols.
      * @param rivalryData Rivalry data.
      */
-    private void createCandidates(final List<String> symbols,
-            final RivalryData rivalryData)
+    private void createCandidates(final List<String> symbols, final RivalryData rivalryData)
     {
         final List<Candidate> candidates = rivalryData.getCandidates();
 
@@ -189,8 +181,7 @@ public class StockDataCollectorMain
     private DCSpec createDCSpec()
     {
         final DCSpecReader dcReader = new DCSpecReader();
-        final InputStream inputStream = getClass().getResourceAsStream(
-                "DataCollectorYahooFinance.xml");
+        final InputStream inputStream = getClass().getResourceAsStream("DataCollectorYahooFinance.xml");
         final Reader reader = new InputStreamReader(inputStream);
         final DCSpec answer = dcReader.read(reader);
 
@@ -207,21 +198,19 @@ public class StockDataCollectorMain
 
     /**
      * @param filename Filename.
-     * 
+     *
      * @return keywords.
      */
     private List<String> readKeywords(final String filename)
     {
         final List<String> answer = new ArrayList<String>();
 
-        final InputStream inputStream = getClass()
-                .getResourceAsStream(filename);
+        final InputStream inputStream = getClass().getResourceAsStream(filename);
         if (inputStream != null)
         {
             try
             {
-                final BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(inputStream));
+                final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                 String line = null;
 
                 while ((line = reader.readLine()) != null)
@@ -249,15 +238,14 @@ public class StockDataCollectorMain
      * @param outputFile Output file.
      * @param rivalryData Rivalry data.
      */
-    private void writeToFile(final String outputFile,
-            final RivalryData rivalryData)
+    private void writeToFile(final String outputFile, final RivalryData rivalryData)
     {
         try
         {
             final RivalryDataWriter rivalryDataWriter = new RivalryDataWriter();
             final File myOutputFile = new File(outputFile);
             final FileWriter writer = new FileWriter(myOutputFile);
-            rivalryDataWriter.write(rivalryData, writer);
+            rivalryDataWriter.write(writer, rivalryData);
         }
         catch (final IOException e)
         {
