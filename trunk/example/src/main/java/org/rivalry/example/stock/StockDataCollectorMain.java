@@ -79,7 +79,7 @@ public class StockDataCollectorMain
             dataCollector.fetchData(dcSpec, username, password, rivalryData);
 
             final WeightedSumFitnessFunction fitnessFunction = new WeightedSumFitnessFunction(
-                    rivalryData.getPreferencePrefix());
+                    rivalryData.getPreferencePrefix(), rivalryData);
             for (final Candidate candidate : rivalryData.getCandidates())
             {
                 fitnessFunction.computeFitness(candidate);

@@ -41,7 +41,7 @@ public class MyTestSortTablePanel
 
     /**
      * Test the user interface.
-     * 
+     *
      * @throws InterruptedException if there is an interruption.
      */
     @Test
@@ -50,8 +50,8 @@ public class MyTestSortTablePanel
         final TestData testData = new TestData();
         final RivalryData rivalryData = testData.createRivalryData();
         final String preferencePrefix = "test";
-        final FitnessFunction fitnessFunction = testData.createWeightedSumFitnessFunction(preferencePrefix,
-                rivalryData.getCriteria());
+        final FitnessFunction fitnessFunction = testData
+                .createWeightedSumFitnessFunction(preferencePrefix, rivalryData);
         final TableModel tableModel = new CandidateTableModel(rivalryData, fitnessFunction);
         final SortTablePanel panel = new SortTablePanel(tableModel, null, USER_PREFS, null);
 
@@ -60,7 +60,7 @@ public class MyTestSortTablePanel
 
     /**
      * Test the user interface.
-     * 
+     *
      * @throws InterruptedException if there is an interruption.
      */
     @Ignore
@@ -77,7 +77,7 @@ public class MyTestSortTablePanel
 
     /**
      * Test the user interface.
-     * 
+     *
      * @throws InterruptedException if there is an interruption.
      */
     @Ignore
@@ -92,7 +92,7 @@ public class MyTestSortTablePanel
     /**
      * @param title Frame title.
      * @param panel Panel.
-     * 
+     *
      * @throws InterruptedException if there is an interruption.
      */
     private void showFrame(final String title, final SortTablePanel panel) throws InterruptedException
