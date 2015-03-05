@@ -5,12 +5,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.rivalry.core.model.Candidate;
-import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.model.TestData;
 
@@ -83,8 +80,6 @@ public class WeightedSumFitnessFunctionTest
     public void setUp()
     {
         final String prefPrefix = "test";
-        final List<Criterion> criteria = _rivalryData.getCriteria();
-        _fitnessFunction = _testData.createWeightedSumFitnessFunction(
-                prefPrefix, criteria);
+        _fitnessFunction = _testData.createWeightedSumFitnessFunction(prefPrefix, _rivalryData);
     }
 }

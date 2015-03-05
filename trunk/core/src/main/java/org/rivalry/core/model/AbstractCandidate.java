@@ -24,8 +24,14 @@ public abstract class AbstractCandidate extends DefaultEntity implements Candida
     @Override
     public Double getRating(final Criterion criterion)
     {
+        return getRating(criterion.getName());
+    }
+
+    @Override
+    public Double getRating(final String criterionName)
+    {
         Double answer = null;
-        final Object value = getValue(criterion);
+        final Object value = getValue(criterionName);
 
         if (value instanceof Double)
         {
@@ -54,12 +60,24 @@ public abstract class AbstractCandidate extends DefaultEntity implements Candida
     @Override
     public Object getValue(final Criterion criterion)
     {
-        return getValues().get(criterion.getName());
+        return getValue(criterion.getName());
+    }
+
+    @Override
+    public Object getValue(final String criterionName)
+    {
+        return getValues().get(criterionName);
     }
 
     @Override
     public void putValue(final Criterion criterion, final Object value)
     {
-        getValues().put(criterion.getName(), value);
+        putValue(criterion.getName(), value);
+    }
+
+    @Override
+    public void putValue(final String criterionName, final Object value)
+    {
+        getValues().put(criterionName, value);
     }
 }
