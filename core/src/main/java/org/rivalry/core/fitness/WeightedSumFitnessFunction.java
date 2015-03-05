@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Criterion;
+import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.util.UserPreferences;
 
 /**
@@ -20,17 +21,23 @@ import org.rivalry.core.util.UserPreferences;
  */
 public class WeightedSumFitnessFunction implements FitnessFunction
 {
+    /** Rivalry data. */
+    private final RivalryData rivalryData;
+
     /** User preferences. */
-    private final UserPreferences _userPreferences;
+    private final UserPreferences userPreferences;
 
     /**
      * Construct this object with the given parameter.
-     * 
+     *
      * @param preferencePrefix Preference prefix.
+     * @param rivalryData Rivalry data.
      */
-    public WeightedSumFitnessFunction(final String preferencePrefix)
+    @SuppressWarnings("hiding")
+    public WeightedSumFitnessFunction(final String preferencePrefix, final RivalryData rivalryData)
     {
-        _userPreferences = new UserPreferences(preferencePrefix);
+        this.userPreferences = new UserPreferences(preferencePrefix);
+        this.rivalryData = rivalryData;
     }
 
     @Override
@@ -42,26 +49,26 @@ public class WeightedSumFitnessFunction implements FitnessFunction
         {
             answer = 0.0;
 
-            final List<Criterion> criteria = new ArrayList<Criterion>();
-            criteria.clear();
+            final List<String> criteriaNames = new ArrayList<String>();
 
             if (candidate.getValues() != null)
             {
-                criteria.addAll(candidate.getValues().keySet());
+                criteriaNames.addAll(candidate.getValues().keySet());
             }
 
-            for (final Criterion criterion : criteria)
+            for (final String criterionName : criteriaNames)
             {
+                final Criterion criterion = rivalryData.findCriterionByName(criterionName);
                 final Double min = criterion.getMinimumRating();
                 final Double max = criterion.getMaximumRating();
-                final Double rating = candidate.getRating(criterion);
+                final Double rating = candidate.getRating(criterionName);
                 final Integer weight = getWeight(criterion);
 
-                if (rating != null && weight != null)
+                if ((rating != null) && (weight != null))
                 {
-                    if (min != null && max != null && min < max)
+                    if ((min != null) && (max != null) && (min < max))
                     {
-                        answer += weight * (rating - min) / (max - min);
+                        answer += (weight * (rating - min)) / (max - min);
                     }
                     else
                     {
@@ -76,12 +83,12 @@ public class WeightedSumFitnessFunction implements FitnessFunction
 
     /**
      * @param criterion Criterion.
-     * 
+     *
      * @return weight.
      */
     public Integer getWeight(final Criterion criterion)
     {
-        return _userPreferences.getCriterionWeight(criterion);
+        return userPreferences.getCriterionWeight(criterion);
     }
 
     /**
@@ -90,6 +97,6 @@ public class WeightedSumFitnessFunction implements FitnessFunction
      */
     public void putWeight(final Criterion criterion, final Integer weight)
     {
-        _userPreferences.putCriterionWeight(criterion, weight);
+        userPreferences.putCriterionWeight(criterion, weight);
     }
 }

@@ -26,11 +26,25 @@ public interface Candidate extends Entity
     Double getRating(Criterion criterion);
 
     /**
+     * @param criterionName Criterion name.
+     *
+     * @return the rating for the given parameter.
+     */
+    Double getRating(String criterionName);
+
+    /**
      * @param criterion Criterion.
      *
      * @return the value for the given parameter.
      */
     Object getValue(Criterion criterion);
+
+    /**
+     * @param criterionName Criterion name.
+     *
+     * @return the value for the given parameter.
+     */
+    Object getValue(String criterionName);
 
     /**
      * @return values
@@ -44,6 +58,14 @@ public interface Candidate extends Entity
      * @param value Value.
      */
     void putValue(Criterion criterion, Object value);
+
+    /**
+     * Store the given value for the given criterion.
+     *
+     * @param criterionName Criterion name.
+     * @param value Value.
+     */
+    void putValue(String criterionName, Object value);
 
     /**
      * @param pageIn page

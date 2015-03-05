@@ -19,13 +19,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.junit.Test;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Category;
 import org.rivalry.core.model.Criterion;
-import org.rivalry.core.model.CriterionMap;
 import org.rivalry.core.model.RivalryData;
 
 /**
@@ -49,7 +47,7 @@ public class RivalryDataReaderTest
 
         // Run.
         final RivalryData result = rivalryDataReader.read(reader);
-        System.out.println("result =\n" + result);
+        // System.out.println("result =\n" + result);
 
         // Verify.
         assertNotNull(result);
@@ -74,12 +72,11 @@ public class RivalryDataReaderTest
             assertNull(candidate.getDescription());
             assertThat(candidate.getPage(), is("http://store.apple.com/us/buy-mac/mac-mini"));
 
-            final CriterionMap map = candidate.getValues();
-            System.out.println("map.size() = " + map.size());
-            for (final Entry<String, Object> entry : map.entrySet())
-            {
-                System.out.println(entry.getKey() + ": " + entry.getValue());
-            }
+            /*
+             * final CriterionMap map = candidate.getValues(); System.out.println("map.size() = " + map.size()); for
+             * (final Entry<String, Object> entry : map.entrySet()) { System.out.println(entry.getKey() + ": " +
+             * entry.getValue()); }
+             */
 
             assertThat((String)candidate.getValue(rivalryData.findCriterionByName("release")), is("2014/10"));
             assertThat((Double)candidate.getValue(rivalryData.findCriterionByName("processorSpeed")), is(1.4));

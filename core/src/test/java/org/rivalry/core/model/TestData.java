@@ -156,14 +156,16 @@ public class TestData
 
     /**
      * @param preferencePrefix Preference prefix.
-     * @param criteria Criteria.
+     * @param rivalryData Rivalry data.
      *
      * @return a new fitness function.
      */
     public WeightedSumFitnessFunction createWeightedSumFitnessFunction(final String preferencePrefix,
-            final List<Criterion> criteria)
+            final RivalryData rivalryData)
     {
-        final WeightedSumFitnessFunction answer = new WeightedSumFitnessFunction(preferencePrefix);
+        final WeightedSumFitnessFunction answer = new WeightedSumFitnessFunction(preferencePrefix, rivalryData);
+
+        final List<Criterion> criteria = rivalryData.getCriteria();
 
         answer.putWeight(criteria.get(0), 1);
         answer.putWeight(criteria.get(1), 2);
