@@ -1,3 +1,11 @@
+//*****************************************************************************
+// Rivalry (http://code.google.com/p/rivalry)
+// Copyright (c) 2011-2015 Rivalry.org
+// Admin rivalry@jeffreythompson.net
+//
+// See the file "LICENSE.txt" for information on usage and redistribution of
+// this file, and for a DISCLAIMER OF ALL WARRANTIES.
+//*****************************************************************************
 package org.rivalry.core.model;
 
 import java.util.ArrayList;
@@ -12,7 +20,7 @@ public class TestData
 {
     /**
      * @param name Name.
-     * 
+     *
      * @return a new candidate.
      */
     public Candidate createCandidate(final String name)
@@ -26,7 +34,7 @@ public class TestData
 
     /**
      * @param criteria Criteria.
-     * 
+     *
      * @return a new list of candidates.
      */
     public List<Candidate> createCandidates(final List<Criterion> criteria)
@@ -76,7 +84,7 @@ public class TestData
 
     /**
      * @param name Name.
-     * 
+     *
      * @return a new category.
      */
     public Category createCategory(final String name)
@@ -90,7 +98,7 @@ public class TestData
 
     /**
      * @param categories Categories.
-     * 
+     *
      * @return a new list of criteria.
      */
     public List<Criterion> createCriteria(final List<Category> categories)
@@ -107,7 +115,7 @@ public class TestData
     /**
      * @param name Name.
      * @param category Category.
-     * 
+     *
      * @return a new criterion.
      */
     public Criterion createCriterion(final String name, final Category category)
@@ -130,12 +138,12 @@ public class TestData
 
     /**
      * @param preferencePrefix Preference prefix.
-     * 
+     *
      * @return a new rivalry data.
      */
     public RivalryData createRivalryData(final String preferencePrefix)
     {
-        final RivalryData answer = new RivalryData();
+        final RivalryData answer = new DefaultRivalryData();
 
         answer.getCategories().addAll(createCategories());
         answer.getCriteria().addAll(createCriteria(answer.getCategories()));
@@ -149,14 +157,13 @@ public class TestData
     /**
      * @param preferencePrefix Preference prefix.
      * @param criteria Criteria.
-     * 
+     *
      * @return a new fitness function.
      */
-    public WeightedSumFitnessFunction createWeightedSumFitnessFunction(
-            final String preferencePrefix, final List<Criterion> criteria)
+    public WeightedSumFitnessFunction createWeightedSumFitnessFunction(final String preferencePrefix,
+            final List<Criterion> criteria)
     {
-        final WeightedSumFitnessFunction answer = new WeightedSumFitnessFunction(
-                preferencePrefix);
+        final WeightedSumFitnessFunction answer = new WeightedSumFitnessFunction(preferencePrefix);
 
         answer.putWeight(criteria.get(0), 1);
         answer.putWeight(criteria.get(1), 2);
