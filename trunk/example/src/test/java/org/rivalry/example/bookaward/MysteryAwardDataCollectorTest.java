@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.Test;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Criterion;
+import org.rivalry.core.model.DefaultRivalryData;
 import org.rivalry.core.model.RivalryData;
 
 /**
@@ -33,7 +34,7 @@ public class MysteryAwardDataCollectorTest
         authors.add(author0);
         authors.add(author1);
 
-        final RivalryData rivalryData = new RivalryData();
+        final RivalryData rivalryData = new DefaultRivalryData();
 
         dataCollector.fetchData(authors, rivalryData);
 

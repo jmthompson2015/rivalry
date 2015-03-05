@@ -26,6 +26,7 @@ import org.rivalry.core.datacollector.io.DCSpecReader;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.DefaultCandidate;
+import org.rivalry.core.model.DefaultRivalryData;
 import org.rivalry.core.model.RivalryData;
 
 /**
@@ -47,7 +48,7 @@ public class DefaultDataCollectorTest
     {
         final String username = null;
         final String password = null;
-        final RivalryData rivalryData = new RivalryData();
+        final RivalryData rivalryData = new DefaultRivalryData();
         final Candidate candidate = createCandidate("Java", _dcSpec.getUrl());
         rivalryData.getCandidates().add(candidate);
 
@@ -88,10 +89,10 @@ public class DefaultDataCollectorTest
     }
 
     /**
-     * 
+     *
      * @param candidateName Candidate name.
      * @param url URL.
-     * 
+     *
      * @return a new candidate.
      */
     private Candidate createCandidate(final String candidateName, final String url)
