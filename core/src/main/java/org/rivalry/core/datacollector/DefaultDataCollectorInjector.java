@@ -1,6 +1,6 @@
 //*****************************************************************************
 // Rivalry (http://code.google.com/p/rivalry)
-// Copyright (c) 2011 Rivalry.org
+// Copyright (c) 2011-2015 Rivalry.org
 // Admin rivalry@jeffreythompson.net
 //
 // See the file "LICENSE.txt" for information on usage and redistribution of
@@ -19,6 +19,7 @@ import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.DefaultCandidateProvider;
 import org.rivalry.core.model.DefaultCategoryProvider;
 import org.rivalry.core.model.DefaultCriterionProvider;
+import org.rivalry.core.model.DefaultRivalryData;
 import org.rivalry.core.model.RivalryData;
 import org.rivalry.core.util.Provider;
 
@@ -77,10 +78,8 @@ public class DefaultDataCollectorInjector implements DataCollectorInjector
         final boolean isAverageCandidateCreated = injectIsAverageCandidateCreated();
         final boolean isMedianCandidateCreated = injectIsMedianCandidateCreated();
 
-        final DataCollector answer = new DefaultDataCollector(
-                isJavascriptEnabled, maxThreads, nameStringParser,
-                valueStringParser, candidateProvider, categoryProvider,
-                criterionProvider, dataPostProcessor,
+        final DataCollector answer = new DefaultDataCollector(isJavascriptEnabled, maxThreads, nameStringParser,
+                valueStringParser, candidateProvider, categoryProvider, criterionProvider, dataPostProcessor,
                 isAverageCandidateCreated, isMedianCandidateCreated);
 
         return answer;
@@ -89,8 +88,8 @@ public class DefaultDataCollectorInjector implements DataCollectorInjector
     @Override
     public DataPostProcessor injectDataPostProcessor()
     {
-        return new DefaultDataPostProcessor(injectCandidateComparator(),
-                injectCategoryComparator(), injectCriterionComparator());
+        return new DefaultDataPostProcessor(injectCandidateComparator(), injectCategoryComparator(),
+                injectCriterionComparator());
     }
 
     @Override
@@ -126,7 +125,7 @@ public class DefaultDataCollectorInjector implements DataCollectorInjector
     @Override
     public RivalryData injectRivalryData()
     {
-        return new RivalryData();
+        return new DefaultRivalryData();
     }
 
     @Override
