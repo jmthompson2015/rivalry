@@ -54,12 +54,12 @@ public abstract class AbstractCandidate extends DefaultEntity implements Candida
     @Override
     public Object getValue(final Criterion criterion)
     {
-        return getValues().get(criterion);
+        return getValues().get(criterion.getName());
     }
 
     @Override
     public void putValue(final Criterion criterion, final Object value)
     {
-        getValues().put(criterion, value);
+        getValues().put(criterion.getName(), value);
     }
 }

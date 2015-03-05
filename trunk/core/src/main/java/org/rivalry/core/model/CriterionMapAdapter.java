@@ -32,11 +32,11 @@ public class CriterionMapAdapter extends XmlAdapter<CriterionMapModeller, Criter
             throw new RuntimeException("map.entrySet() is null");
         }
 
-        for (final Map.Entry<Criterion, Object> entry : map.entrySet())
+        for (final Map.Entry<String, Object> entry : map.entrySet())
         {
             final CriterionMapModeller.Entry e = new CriterionMapModeller.Entry();
             e.setKey(entry.getKey());
-            e.setValue(entry.getValue());
+            e.setValue(entry.getValue().toString());
             modeller.getEntry().add(e);
         }
 
@@ -50,9 +50,38 @@ public class CriterionMapAdapter extends XmlAdapter<CriterionMapModeller, Criter
 
         for (final CriterionMapModeller.Entry e : modeller.getEntry())
         {
-            map.put(e.getKey(), e.getValue());
+            final Object value = convertValue(e.getValue());
+            map.put(e.getKey(), value);
         }
 
         return map;
+    }
+
+    /**
+     * @param value Value.
+     *
+     * @return the given value as an Integer, Double, or String.
+     */
+    private Object convertValue(final String value)
+    {
+        Object answer = value;
+
+        try
+        {
+            answer = Integer.valueOf(value.toString());
+        }
+        catch (final Exception ex0)
+        {
+            try
+            {
+                answer = Double.valueOf(value.toString());
+            }
+            catch (final Exception ex1)
+            {
+                // Give up.
+            }
+        }
+
+        return answer;
     }
 }
