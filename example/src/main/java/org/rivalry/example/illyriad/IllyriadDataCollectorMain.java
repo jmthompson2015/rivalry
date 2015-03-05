@@ -25,7 +25,7 @@ import org.rivalry.core.datacollector.DCSpec;
 import org.rivalry.core.datacollector.DataCollector;
 import org.rivalry.core.datacollector.DataPostProcessor;
 import org.rivalry.core.model.RivalryData;
-import org.rivalry.core.model.RivalryDataWriter;
+import org.rivalry.core.model.io.RivalryDataWriter;
 
 /**
  * Provides a data collector for Illyriad.
@@ -34,14 +34,13 @@ public class IllyriadDataCollectorMain
 {
     /**
      * Application method.
-     * 
+     *
      * @param args Application arguments.
-     * 
+     *
      * @throws IOException if there is an I/O problem.
      * @throws ParseException if there is a parsing problem.
      */
-    public static final void main(final String[] args) throws IOException,
-            ParseException
+    public static final void main(final String[] args) throws IOException, ParseException
     {
         final Options options = createOptions();
         final CommandLineParser parser = new PosixParser();
@@ -69,22 +68,18 @@ public class IllyriadDataCollectorMain
             if (StringUtils.isNotEmpty(username1))
             {
                 final RivalryData rivalryData1 = injector.injectRivalryData();
-                rivalryData1.getCategories()
-                        .addAll(rivalryData.getCategories());
+                rivalryData1.getCategories().addAll(rivalryData.getCategories());
                 rivalryData1.getCriteria().addAll(rivalryData.getCriteria());
 
-                dataCollector.fetchData(dcSpec, username1, password1,
-                        rivalryData1);
+                dataCollector.fetchData(dcSpec, username1, password1, rivalryData1);
 
                 if (!rivalryData1.getCandidates().isEmpty())
                 {
-                    rivalryData.getCandidates().addAll(
-                            rivalryData1.getCandidates());
+                    rivalryData.getCandidates().addAll(rivalryData1.getCandidates());
                 }
             }
 
-            final DataPostProcessor dataPostProcessor = injector
-                    .injectDataPostProcessor();
+            final DataPostProcessor dataPostProcessor = injector.injectDataPostProcessor();
             dataPostProcessor.postProcess(rivalryData);
 
             final String outputFile = determineOutputFile(commandLine);
@@ -146,11 +141,10 @@ public class IllyriadDataCollectorMain
 
     /**
      * @param commandLine Command line.
-     * 
+     *
      * @return output file.
      */
-    private static final String determineOutputFile(
-            final CommandLine commandLine)
+    private static final String determineOutputFile(final CommandLine commandLine)
     {
         String answer = "IllyriadRivalryData.xml";
 
@@ -166,7 +160,7 @@ public class IllyriadDataCollectorMain
 
     /**
      * @param commandLine Command line.
-     * 
+     *
      * @return password.
      */
     private static final String determinePassword0(final CommandLine commandLine)
@@ -185,7 +179,7 @@ public class IllyriadDataCollectorMain
 
     /**
      * @param commandLine Command line.
-     * 
+     *
      * @return password.
      */
     private static final String determinePassword1(final CommandLine commandLine)
@@ -204,7 +198,7 @@ public class IllyriadDataCollectorMain
 
     /**
      * @param commandLine Command line.
-     * 
+     *
      * @return username.
      */
     private static final String determineUsername0(final CommandLine commandLine)
@@ -223,7 +217,7 @@ public class IllyriadDataCollectorMain
 
     /**
      * @param commandLine Command line.
-     * 
+     *
      * @return username.
      */
     private static final String determineUsername1(final CommandLine commandLine)
@@ -242,32 +236,28 @@ public class IllyriadDataCollectorMain
 
     /**
      * Print the help text.
-     * 
+     *
      * @param options Command line options.
      */
     private static final void printHelp(final Options options)
     {
         // Automatically generate the help statement.
         final HelpFormatter formatter = new HelpFormatter();
-        formatter
-                .printHelp(
-                        "java [-cp <classpath>] org.rivalry.example.illyriad.IllyriadDataCollectorMain",
-                        options);
+        formatter.printHelp("java [-cp <classpath>] org.rivalry.example.illyriad.IllyriadDataCollectorMain", options);
     }
 
     /**
      * @param outputFile Output file.
      * @param rivalryData Rivalry data.
      */
-    private void writeToFile(final String outputFile,
-            final RivalryData rivalryData)
+    private void writeToFile(final String outputFile, final RivalryData rivalryData)
     {
         try
         {
             final RivalryDataWriter rivalryDataWriter = new RivalryDataWriter();
             final File myOutputFile = new File(outputFile);
             final FileWriter writer = new FileWriter(myOutputFile);
-            rivalryDataWriter.write(rivalryData, writer);
+            rivalryDataWriter.write(writer, rivalryData);
         }
         catch (final IOException e)
         {

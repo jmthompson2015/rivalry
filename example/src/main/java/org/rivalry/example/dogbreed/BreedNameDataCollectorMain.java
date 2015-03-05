@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.commons.cli.ParseException;
 import org.rivalry.core.model.Candidate;
 import org.rivalry.core.model.RivalryData;
-import org.rivalry.core.model.RivalryDataWriter;
+import org.rivalry.core.model.io.RivalryDataWriter;
 
 /**
  * Provides a data collector for dog breed names.
@@ -17,14 +17,13 @@ public class BreedNameDataCollectorMain
 {
     /**
      * Application method.
-     * 
+     *
      * @param args Application arguments.
-     * 
+     *
      * @throws IOException if there is an I/O problem.
      * @throws ParseException if there is a parsing problem.
      */
-    public static final void main(final String[] args) throws IOException,
-            ParseException
+    public static final void main(final String[] args) throws IOException, ParseException
     {
         final BreedNameDataCollector dataCollector = new BreedNameDataCollector();
         final List<Candidate> candidates = dataCollector.fetchCandidates();
@@ -34,6 +33,6 @@ public class BreedNameDataCollectorMain
         rivalryData.getCandidates().addAll(candidates);
         final RivalryDataWriter rdWriter = new RivalryDataWriter();
         final Writer writer = new FileWriter("DogBreedCandidates.xml");
-        rdWriter.write(rivalryData, writer);
+        rdWriter.write(writer, rivalryData);
     }
 }

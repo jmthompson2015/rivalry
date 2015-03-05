@@ -17,38 +17,18 @@ import org.rivalry.core.model.Criterion;
 import org.rivalry.core.model.DefaultCategory;
 import org.rivalry.core.model.DefaultCriterion;
 import org.rivalry.core.model.RivalryData;
-import org.rivalry.core.model.RivalryDataWriter;
+import org.rivalry.core.model.io.RivalryDataWriter;
 
 /**
  * Provides a data collector for best place names.
  */
 public class BestPlaceNameDataCollectorMain
 {
-    /** Include states. */
-    private static final Set<String> INCLUDE_STATES = new TreeSet<String>();
-
-    static
-    {
-        INCLUDE_STATES.add("AZ");
-        // INCLUDE_STATES.add("CA");
-        INCLUDE_STATES.add("CO");
-        // INCLUDE_STATES.add("GA");
-        // INCLUDE_STATES.add("NC");
-        INCLUDE_STATES.add("NM");
-        INCLUDE_STATES.add("NV");
-        INCLUDE_STATES.add("OR");
-        // INCLUDE_STATES.add("SC");
-        INCLUDE_STATES.add("WA");
-    }
-
-    /** Minimum population. */
-    private static final Integer MIN_POPULATION = 0;
-
     /**
      * Application method.
-     * 
+     *
      * @param args Application arguments.
-     * 
+     *
      * @throws IOException if there is an I/O problem.
      * @throws ParseException if there is a parsing problem.
      */
@@ -74,8 +54,28 @@ public class BestPlaceNameDataCollectorMain
 
         final RivalryDataWriter rdWriter = new RivalryDataWriter();
         final Writer writer = new FileWriter("BestPlaceCandidates.xml");
-        rdWriter.write(rivalryData, writer);
+        rdWriter.write(writer, rivalryData);
     }
+
+    /** Include states. */
+    private static final Set<String> INCLUDE_STATES = new TreeSet<String>();
+
+    static
+    {
+        INCLUDE_STATES.add("AZ");
+        // INCLUDE_STATES.add("CA");
+        INCLUDE_STATES.add("CO");
+        // INCLUDE_STATES.add("GA");
+        // INCLUDE_STATES.add("NC");
+        INCLUDE_STATES.add("NM");
+        INCLUDE_STATES.add("NV");
+        INCLUDE_STATES.add("OR");
+        // INCLUDE_STATES.add("SC");
+        INCLUDE_STATES.add("WA");
+    }
+
+    /** Minimum population. */
+    private static final Integer MIN_POPULATION = 0;
 
     /** Candidate creator. */
     private final CandidateCreator _candidateCreator = new CandidateCreator();
@@ -153,7 +153,7 @@ public class BestPlaceNameDataCollectorMain
 
     /**
      * @param candidateName Candidate name.
-     * 
+     *
      * @return state.
      */
     private String determineState(final String candidateName)
@@ -175,7 +175,7 @@ public class BestPlaceNameDataCollectorMain
     /**
      * @param rivalryData Rivalry data.
      * @param categoryName Category name.
-     * 
+     *
      * @return the criterion of the given name, creating it if necessary.
      */
     private Category getCategory(final RivalryData rivalryData, final String categoryName)
@@ -197,7 +197,7 @@ public class BestPlaceNameDataCollectorMain
      * @param rivalryData Rivalry data.
      * @param criterionName Criterion name.
      * @param categoryName Category name.
-     * 
+     *
      * @return the criterion of the given name, creating it if necessary.
      */
     private Criterion getCriterion(final RivalryData rivalryData, final String criterionName, final String categoryName)

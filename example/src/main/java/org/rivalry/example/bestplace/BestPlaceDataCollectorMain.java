@@ -30,8 +30,8 @@ import org.rivalry.core.datacollector.DataCollector;
 import org.rivalry.core.datacollector.DataCollectorInjector;
 import org.rivalry.core.datacollector.io.DCSpecReader;
 import org.rivalry.core.model.RivalryData;
-import org.rivalry.core.model.RivalryDataReader;
-import org.rivalry.core.model.RivalryDataWriter;
+import org.rivalry.core.model.io.RivalryDataReader;
+import org.rivalry.core.model.io.RivalryDataWriter;
 
 /**
  * Provides a data collector for best places.
@@ -40,14 +40,13 @@ public class BestPlaceDataCollectorMain
 {
     /**
      * Application method.
-     * 
+     *
      * @param args Application arguments.
-     * 
+     *
      * @throws IOException if there is an I/O problem.
      * @throws ParseException if there is a parsing problem.
      */
-    public static final void main(final String[] args) throws IOException,
-            ParseException
+    public static final void main(final String[] args) throws IOException, ParseException
     {
         final Options options = createOptions();
         final CommandLineParser parser = new PosixParser();
@@ -71,8 +70,7 @@ public class BestPlaceDataCollectorMain
 
             dataCollector.fetchData(dcSpec, username, password, rivalryData);
 
-            System.out.println("\n\ncandidates.size() = "
-                    + rivalryData.getCandidates().size());
+            System.out.println("\n\ncandidates.size() = " + rivalryData.getCandidates().size());
 
             final String outputFile = determineOutputFile(commandLine);
             System.out.println("outputFile = [" + outputFile + "]");
@@ -104,11 +102,10 @@ public class BestPlaceDataCollectorMain
 
     /**
      * @param commandLine Command line.
-     * 
+     *
      * @return output file.
      */
-    private static final String determineOutputFile(
-            final CommandLine commandLine)
+    private static final String determineOutputFile(final CommandLine commandLine)
     {
         String answer = "BestPlaceRivalryData.xml";
 
@@ -124,17 +121,14 @@ public class BestPlaceDataCollectorMain
 
     /**
      * Print the help text.
-     * 
+     *
      * @param options Command line options.
      */
     private static final void printHelp(final Options options)
     {
         // Automatically generate the help statement.
         final HelpFormatter formatter = new HelpFormatter();
-        formatter
-                .printHelp(
-                        "java [-cp <classpath>] org.rivalry.example.bestplace.BestPlaceDataCollectorMain",
-                        options);
+        formatter.printHelp("java [-cp <classpath>] org.rivalry.example.bestplace.BestPlaceDataCollectorMain", options);
     }
 
     /**
@@ -143,8 +137,7 @@ public class BestPlaceDataCollectorMain
     private DCSpec createDCSpec()
     {
         final DCSpecReader dcReader = new DCSpecReader();
-        final InputStream inputStream = getClass().getResourceAsStream(
-                "DataCollectorBestPlaces.xml");
+        final InputStream inputStream = getClass().getResourceAsStream("DataCollectorBestPlaces.xml");
         final Reader reader = new InputStreamReader(inputStream);
         final DCSpec answer = dcReader.read(reader);
 
@@ -176,15 +169,14 @@ public class BestPlaceDataCollectorMain
      * @param outputFile Output file.
      * @param rivalryData Rivalry data.
      */
-    private void writeToFile(final String outputFile,
-            final RivalryData rivalryData)
+    private void writeToFile(final String outputFile, final RivalryData rivalryData)
     {
         try
         {
             final RivalryDataWriter rivalryDataWriter = new RivalryDataWriter();
             final File myOutputFile = new File(outputFile);
             final FileWriter writer = new FileWriter(myOutputFile);
-            rivalryDataWriter.write(rivalryData, writer);
+            rivalryDataWriter.write(writer, rivalryData);
         }
         catch (final IOException e)
         {
