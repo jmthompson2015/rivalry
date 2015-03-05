@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.1"
+    xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+    jaxb:extensionBindingPrefixes="inheritance">
+
+    <xs:annotation>
+        <xs:appinfo>
+            <jaxb:schemaBindings>
+                <jaxb:package name="org.rivalry.core.model" />
+            </jaxb:schemaBindings>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:complexType name="DefaultEntity">
+        <xs:annotation>
+            <xs:appinfo>
+                <jaxb:class>
+                    <jaxb:javadoc>
+                        Provides an entity for a decision
+                        making application.
+                    </jaxb:javadoc>
+                </jaxb:class>
+                <inheritance:extends>org.rivalry.core.model.AbstractEntity
+                </inheritance:extends>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="name" type="xs:string" />
+            <xs:element name="description" type="xs:string"
+                minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DefaultCandidate">
+        <xs:annotation>
+            <xs:appinfo>
+                <jaxb:class>
+                    <jaxb:javadoc>
+                        Provides a candidate for a decision
+                        making application.
+                    </jaxb:javadoc>
+                </jaxb:class>
+                <inheritance:extends>org.rivalry.core.model.AbstractCandidate
+                </inheritance:extends>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="page" type="xs:string" />
+            <xs:element name="values" type="CriterionMapModeller">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <jaxb:property>
+                            <jaxb:baseType
+                                name="org.rivalry.core.model.CriterionMap" />
+                        </jaxb:property>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="CriterionMapModeller">
+        <xs:sequence>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="key" type="DefaultCriterion">
+                            <xs:annotation>
+                                <xs:appinfo>
+                                    <jaxb:property>
+                                        <jaxb:baseType
+                                            name="org.rivalry.core.model.Criterion" />
+                                    </jaxb:property>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="value" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DefaultCategory">
+        <xs:annotation>
+            <xs:appinfo>
+                <jaxb:class>
+                    <jaxb:javadoc>
+                        Provides a category for a decision
+                        making application.
+                    </jaxb:javadoc>
+                </jaxb:class>
+                <inheritance:extends>org.rivalry.core.model.DefaultEntity
+                </inheritance:extends>
+                <inheritance:implements>org.rivalry.core.model.Category
+                </inheritance:implements>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:complexType>
+
+    <xs:complexType name="DefaultCriterion">
+        <xs:annotation>
+            <xs:appinfo>
+                <jaxb:class>
+                    <jaxb:javadoc>
+                        Provides a criterion for a decision
+                        making application.
+                    </jaxb:javadoc>
+                </jaxb:class>
+                <inheritance:extends>org.rivalry.core.model.DefaultEntity
+                </inheritance:extends>
+                <inheritance:implements>org.rivalry.core.model.Criterion
+                </inheritance:implements>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="category" type="DefaultCategory">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <jaxb:property>
+                            <jaxb:baseType
+                                name="org.rivalry.core.model.Category" />
+                        </jaxb:property>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element name="autoMinMax" type="xs:boolean"
+                    default="false" />
+                <xs:sequence>
+                    <xs:element name="minimumRating" type="xs:double" />
+                    <xs:element name="maximumRating" type="xs:double" />
+                </xs:sequence>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="DefaultRivalryData">
+        <xs:annotation>
+            <xs:appinfo>
+                <jaxb:class>
+                    <jaxb:javadoc>Provides a data bean for a decision
+                        making
+                        application.
+                    </jaxb:javadoc>
+                </jaxb:class>
+                <inheritance:extends>org.rivalry.core.model.AbstractRivalryData
+                </inheritance:extends>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="createDate" type="xs:dateTime">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <jaxb:property>
+                                <jaxb:baseType>
+                                    <jaxb:javaType name="java.util.Calendar"
+                                        parseMethod="javax.xml.bind.DatatypeConverter.parseDateTime"
+                                        printMethod="javax.xml.bind.DatatypeConverter.printDateTime" />
+                                </jaxb:baseType>
+                            </jaxb:property>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="description" type="xs:string" />
+                <xs:element name="preferencePrefix" type="xs:string" />
+                <xs:element name="candidate" type="DefaultCandidate"
+                    maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <jaxb:property name="candidates">
+                                <jaxb:baseType
+                                    name="org.rivalry.core.model.Candidate" />
+                            </jaxb:property>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="criterion" type="DefaultCriterion"
+                    maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <jaxb:property name="criteria">
+                                <jaxb:baseType
+                                    name="org.rivalry.core.model.Criterion" />
+                            </jaxb:property>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="category" type="DefaultCategory"
+                    minOccurs="0" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <jaxb:property name="categories">
+                                <jaxb:baseType
+                                    name="org.rivalry.core.model.Category" />
+                            </jaxb:property>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
