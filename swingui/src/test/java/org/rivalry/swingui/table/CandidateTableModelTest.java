@@ -92,8 +92,7 @@ public class CandidateTableModelTest
         final RivalryData rivalryData = testData.createRivalryData();
         final String preferencePrefix = "test";
         final FitnessFunction fitnessFunction = testData
-                .createWeightedSumFitnessFunction(preferencePrefix,
-                        rivalryData.getCriteria());
+                .createWeightedSumFitnessFunction(preferencePrefix, rivalryData);
         _tableModel = new CandidateTableModel(rivalryData, fitnessFunction);
     }
 }

@@ -34,8 +34,7 @@ public class CriterionTableModel extends AbstractTableModel
     public static final int WEIGHT_COLUMN = 2;
 
     /** Column names. */
-    private static final String[] COLUMN_NAMES = { "Category", "Criterion",
-            "Weight", };
+    private static final String[] COLUMN_NAMES = { "Category", "Criterion", "Weight", };
 
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
@@ -48,14 +47,13 @@ public class CriterionTableModel extends AbstractTableModel
 
     /**
      * Construct this object with the given parameter.
-     * 
+     *
      * @param rivalryData Rivalry data.
      */
     public CriterionTableModel(final RivalryData rivalryData)
     {
         _rivalryData = rivalryData;
-        _fitnessFunction = new WeightedSumFitnessFunction(
-                _rivalryData.getPreferencePrefix());
+        _fitnessFunction = new WeightedSumFitnessFunction(_rivalryData.getPreferencePrefix(), _rivalryData);
     }
 
     @Override
@@ -154,8 +152,7 @@ public class CriterionTableModel extends AbstractTableModel
             break;
 
         default:
-            throw new IllegalArgumentException("Unknown columnIndex: "
-                    + columnIndex);
+            throw new IllegalArgumentException("Unknown columnIndex: " + columnIndex);
         }
 
         return answer;
@@ -168,8 +165,7 @@ public class CriterionTableModel extends AbstractTableModel
     }
 
     @Override
-    public void setValueAt(final Object aValue, final int rowIndex,
-            final int columnIndex)
+    public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex)
     {
         if (aValue instanceof Number)
         {
@@ -182,7 +178,7 @@ public class CriterionTableModel extends AbstractTableModel
 
     /**
      * @param rowIndex Row index.
-     * 
+     *
      * @return the criterion.
      */
     private Criterion getCriterion(final int rowIndex)
