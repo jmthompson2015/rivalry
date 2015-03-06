@@ -150,7 +150,7 @@ public class SortTablePanel extends JPanel
         if (createDate != null)
         {
             final Format formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-            final String createDateString = "Data collected: " + formatter.format(createDate);
+            final String createDateString = "Data collected: " + formatter.format(createDate.getTime());
 
             answer = new JLabel(createDateString);
         }
