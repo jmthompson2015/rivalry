@@ -21,8 +21,8 @@
                         making application.
                     </jaxb:javadoc>
                 </jaxb:class>
-                <inheritance:extends>org.rivalry.core.model.AbstractEntity
-                </inheritance:extends>
+                <inheritance:implements>org.rivalry.core.model.Entity
+                </inheritance:implements>
             </xs:appinfo>
         </xs:annotation>
         <xs:sequence>
