@@ -63,7 +63,7 @@ public class RivalryDataReaderTest
     {
         final List<Candidate> candidates = rivalryData.getCandidates();
         assertNotNull(candidates);
-        assertThat(candidates.size(), is(1));
+        assertThat(candidates.size(), is(6));
 
         {
             final Candidate candidate = candidates.get(0);
@@ -91,6 +91,34 @@ public class RivalryDataReaderTest
             assertThat((Integer)candidate.getValue(rivalryData.findCriterionByName("graphicsRam")), is(1024));
             assertThat((Integer)candidate.getValue(rivalryData.findCriterionByName("price")), is(499));
             assertThat((Integer)candidate.getValue(rivalryData.findCriterionByName("geekbench3Score")), is(5382));
+        }
+
+        {
+            final Candidate candidate = candidates.get(1);
+            assertNotNull(candidate);
+            assertThat(candidate.getName(), is("Mac Mini Late 2014 2.6 GHz"));
+            assertNull(candidate.getDescription());
+            assertThat(candidate.getPage(), is("http://store.apple.com/us/buy-mac/mac-mini"));
+
+            /*
+             * final CriterionMap map = candidate.getValues(); System.out.println("map.size() = " + map.size()); for
+             * (final Entry<String, Object> entry : map.entrySet()) { System.out.println(entry.getKey() + ": " +
+             * entry.getValue()); }
+             */
+
+            assertThat((String)candidate.getValue(rivalryData.findCriterionByName("release")), is("2014/10"));
+            assertThat((Double)candidate.getValue(rivalryData.findCriterionByName("processorSpeed")), is(2.6));
+            assertThat((String)candidate.getValue(rivalryData.findCriterionByName("processor")),
+                    is("dual-core Intel Core i5"));
+            assertThat((Integer)candidate.getValue(rivalryData.findCriterionByName("ram")), is(8));
+            assertThat((Integer)candidate.getValue(rivalryData.findCriterionByName("harddrive")), is(1024));
+            assertThat((Integer)candidate.getValue(rivalryData.findCriterionByName("harddriveSpeed")), is(5400));
+            assertNull(candidate.getValue(rivalryData.findCriterionByName("flashStorage")));
+            assertThat((String)candidate.getValue(rivalryData.findCriterionByName("graphicsCard")),
+                    is("Intel Iris Graphics"));
+            assertThat((Integer)candidate.getValue(rivalryData.findCriterionByName("graphicsRam")), is(1024));
+            assertThat((Integer)candidate.getValue(rivalryData.findCriterionByName("price")), is(699));
+            assertThat((Integer)candidate.getValue(rivalryData.findCriterionByName("geekbench3Score")), is(6581));
         }
     }
 
