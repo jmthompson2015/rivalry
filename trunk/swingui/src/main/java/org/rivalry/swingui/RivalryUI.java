@@ -139,7 +139,7 @@ public class RivalryUI extends JPanel implements OSXApp
 
         final String description1 = "\n\nFor more information or to contribute, please see the open source"
                 + "\nproject site at http://code.google.com/p/rivalry/"
-                + "\n\nCopyright \u00A9 2011-2012 Rivalry.org. All rights reserved.\n\n";
+                + "\n\nCopyright \u00A9 2011-2015 Rivalry.org. All rights reserved.\n\n";
 
         final RivalryData rivalryData = _rivalryMainPanel.getRivalryData();
         String description2 = rivalryData.getDescription();
