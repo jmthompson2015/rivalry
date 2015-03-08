@@ -63,7 +63,7 @@ public class RivalryDataReaderTest
     {
         final List<Candidate> candidates = rivalryData.getCandidates();
         assertNotNull(candidates);
-        assertThat(candidates.size(), is(6));
+        assertThat(candidates.size(), is(10));
 
         {
             final Candidate candidate = candidates.get(0);
