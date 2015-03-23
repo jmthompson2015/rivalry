@@ -1,0 +1,1 @@
+A _candidate_ in Rivalry represents an instance in the domain under consideration. For example, a dog breed candidate is **Boston Terrier** and a board game candidate is **Pandemic**.

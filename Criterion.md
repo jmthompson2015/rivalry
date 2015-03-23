@@ -1,0 +1,1 @@
+A _criterion_ in Rivalry represents a facet of candidates. For example, a dog breed criterion is **Easy to groom** and a board game criterion is **Max Players**.

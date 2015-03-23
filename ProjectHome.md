@@ -1,0 +1,1 @@
+Rivalry allows comparisons of candidates.
