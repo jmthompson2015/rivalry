@@ -19,13 +19,13 @@
         <!-- Versions -->
         <commons.cli.version>1.2</commons.cli.version>
         <commons.collections.version>3.2.1</commons.collections.version>
-        <commons.io.version>2.0.1</commons.io.version>
+        <commons.io.version>2.4</commons.io.version>
         <commons.lang.version>2.6</commons.lang.version>
         <java.version>1.6</java.version>
         <javaruntype.version>1.2</javaruntype.version>
-        <junit.version>4.8.2</junit.version>
+        <junit.version>4.12</junit.version>
         <selenium.version>2.14.0</selenium.version>
-        <slf4j.version>1.6.1</slf4j.version>
+        <slf4j.version>1.7.10</slf4j.version>
     </properties>
     <modules>
         <module>core</module>
@@ -87,7 +87,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.2</version>
                 <configuration>
                     <source>${java.version}</source>
                     <test>${java.version}</test>
