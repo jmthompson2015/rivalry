@@ -18,7 +18,7 @@
         <umlgraph.all.name>-all</umlgraph.all.name>
         <!-- Versions -->
         <commons.cli.version>1.2</commons.cli.version>
-        <commons.collections.version>3.2.1</commons.collections.version>
+        <commons.collections.version>3.2.2</commons.collections.version>
         <commons.io.version>2.4</commons.io.version>
         <commons.lang.version>2.6</commons.lang.version>
         <java.version>1.6</java.version>
